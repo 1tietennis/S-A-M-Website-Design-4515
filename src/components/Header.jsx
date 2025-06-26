@@ -1,0 +1,121 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import * as FiIcons from 'react-icons/fi';
+import SafeIcon from '../common/SafeIcon';
+
+const { FiMenu, FiX, FiTarget } = FiIcons;
+
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
+    { name: 'Video Marketing', path: '/video-marketing' },
+    { name: 'About', path: '/about' },
+    { name: 'Case Studies', path: '/case-studies' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
+  return (
+    <motion.header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20' : 'bg-transparent'
+      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2">
+            <SafeIcon icon={FiTarget} className="text-tactical-red text-2xl" />
+            <span className="text-xl font-display font-bold gradient-text">
+              Secret Agent Digital
+            </span>
+          </Link>
+
+          <nav className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`relative py-2 transition-colors duration-300 ${
+                  location.pathname === item.path
+                    ? 'text-tactical-red'
+                    : 'text-white hover:text-tactical-red'
+                }`}
+              >
+                {item.name}
+                {location.pathname === item.path && (
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-tactical-red"
+                    layoutId="activeNav"
+                  />
+                )}
+              </Link>
+            ))}
+          </nav>
+
+          <Link
+            to="/contact"
+            className="hidden md:block px-6 py-2 btn-primary rounded-lg font-semibold"
+          >
+            Start Your Mission
+          </Link>
+
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden text-white"
+          >
+            <SafeIcon icon={isMenuOpen ? FiX : FiMenu} className="text-2xl" />
+          </button>
+        </div>
+
+        {isMenuOpen && (
+          <motion.div
+            className="md:hidden mt-4 py-4 border-t border-tactical-red/20"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+          >
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`block py-2 transition-colors duration-300 ${
+                  location.pathname === item.path
+                    ? 'text-tactical-red'
+                    : 'text-white hover:text-tactical-red'
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+            <Link
+              to="/contact"
+              className="block mt-4 px-6 py-2 btn-primary rounded-lg font-semibold text-center"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Start Your Mission
+            </Link>
+          </motion.div>
+        )}
+      </div>
+    </motion.header>
+  );
+};
+
+export default Header;
