@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import * as FiIcons from 'react-icons/fi';
@@ -22,16 +22,70 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Track page engagement
+  useEffect(() => {
+    if (window.CyborgCRM) {
+      window.CyborgCRM('track', 'engagement', {
+        action: 'page_load',
+        page: '/contact'
+      });
+    }
+  }, []);
+
+  // CyborgCRM Conversion Tracking
+  useEffect(() => {
+    if (isSubmitted) {
+      // Track conversion
+      if (window.CyborgCRM) {
+        window.CyborgCRM('track', 'conversion', {
+          event: 'purchase',
+          value: 99.99,
+          currency: 'USD',
+          page: '/contact',
+          form_data: {
+            name: formData.name,
+            email: formData.email,
+            company: formData.company,
+            service: formData.service,
+            budget: formData.budget,
+            urgency: formData.urgency
+          }
+        });
+      }
+    }
+  }, [isSubmitted, formData]);
+
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    // Track form field interactions
+    if (window.CyborgCRM) {
+      window.CyborgCRM('track', 'form_interaction', {
+        field: name,
+        value: name === 'email' ? 'email_entered' : value ? 'filled' : 'cleared',
+        page: '/contact'
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    // Track form submission attempt
+    if (window.CyborgCRM) {
+      window.CyborgCRM('track', 'form_submit', {
+        form: 'contact',
+        page: '/contact',
+        urgency: formData.urgency,
+        service: formData.service,
+        budget: formData.budget
+      });
+    }
     
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));

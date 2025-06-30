@@ -15,9 +15,20 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Track page views when location changes
+  useEffect(() => {
+    if (window.CyborgCRM) {
+      window.CyborgCRM('track', 'pageview', {
+        page: location.pathname,
+        title: document.title
+      });
+    }
+  }, [location]);
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -28,10 +39,34 @@ const Header = () => {
     { name: 'Contact', path: '/contact' },
   ];
 
+  const handleNavClick = (itemName, path) => {
+    // Track navigation clicks
+    if (window.CyborgCRM) {
+      window.CyborgCRM('track', 'click', {
+        element: 'navigation',
+        value: itemName,
+        page: path
+      });
+    }
+  };
+
+  const handleCtaClick = () => {
+    // Track CTA button clicks
+    if (window.CyborgCRM) {
+      window.CyborgCRM('track', 'click', {
+        element: 'cta',
+        value: 'Start Your Mission - Header',
+        page: location.pathname
+      });
+    }
+  };
+
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20' : 'bg-transparent'
+        isScrolled
+          ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20'
+          : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -39,7 +74,11 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link 
+            to="/" 
+            className="flex items-center space-x-2"
+            onClick={() => handleNavClick('Logo', '/')}
+          >
             <SafeIcon icon={FiTarget} className="text-tactical-red text-2xl" />
             <span className="text-xl font-display font-bold gradient-text">
               Secret Agent Digital
@@ -56,6 +95,7 @@ const Header = () => {
                     ? 'text-tactical-red'
                     : 'text-white hover:text-tactical-red'
                 }`}
+                onClick={() => handleNavClick(item.name, item.path)}
               >
                 {item.name}
                 {location.pathname === item.path && (
@@ -71,6 +111,7 @@ const Header = () => {
           <Link
             to="/contact"
             className="hidden md:block px-6 py-2 btn-primary rounded-lg font-semibold"
+            onClick={handleCtaClick}
           >
             Start Your Mission
           </Link>
@@ -99,7 +140,10 @@ const Header = () => {
                     ? 'text-tactical-red'
                     : 'text-white hover:text-tactical-red'
                 }`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => {
+                  handleNavClick(item.name, item.path);
+                  setIsMenuOpen(false);
+                }}
               >
                 {item.name}
               </Link>
@@ -107,7 +151,10 @@ const Header = () => {
             <Link
               to="/contact"
               className="block mt-4 px-6 py-2 btn-primary rounded-lg font-semibold text-center"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                handleCtaClick();
+                setIsMenuOpen(false);
+              }}
             >
               Start Your Mission
             </Link>

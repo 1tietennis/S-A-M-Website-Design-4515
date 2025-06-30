@@ -1,54 +1,57 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { useInView } from 'react-intersection-observer';
+import {motion} from 'framer-motion';
+import {Link} from 'react-router-dom';
+import {useInView} from 'react-intersection-observer';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiShield, FiTrendingUp, FiZap, FiHeart, FiTarget, FiUsers, FiArrowRight } = FiIcons;
+const {FiShield,FiTrendingUp,FiZap,FiHeart,FiTarget,FiUsers,FiArrowRight} = FiIcons;
 
 const About = () => {
-  const [heroRef, heroInView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [storyRef, storyInView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [valuesRef, valuesInView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [teamRef, teamInView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [heroRef, heroInView] = useInView({threshold: 0.1, triggerOnce: true});
+  const [storyRef, storyInView] = useInView({threshold: 0.1, triggerOnce: true});
+  const [valuesRef, valuesInView] = useInView({threshold: 0.1, triggerOnce: true});
+  const [teamRef, teamInView] = useInView({threshold: 0.1, triggerOnce: true});
 
   const values = [
     {
       icon: FiShield,
       title: 'Integrity',
-      description: 'We operate with complete transparency and honesty in every client relationship.'
+      description: 'We operate with complete transparency and honesty in every client relationship, guided by Christian values.'
     },
     {
       icon: FiTrendingUp,
-      title: 'Performance',
-      description: 'Results speak louder than promises. We measure success by your ROI and growth.'
+      title: 'Under-Promise, Over-Deliver',
+      description: 'Results speak louder than promises. We set realistic expectations and exceed them consistently.'
     },
     {
       icon: FiZap,
-      title: 'Adaptability',
-      description: 'Digital landscapes change rapidly. We stay ahead of trends and pivot when needed.'
+      title: 'Fighter\'s Mentality',
+      description: 'We approach every challenge with the same intensity and determination as an MMA fighter in the ring.'
     }
   ];
 
   const teamMembers = [
     {
-      name: 'Marcus "Agent Alpha" Rodriguez',
+      name: 'Tie "The Fighter" Staton',
       role: 'Founder & Chief Strategy Officer',
-      bio: 'Former firefighter turned digital marketing strategist. Brings the same life-saving urgency to your marketing campaigns.',
-      specialties: ['Strategic Planning', 'Crisis Management', 'Team Leadership']
+      bio: 'Former firefighter turned digital marketing strategist. Tie brings the same life-saving urgency to your marketing campaigns that he once brought to emergency rescues.',
+      specialties: ['Strategic Planning', 'Crisis Management', 'Team Leadership'],
+      background: 'Firefighter → Digital Marketing Expert'
     },
     {
       name: 'Sarah "Data Ninja" Chen',
       role: 'Analytics & Performance Director',
       bio: 'Data scientist with 8+ years optimizing campaigns. She finds opportunities others miss in the numbers.',
-      specialties: ['Data Analysis', 'Performance Optimization', 'ROI Tracking']
+      specialties: ['Data Analysis', 'Performance Optimization', 'ROI Tracking'],
+      background: 'Data Science & Analytics'
     },
     {
       name: 'Jake "Creative Ops" Thompson',
       role: 'Creative & Content Lead',
       bio: 'Award-winning creative director who transforms brand stories into conversion-driving content.',
-      specialties: ['Brand Strategy', 'Content Creation', 'Visual Design']
+      specialties: ['Brand Strategy', 'Content Creation', 'Visual Design'],
+      background: 'Creative Direction & Branding'
     }
   ];
 
@@ -59,9 +62,9 @@ const About = () => {
         <div className="container mx-auto px-4">
           <motion.div
             className="max-w-4xl mx-auto text-center"
-            initial={{ opacity: 0, y: 50 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            initial={{opacity: 0, y: 50}}
+            animate={heroInView ? {opacity: 1, y: 0} : {}}
+            transition={{duration: 0.8}}
           >
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
               Meet Your <span className="gradient-text">Elite Task Force</span>
@@ -74,50 +77,67 @@ const About = () => {
         </div>
       </section>
 
-      {/* Origin Story */}
+      {/* Tie's Origin Story */}
       <section ref={storyRef} className="py-20 bg-dark-gray">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={storyInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8 }}
+              initial={{opacity: 0, x: -50}}
+              animate={storyInView ? {opacity: 1, x: 0} : {}}
+              transition={{duration: 0.8}}
             >
-              <div className="w-full h-96 bg-medium-gray rounded-lg tactical-border flex items-center justify-center">
-                <div className="text-center">
-                  <SafeIcon icon={FiTarget} className="text-tactical-red text-6xl mb-4 mx-auto" />
-                  <p className="text-gray-400">Founder Image Placeholder</p>
+              <div className="relative w-full h-96 rounded-lg tactical-border overflow-hidden">
+                <img 
+                  src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751100821048-Tie%20picturesmart%20crop%2840%20x%2040%20px%29%20%28280%20x%20280%20px%29%20%28300%20x%20300%20px%29.png"
+                  alt="Tie Staton - Founder of Secret Agent Digital Marketing"
+                  className="w-full h-full object-cover"
+                  style={{
+                    objectPosition: 'center bottom',
+                    objectFit: 'contain',
+                    transform: 'scale(0.7)',
+                    transformOrigin: 'center bottom'
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <p className="text-lg font-bold">Tie Staton</p>
+                  <p className="text-tactical-red text-sm">Former Firefighter • MMA Fighter • Racecar Driver</p>
                 </div>
               </div>
             </motion.div>
-
+            
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={storyInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{opacity: 0, x: 50}}
+              animate={storyInView ? {opacity: 1, x: 0} : {}}
+              transition={{duration: 0.8, delay: 0.2}}
             >
               <h2 className="text-4xl font-display font-bold mb-6">
-                Born from <span className="text-tactical-red">Frustration</span>
+                From Saving Lives to <span className="text-tactical-red">Saving Businesses</span>
               </h2>
               <div className="space-y-4 text-gray-300">
                 <p>
-                  Secret Agent Digital Marketing was founded by Marcus Rodriguez, a former firefighter who 
-                  witnessed too many small businesses fail due to ineffective marketing strategies and 
-                  untrustworthy agencies.
+                  <strong className="text-tactical-red">Tie Staton</strong>, a former firefighter, founded Secret Agent Digital Marketing 
+                  to help small businesses overcome challenges posed by ineffective marketing and unreliable personnel.
                 </p>
                 <p>
-                  After transitioning from saving lives to saving businesses, Marcus discovered his true 
-                  calling: applying the same precision, urgency, and dedication from firefighting to 
-                  digital marketing campaigns.
+                  Tie transitioned from saving lives as a firefighter to saving businesses through digital marketing, 
+                  applying the same precision, urgency, and life-or-death mentality to every campaign.
                 </p>
                 <p>
-                  With an MMA fighter's mindset and Christian values at the core, we approach every 
-                  client relationship with integrity, transparency, and an unwavering commitment to results.
+                  Driven by a passion for MMA and a fighter's mentality, Tie has also thrived as an amateur racecar driver. 
+                  This unique combination of high-pressure experience gives him an unmatched perspective on performance under pressure.
                 </p>
                 <p>
-                  <strong className="text-tactical-red">Our Mission:</strong> To be the marketing agency 
-                  we wished existed when we were struggling business owners ourselves.
+                  <strong className="text-tactical-red">As a devout Christian</strong>, Tie approaches every client relationship 
+                  with integrity, transparency, and a steadfast dedication to achieving results.
                 </p>
+                <div className="bg-tactical-red/10 p-4 rounded-lg border border-tactical-red/30 mt-6">
+                  <p className="text-tactical-red font-semibold italic">
+                    "Our Mission: We aim to become our ideal marketing agency while facing the challenges of being business owners. 
+                    Under-promise and over-deliver."
+                  </p>
+                  <p className="text-gray-400 text-sm mt-2">- Tie Staton, Founder</p>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -129,9 +149,9 @@ const About = () => {
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            animate={valuesInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            initial={{opacity: 0, y: 50}}
+            animate={valuesInView ? {opacity: 1, y: 0} : {}}
+            transition={{duration: 0.8}}
           >
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">
               Our <span className="text-tactical-red">Code</span>
@@ -141,15 +161,15 @@ const About = () => {
               every strategy, and every client interaction.
             </p>
           </motion.div>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <motion.div
                 key={index}
                 className="text-center p-8 bg-dark-gray rounded-lg tactical-border card-hover"
-                initial={{ opacity: 0, y: 50 }}
-                animate={valuesInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                initial={{opacity: 0, y: 50}}
+                animate={valuesInView ? {opacity: 1, y: 0} : {}}
+                transition={{duration: 0.6, delay: index * 0.2}}
               >
                 <SafeIcon icon={value.icon} className="text-tactical-red text-5xl mb-6 mx-auto" />
                 <h3 className="text-2xl font-bold mb-4">{value.title}</h3>
@@ -165,9 +185,9 @@ const About = () => {
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            animate={teamInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            initial={{opacity: 0, y: 50}}
+            animate={teamInView ? {opacity: 1, y: 0} : {}}
+            transition={{duration: 0.8}}
           >
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">
               Meet the <span className="gradient-text">Operatives</span>
@@ -176,24 +196,23 @@ const About = () => {
               Each team member brings unique skills and expertise to ensure your marketing missions succeed.
             </p>
           </motion.div>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={index}
                 className="bg-medium-gray rounded-lg p-8 tactical-border card-hover"
-                initial={{ opacity: 0, y: 50 }}
-                animate={teamInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                initial={{opacity: 0, y: 50}}
+                animate={teamInView ? {opacity: 1, y: 0} : {}}
+                transition={{duration: 0.6, delay: index * 0.2}}
               >
                 <div className="w-24 h-24 bg-tactical-red/20 rounded-full flex items-center justify-center mb-6 mx-auto">
                   <SafeIcon icon={FiUsers} className="text-tactical-red text-3xl" />
                 </div>
-                
                 <h3 className="text-xl font-bold mb-2 text-center">{member.name}</h3>
-                <p className="text-tactical-red font-semibold text-center mb-4">{member.role}</p>
+                <p className="text-tactical-red font-semibold text-center mb-2">{member.role}</p>
+                <p className="text-gray-400 text-xs text-center mb-4">{member.background}</p>
                 <p className="text-gray-300 mb-6 text-sm">{member.bio}</p>
-                
                 <div>
                   <h4 className="font-semibold mb-2 text-tactical-red">Specialties:</h4>
                   <div className="flex flex-wrap gap-2">
@@ -218,30 +237,30 @@ const About = () => {
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-12"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            initial={{opacity: 0, y: 50}}
+            whileInView={{opacity: 1, y: 0}}
+            transition={{duration: 0.8}}
+            viewport={{once: true}}
           >
             <h2 className="text-4xl font-display font-bold mb-8">
               Mission <span className="text-tactical-red">Statistics</span>
             </h2>
           </motion.div>
-
+          
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { number: '150+', label: 'Successful Missions' },
-              { number: '300%', label: 'Average ROI Increase' },
-              { number: '24/7', label: 'Mission Support' },
-              { number: '98%', label: 'Client Satisfaction' }
+              {number: '150+', label: 'Successful Missions'},
+              {number: '300%', label: 'Average ROI Increase'},
+              {number: '24/7', label: 'Mission Support'},
+              {number: '98%', label: 'Client Satisfaction'}
             ].map((stat, index) => (
               <motion.div
                 key={index}
                 className="text-center"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                initial={{opacity: 0, y: 30}}
+                whileInView={{opacity: 1, y: 0}}
+                transition={{duration: 0.6, delay: index * 0.1}}
+                viewport={{once: true}}
               >
                 <div className="text-4xl md:text-5xl font-display font-bold text-tactical-red mb-2">
                   {stat.number}
@@ -258,10 +277,10 @@ const About = () => {
         <div className="container mx-auto px-4 text-center">
           <motion.div
             className="max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            initial={{opacity: 0, y: 50}}
+            whileInView={{opacity: 1, y: 0}}
+            transition={{duration: 0.8}}
+            viewport={{once: true}}
           >
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-white">
               Ready to Join Forces?
