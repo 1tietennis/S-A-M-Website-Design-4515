@@ -76,15 +76,13 @@ const About = () => {
     <div className="min-h-screen pt-20">
       {/* Google tag (gtag.js) */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-CTDQQ8XMKC');
-          console.log('About page Google Analytics loaded');
-        `
-      }} />
+      <script dangerouslySetInnerHTML={{__html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CTDQQ8XMKC');
+        console.log('About page Google Analytics loaded');
+      `}} />
 
       {/* Hero Section */}
       <section ref={heroRef} className="py-20 bg-jet-black">
@@ -109,17 +107,17 @@ const About = () => {
       <section ref={storyRef} className="py-20 bg-dark-gray">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={storyInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8 }}
             >
               <div className="relative w-full h-96 rounded-lg tactical-border overflow-hidden">
                 <img 
-                  src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751100821048-Tie%20picturesmart%20crop%2840%20x%2040%20px%29%20%28280%20x%20280%20px%29%20%28300%20x%20300%20px%29.png" 
+                  src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751100821048-Tie%20picturesmart%20crop%2840%20x%2040%20px%29%20%28280%20x%20280%20px%29%20%28300%20x%20300%20px%29.png"
                   alt="Tie Staton - Founder of Secret Agent Digital Marketing"
                   className="w-full h-full object-cover"
-                  style={{ 
+                  style={{
                     objectPosition: 'center bottom',
                     objectFit: 'contain',
                     transform: 'scale(0.7)',
@@ -134,7 +132,7 @@ const About = () => {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={storyInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -142,24 +140,19 @@ const About = () => {
               <h2 className="text-4xl font-display font-bold mb-6">
                 From Saving Lives to <span className="text-tactical-red">Saving Businesses</span>
               </h2>
-              
               <div className="space-y-4 text-gray-300">
                 <p>
                   <strong className="text-tactical-red">Tie Staton</strong>, a former firefighter, founded Secret Agent Digital Marketing to help small businesses overcome challenges posed by ineffective marketing and unreliable personnel.
                 </p>
-                
                 <p>
                   Tie transitioned from saving lives as a firefighter to saving businesses through digital marketing, applying the same precision, urgency, and life-or-death mentality to every campaign.
                 </p>
-                
                 <p>
                   Driven by a passion for MMA and a fighter's mentality, Tie has also thrived as an amateur racecar driver. This unique combination of high-pressure experience gives him an unmatched perspective on performance under pressure.
                 </p>
-                
                 <p>
                   <strong className="text-tactical-red">As a devout Christian</strong>, Tie approaches every client relationship with integrity, transparency, and a steadfast dedication to achieving results.
                 </p>
-
                 <div className="bg-tactical-red/10 p-4 rounded-lg border border-tactical-red/30 mt-6">
                   <p className="text-tactical-red font-semibold italic">
                     "Our Mission: We aim to become our ideal marketing agency while facing the challenges of being business owners. Under-promise and over-deliver."

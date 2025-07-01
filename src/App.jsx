@@ -8,7 +8,9 @@ import About from './pages/About';
 import CaseStudies from './pages/CaseStudies';
 import Contact from './pages/Contact';
 import VideoMarketing from './pages/VideoMarketing';
+import AnalyticsDebugger from './components/AnalyticsDebugger';
 import { initializePageTracking, trackSPANavigation } from './utils/analytics';
+import { trackPageLoadComplete } from './utils/analyticsVerification';
 import './App.css';
 
 // Component to handle route changes and analytics
@@ -41,8 +43,14 @@ function App() {
       });
     }
     
+    // Run comprehensive analytics verification
+    trackPageLoadComplete('App');
+    
     console.log('🚀 Secret Agent Digital Marketing App Loaded with Analytics');
   }, []);
+
+  // Show debugger in development
+  const showDebugger = process.env.NODE_ENV === 'development' || window.location.search.includes('debug=true');
 
   return (
     <Router>
@@ -61,6 +69,9 @@ function App() {
           </main>
           <Footer />
         </AnalyticsWrapper>
+        
+        {/* Analytics Debugger - shows when debug=true in URL or in development */}
+        <AnalyticsDebugger showDebugger={showDebugger} />
       </div>
     </Router>
   );

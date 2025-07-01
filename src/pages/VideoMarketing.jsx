@@ -120,15 +120,13 @@ const VideoMarketing = () => {
     <div className="min-h-screen pt-20">
       {/* Google tag (gtag.js) */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-CTDQQ8XMKC');
-          console.log('Video Marketing page Google Analytics loaded');
-        `
-      }} />
+      <script dangerouslySetInnerHTML={{__html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CTDQQ8XMKC');
+        console.log('Video Marketing page Google Analytics loaded');
+      `}} />
 
       {/* Hero Section */}
       <section ref={heroRef} className="hero-bg py-20 relative overflow-hidden">
@@ -293,9 +291,7 @@ const VideoMarketing = () => {
             {bundles.map((bundle, index) => (
               <motion.div 
                 key={index}
-                className={`relative bg-medium-gray rounded-lg p-8 ${
-                  bundle.popular ? 'tactical-border ring-2 ring-tactical-red' : 'border border-gray-600'
-                } card-hover`}
+                className={`relative bg-medium-gray rounded-lg p-8 ${bundle.popular ? 'tactical-border ring-2 ring-tactical-red' : 'border border-gray-600'} card-hover`}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -329,11 +325,7 @@ const VideoMarketing = () => {
 
                 <Link 
                   to="/contact" 
-                  className={`block text-center px-6 py-3 rounded-lg font-semibold transition-all ${
-                    bundle.popular 
-                      ? 'btn-primary' 
-                      : 'border-2 border-tactical-red text-tactical-red hover:bg-tactical-red hover:text-white'
-                  }`}
+                  className={`block text-center px-6 py-3 rounded-lg font-semibold transition-all ${bundle.popular ? 'btn-primary' : 'border-2 border-tactical-red text-tactical-red hover:bg-tactical-red hover:text-white'}`}
                   onClick={() => trackButtonClick(`Choose ${bundle.name}`, 'video-marketing-bundles')}
                 >
                   Choose {bundle.name}
@@ -361,21 +353,9 @@ const VideoMarketing = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              {
-                icon: FiZap,
-                title: 'Engaging From Frame One',
-                description: 'Stunning color transitions and high-contrast flashes that grab attention instantly'
-              },
-              {
-                icon: FiTarget,
-                title: 'Storytelling Meets Strategy',
-                description: 'Every second is designed to convert, not just entertain'
-              },
-              {
-                icon: FiTrendingUp,
-                title: 'Speed + Quality',
-                description: 'Top-tier visuals without Hollywood pricing or timelines'
-              }
+              { icon: FiZap, title: 'Engaging From Frame One', description: 'Stunning color transitions and high-contrast flashes that grab attention instantly' },
+              { icon: FiTarget, title: 'Storytelling Meets Strategy', description: 'Every second is designed to convert, not just entertain' },
+              { icon: FiTrendingUp, title: 'Speed + Quality', description: 'Top-tier visuals without Hollywood pricing or timelines' }
             ].map((reason, index) => (
               <motion.div 
                 key={index}

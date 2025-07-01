@@ -107,15 +107,13 @@ const Services = () => {
     <div className="min-h-screen pt-20">
       {/* Google tag (gtag.js) */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-CTDQQ8XMKC');
-          console.log('Services page Google Analytics loaded');
-        `
-      }} />
+      <script dangerouslySetInnerHTML={{__html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CTDQQ8XMKC');
+        console.log('Services page Google Analytics loaded');
+      `}} />
 
       {/* Hero Section */}
       <section ref={heroRef} className="py-20 bg-jet-black">
@@ -203,26 +201,10 @@ const Services = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              {
-                step: '01',
-                title: 'Intelligence Gathering',
-                desc: 'Deep dive into your business, competitors, and market opportunities'
-              },
-              {
-                step: '02',
-                title: 'Strategy Development',
-                desc: 'Create a custom battle plan tailored to your specific goals and budget'
-              },
-              {
-                step: '03',
-                title: 'Mission Execution',
-                desc: 'Deploy proven tactics across all selected marketing channels'
-              },
-              {
-                step: '04',
-                title: 'Performance Analysis',
-                desc: 'Monitor, measure, and optimize for maximum ROI and growth'
-              }
+              { step: '01', title: 'Intelligence Gathering', desc: 'Deep dive into your business, competitors, and market opportunities' },
+              { step: '02', title: 'Strategy Development', desc: 'Create a custom battle plan tailored to your specific goals and budget' },
+              { step: '03', title: 'Mission Execution', desc: 'Deploy proven tactics across all selected marketing channels' },
+              { step: '04', title: 'Performance Analysis', desc: 'Monitor, measure, and optimize for maximum ROI and growth' }
             ].map((item, index) => (
               <motion.div 
                 key={index}

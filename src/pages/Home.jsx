@@ -108,6 +108,16 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Google tag (gtag.js) */}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
+      <script dangerouslySetInnerHTML={{__html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CTDQQ8XMKC');
+        console.log('Home page Google Analytics loaded');
+      `}} />
+
       {/* Hero Section */}
       <section 
         ref={heroRef} 

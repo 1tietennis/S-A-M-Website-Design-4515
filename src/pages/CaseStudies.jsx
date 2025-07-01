@@ -84,15 +84,13 @@ const CaseStudies = () => {
     <div className="min-h-screen pt-20">
       {/* Google tag (gtag.js) */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-CTDQQ8XMKC');
-          console.log('Case Studies page Google Analytics loaded');
-        `
-      }} />
+      <script dangerouslySetInnerHTML={{__html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CTDQQ8XMKC');
+        console.log('Case Studies page Google Analytics loaded');
+      `}} />
 
       {/* Hero Section */}
       <section ref={heroRef} className="py-20 bg-jet-black">
@@ -158,20 +156,20 @@ const CaseStudies = () => {
                         <span>Completed in {study.timeline}</span>
                       </div>
                     </div>
-                    
+
                     <h3 className="text-2xl font-bold mb-4">{study.title}</h3>
-                    
+
                     <div className="space-y-4">
                       <div>
                         <h4 className="text-tactical-red font-semibold mb-2">The Challenge:</h4>
                         <p className="text-gray-300">{study.challenge}</p>
                       </div>
-                      
+
                       <div>
                         <h4 className="text-tactical-red font-semibold mb-2">Our Solution:</h4>
                         <p className="text-gray-300">{study.solution}</p>
                       </div>
-                      
+
                       <div className="bg-dark-gray p-4 rounded-lg">
                         <p className="text-gray-300 italic">"{study.testimonial}"</p>
                         <p className="text-tactical-red font-semibold mt-2">- {study.client}</p>

@@ -10,7 +10,6 @@ const { FiMail, FiPhone, FiMapPin, FiSend, FiCheck, FiClock, FiTarget } = FiIcon
 const Contact = () => {
   const [heroRef, heroInView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [formRef, formInView] = useInView({ threshold: 0.1, triggerOnce: true });
-  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,7 +20,6 @@ const Contact = () => {
     message: '',
     urgency: 'standard'
   });
-  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -38,7 +36,6 @@ const Contact = () => {
         event_label: 'contact_page'
       });
     }
-    
     trackPageView('/contact', 'Contact - Secret Agent Digital Marketing');
     trackEvent('page_engagement', {
       action: 'page_load',
@@ -59,7 +56,6 @@ const Contact = () => {
           currency: 'USD'
         });
       }
-      
       trackConversion('contact_form_submission', 99.99, 'USD');
       trackFormSubmission('contact_form', {
         name: formData.name,
@@ -84,7 +80,6 @@ const Contact = () => {
         field_value: name === 'email' ? 'email_entered' : (value ? 'filled' : 'cleared')
       });
     }
-    
     trackEvent('form_interaction', {
       field: name,
       value: name === 'email' ? 'email_entered' : (value ? 'filled' : 'cleared'),
@@ -106,7 +101,6 @@ const Contact = () => {
         budget: formData.budget
       });
     }
-    
     trackEvent('form_submit_attempt', {
       form: 'contact',
       page: '/contact',
@@ -117,7 +111,6 @@ const Contact = () => {
 
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));
-
     setIsSubmitting(false);
     setIsSubmitted(true);
   };
@@ -146,15 +139,13 @@ const Contact = () => {
       <div className="min-h-screen pt-20 flex items-center justify-center bg-jet-black">
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-CTDQQ8XMKC');
-            console.log('Contact thank you page Google Analytics loaded');
-          `
-        }} />
+        <script dangerouslySetInnerHTML={{__html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-CTDQQ8XMKC');
+          console.log('Contact thank you page Google Analytics loaded');
+        `}} />
 
         <motion.div 
           className="text-center max-w-2xl mx-auto px-4"
@@ -200,15 +191,13 @@ const Contact = () => {
     <div className="min-h-screen pt-20">
       {/* Google tag (gtag.js) */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-CTDQQ8XMKC');
-          console.log('Contact page Google Analytics loaded');
-        `
-      }} />
+      <script dangerouslySetInnerHTML={{__html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CTDQQ8XMKC');
+        console.log('Contact page Google Analytics loaded');
+      `}} />
 
       {/* Hero Section */}
       <section ref={heroRef} className="py-20 bg-jet-black">
@@ -249,9 +238,9 @@ const Contact = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold mb-2">Name *</label>
-                      <input
-                        type="text"
-                        name="name"
+                      <input 
+                        type="text" 
+                        name="name" 
                         value={formData.name}
                         onChange={handleInputChange}
                         required
@@ -261,9 +250,9 @@ const Contact = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2">Email *</label>
-                      <input
-                        type="email"
-                        name="email"
+                      <input 
+                        type="email" 
+                        name="email" 
                         value={formData.email}
                         onChange={handleInputChange}
                         required
@@ -276,9 +265,9 @@ const Contact = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold mb-2">Phone</label>
-                      <input
-                        type="tel"
-                        name="phone"
+                      <input 
+                        type="tel" 
+                        name="phone" 
                         value={formData.phone}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 bg-dark-gray border border-gray-600 rounded-lg focus:border-tactical-red focus:outline-none transition-colors"
@@ -287,9 +276,9 @@ const Contact = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2">Company</label>
-                      <input
-                        type="text"
-                        name="company"
+                      <input 
+                        type="text" 
+                        name="company" 
                         value={formData.company}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 bg-dark-gray border border-gray-600 rounded-lg focus:border-tactical-red focus:outline-none transition-colors"
@@ -300,8 +289,8 @@ const Contact = () => {
 
                   <div>
                     <label className="block text-sm font-semibold mb-2">Primary Service Interest</label>
-                    <select
-                      name="service"
+                    <select 
+                      name="service" 
                       value={formData.service}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 bg-dark-gray border border-gray-600 rounded-lg focus:border-tactical-red focus:outline-none transition-colors"
@@ -315,8 +304,8 @@ const Contact = () => {
 
                   <div>
                     <label className="block text-sm font-semibold mb-2">Monthly Marketing Budget</label>
-                    <select
-                      name="budget"
+                    <select 
+                      name="budget" 
                       value={formData.budget}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 bg-dark-gray border border-gray-600 rounded-lg focus:border-tactical-red focus:outline-none transition-colors"
@@ -337,9 +326,9 @@ const Contact = () => {
                         { value: 'emergency', label: 'Emergency', desc: 'ASAP' }
                       ].map((urgency) => (
                         <label key={urgency.value} className="cursor-pointer">
-                          <input
-                            type="radio"
-                            name="urgency"
+                          <input 
+                            type="radio" 
+                            name="urgency" 
                             value={urgency.value}
                             checked={formData.urgency === urgency.value}
                             onChange={handleInputChange}
@@ -360,8 +349,8 @@ const Contact = () => {
 
                   <div>
                     <label className="block text-sm font-semibold mb-2">Mission Objectives</label>
-                    <textarea
-                      name="message"
+                    <textarea 
+                      name="message" 
                       value={formData.message}
                       onChange={handleInputChange}
                       rows={4}
@@ -370,8 +359,8 @@ const Contact = () => {
                     ></textarea>
                   </div>
 
-                  <button
-                    type="submit"
+                  <button 
+                    type="submit" 
                     disabled={isSubmitting}
                     className="w-full px-8 py-4 btn-primary rounded-lg font-semibold text-lg flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
