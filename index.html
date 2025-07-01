@@ -11,11 +11,66 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'YOUR_TRACKING_ID');
+      
+      // Make gtag available globally
+      window.gtag = gtag;
+    </script>
+    
+    <!-- Firebase Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+        measurementId: "YOUR_TRACKING_ID"
+      };
+
+      // Initialize Firebase
+      try {
+        const app = firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics();
+        
+        // Make analytics available globally
+        window.firebaseAnalytics = analytics;
+      } catch (error) {
+        console.log('Firebase initialization error:', error);
+      }
+    </script>
+    
     <!-- CyborgCRM Tracking Code -->
     <script>
-      (function(c,y,b,o,r,g){c.CyborgCRM=c.CyborgCRM||function(){(c.CyborgCRM.q=c.CyborgCRM.q||[]).push(arguments)};c.CyborgCRM.l=1*new Date();g=y.createElement(b),o=y.getElementsByTagName(b)[0];g.async=1;g.src=r;o.parentNode.insertBefore(g,o)})(window,document,'script','https://cdn.cyborgcrm.com/tracking.js');
-      CyborgCRM('init', 'YOUR_WEBSITE_ID');
-      CyborgCRM('track', 'pageview');
+      (function(c,y,b,o,r,g){
+        c.CyborgCRM=c.CyborgCRM||function(){
+          (c.CyborgCRM.q=c.CyborgCRM.q||[]).push(arguments)
+        };
+        c.CyborgCRM.l=1*new Date();
+        g=y.createElement(b);
+        o=y.getElementsByTagName(b)[0];
+        g.async=1;
+        g.src=r;
+        o.parentNode.insertBefore(g,o)
+      })(window,document,'script','https://cdn.cyborgcrm.com/tracking.js');
+      
+      try {
+        CyborgCRM('init', 'YOUR_WEBSITE_ID');
+        CyborgCRM('track', 'pageview');
+      } catch (error) {
+        console.log('CyborgCRM initialization error:', error);
+      }
     </script>
   </head>
   <body>
@@ -24,17 +79,19 @@
     
     <!-- SiteBehaviour Tracking Script -->
     <script type="text/javascript">
-      (
-        function() {
+      (function() {
+        try {
           var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
           window.sitebehaviourTrackingSecret = sbSiteSecret;
           var scriptElement = document.createElement('script');
           scriptElement.defer = true;
           scriptElement.id = 'site-behaviour-script-v2';
           scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
-          document.head.appendChild(scriptElement); 
+          document.head.appendChild(scriptElement);
+        } catch (error) {
+          console.log('SiteBehaviour initialization error:', error);
         }
-      )()
+      })()
     </script>
   </body>
 </html>

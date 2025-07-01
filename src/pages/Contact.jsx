@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import { trackEvent, trackFormSubmission, trackConversion } from '../utils/analytics';
 
 const { FiMail, FiPhone, FiMapPin, FiSend, FiCheck, FiClock, FiTarget } = FiIcons;
 
@@ -24,69 +25,52 @@ const Contact = () => {
 
   // Track page engagement
   useEffect(() => {
-    if (window.CyborgCRM) {
-      window.CyborgCRM('track', 'engagement', {
-        action: 'page_load',
-        page: '/contact'
-      });
-    }
+    trackEvent('page_engagement', {
+      action: 'page_load',
+      page: '/contact'
+    });
   }, []);
 
-  // CyborgCRM Conversion Tracking
+  // Track conversion when form is submitted
   useEffect(() => {
     if (isSubmitted) {
-      // Track conversion
-      if (window.CyborgCRM) {
-        window.CyborgCRM('track', 'conversion', {
-          event: 'purchase',
-          value: 99.99,
-          currency: 'USD',
-          page: '/contact',
-          form_data: {
-            name: formData.name,
-            email: formData.email,
-            company: formData.company,
-            service: formData.service,
-            budget: formData.budget,
-            urgency: formData.urgency
-          }
-        });
-      }
+      trackConversion('contact_form_submission', 99.99, 'USD');
+      trackFormSubmission('contact_form', {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        service: formData.service,
+        budget: formData.budget,
+        urgency: formData.urgency
+      });
     }
   }, [isSubmitted, formData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-
+    setFormData({ ...formData, [name]: value });
+    
     // Track form field interactions
-    if (window.CyborgCRM) {
-      window.CyborgCRM('track', 'form_interaction', {
-        field: name,
-        value: name === 'email' ? 'email_entered' : value ? 'filled' : 'cleared',
-        page: '/contact'
-      });
-    }
+    trackEvent('form_interaction', {
+      field: name,
+      value: name === 'email' ? 'email_entered' : value ? 'filled' : 'cleared',
+      page: '/contact'
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Track form submission attempt
-    if (window.CyborgCRM) {
-      window.CyborgCRM('track', 'form_submit', {
-        form: 'contact',
-        page: '/contact',
-        urgency: formData.urgency,
-        service: formData.service,
-        budget: formData.budget
-      });
-    }
-    
+    trackEvent('form_submit_attempt', {
+      form: 'contact',
+      page: '/contact',
+      urgency: formData.urgency,
+      service: formData.service,
+      budget: formData.budget
+    });
+
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));
     
@@ -129,8 +113,7 @@ const Contact = () => {
             Mission <span className="text-tactical-red">Received</span>
           </h1>
           <p className="text-xl text-gray-300 mb-8">
-            Your strategy briefing has been received. One of our operatives will contact you within 24 hours 
-            to discuss your marketing objectives and develop your custom battle plan.
+            Your strategy briefing has been received. One of our operatives will contact you within 24 hours to discuss your marketing objectives and develop your custom battle plan.
           </p>
           <div className="bg-dark-gray p-6 rounded-lg tactical-border">
             <h3 className="text-lg font-semibold mb-4 text-tactical-red">What Happens Next:</h3>
@@ -169,8 +152,7 @@ const Contact = () => {
               Launch Your <span className="gradient-text">Marketing Mission</span>
             </h1>
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Ready to dominate your market? Let's discuss your objectives and develop a custom strategy 
-              that delivers measurable results.
+              Ready to dominate your market? Let's discuss your objectives and develop a custom strategy that delivers measurable results.
             </p>
           </motion.div>
         </div>
@@ -191,7 +173,6 @@ const Contact = () => {
                 <h2 className="text-3xl font-display font-bold mb-8">
                   Strategy <span className="text-tactical-red">Briefing Form</span>
                 </h2>
-                
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -403,8 +384,7 @@ const Contact = () => {
                     <h3 className="text-xl font-bold text-tactical-red">Mission Guarantee</h3>
                   </div>
                   <p className="text-sm text-gray-300">
-                    We're so confident in our strategies that we offer a 90-day performance guarantee. 
-                    If we don't deliver measurable improvements, we'll work for free until we do.
+                    We're so confident in our strategies that we offer a 90-day performance guarantee. If we don't deliver measurable improvements, we'll work for free until we do.
                   </p>
                 </div>
               </motion.div>

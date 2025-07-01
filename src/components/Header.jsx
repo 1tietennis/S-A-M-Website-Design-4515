@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import { trackPageView, trackButtonClick } from '../utils/analytics';
 
 const { FiMenu, FiX, FiTarget } = FiIcons;
 
@@ -15,19 +16,14 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Track page views when location changes
   useEffect(() => {
-    if (window.CyborgCRM) {
-      window.CyborgCRM('track', 'pageview', {
-        page: location.pathname,
-        title: document.title
-      });
-    }
+    // Track with all analytics platforms
+    trackPageView(location.pathname, document.title);
   }, [location]);
 
   const navItems = [
@@ -40,25 +36,11 @@ const Header = () => {
   ];
 
   const handleNavClick = (itemName, path) => {
-    // Track navigation clicks
-    if (window.CyborgCRM) {
-      window.CyborgCRM('track', 'click', {
-        element: 'navigation',
-        value: itemName,
-        page: path
-      });
-    }
+    trackButtonClick(`Navigation: ${itemName}`, 'Header');
   };
 
   const handleCtaClick = () => {
-    // Track CTA button clicks
-    if (window.CyborgCRM) {
-      window.CyborgCRM('track', 'click', {
-        element: 'cta',
-        value: 'Start Your Mission - Header',
-        page: location.pathname
-      });
-    }
+    trackButtonClick('Start Your Mission', 'Header CTA');
   };
 
   return (
@@ -74,8 +56,8 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="flex items-center space-x-2"
             onClick={() => handleNavClick('Logo', '/')}
           >
