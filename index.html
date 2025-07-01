@@ -7,26 +7,12 @@
     <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title>
     <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." />
     
-    <!-- Google tag (gtag.js) - Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-CTDQQ8XMKC');
-      
-      // Make gtag available globally for page tracking
-      window.gtag = gtag;
-      
-      // Log successful GA4 initialization
-      console.log('🎯 Google Analytics 4 initialized with tracking ID: G-CTDQQ8XMKC');
-      
-      // Fire initial test event
-      gtag('event', 'ga4_initialized', {
-        event_category: 'analytics',
-        event_label: 'google_analytics_4',
-        timestamp: new Date().toISOString()
-      });
     </script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +23,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
     <script>
-      // Firebase configuration
       const firebaseConfig = {
         apiKey: "YOUR_API_KEY",
         authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -48,12 +33,9 @@
         measurementId: "G-CTDQQ8XMKC"
       };
 
-      // Initialize Firebase
       try {
         const app = firebase.initializeApp(firebaseConfig);
         const analytics = firebase.analytics();
-        
-        // Make analytics available globally
         window.firebaseAnalytics = analytics;
         console.log('🔥 Firebase Analytics initialized');
       } catch (error) {
