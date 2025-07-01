@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import { trackPageView, trackButtonClick } from '../utils/analytics';
 
 const { FiTrendingUp, FiTarget, FiUsers, FiDollarSign, FiArrowUp, FiArrowRight, FiCalendar } = FiIcons;
 
 const CaseStudies = () => {
   const [heroRef, heroInView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [casesRef, casesInView] = useInView({ threshold: 0.1, triggerOnce: true });
+
+  // Google Analytics Test & Page Tracking
+  useEffect(() => {
+    if (window.gtag) {
+      console.log('✅ Google Analytics loaded on Case Studies page');
+      window.gtag('config', 'G-CTDQQ8XMKC', {
+        page_title: 'Case Studies - Secret Agent Digital Marketing',
+        page_location: window.location.href
+      });
+      window.gtag('event', 'page_load', {
+        event_category: 'engagement',
+        event_label: 'case_studies_page'
+      });
+    }
+    trackPageView('/case-studies', 'Case Studies - Secret Agent Digital Marketing');
+  }, []);
 
   const caseStudies = [
     {
@@ -65,10 +82,22 @@ const CaseStudies = () => {
 
   return (
     <div className="min-h-screen pt-20">
+      {/* Google tag (gtag.js) */}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-CTDQQ8XMKC');
+          console.log('Case Studies page Google Analytics loaded');
+        `
+      }} />
+
       {/* Hero Section */}
       <section ref={heroRef} className="py-20 bg-jet-black">
         <div className="container mx-auto px-4">
-          <motion.div
+          <motion.div 
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 50 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
@@ -78,8 +107,7 @@ const CaseStudies = () => {
               Mission <span className="gradient-text">Success Stories</span>
             </h1>
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Real results from real businesses. See how our strategic approach transforms 
-              marketing challenges into measurable victories.
+              Real results from real businesses. See how our strategic approach transforms marketing challenges into measurable victories.
             </p>
           </motion.div>
         </div>
@@ -90,7 +118,7 @@ const CaseStudies = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {metrics.map((metric, index) => (
-              <motion.div
+              <motion.div 
                 key={index}
                 className="text-center text-white"
                 initial={{ opacity: 0, y: 30 }}
@@ -111,7 +139,7 @@ const CaseStudies = () => {
         <div className="container mx-auto px-4">
           <div className="space-y-16">
             {caseStudies.map((study, index) => (
-              <motion.div
+              <motion.div 
                 key={index}
                 className="bg-medium-gray rounded-lg p-8 tactical-border"
                 initial={{ opacity: 0, y: 50 }}
@@ -150,7 +178,7 @@ const CaseStudies = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Right Column - Results */}
                   <div>
                     <h4 className="text-xl font-bold mb-6 text-center">Mission Results</h4>
@@ -182,7 +210,7 @@ const CaseStudies = () => {
       {/* Process Overview */}
       <section className="py-20 bg-jet-black">
         <div className="container mx-auto px-4">
-          <motion.div
+          <motion.div 
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -199,32 +227,12 @@ const CaseStudies = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { 
-                step: '01', 
-                title: 'Reconnaissance', 
-                desc: 'Deep market analysis and competitor intelligence gathering',
-                duration: 'Week 1'
-              },
-              { 
-                step: '02', 
-                title: 'Strategy Formation', 
-                desc: 'Custom battle plan development with clear objectives and KPIs',
-                duration: 'Week 2'
-              },
-              { 
-                step: '03', 
-                title: 'Tactical Deployment', 
-                desc: 'Campaign launch across all selected marketing channels',
-                duration: 'Week 3-4'
-              },
-              { 
-                step: '04', 
-                title: 'Optimization & Scale', 
-                desc: 'Continuous monitoring, testing, and performance enhancement',
-                duration: 'Ongoing'
-              }
+              { step: '01', title: 'Reconnaissance', desc: 'Deep market analysis and competitor intelligence gathering', duration: 'Week 1' },
+              { step: '02', title: 'Strategy Formation', desc: 'Custom battle plan development with clear objectives and KPIs', duration: 'Week 2' },
+              { step: '03', title: 'Tactical Deployment', desc: 'Campaign launch across all selected marketing channels', duration: 'Week 3-4' },
+              { step: '04', title: 'Optimization & Scale', desc: 'Continuous monitoring, testing, and performance enhancement', duration: 'Ongoing' }
             ].map((phase, index) => (
-              <motion.div
+              <motion.div 
                 key={index}
                 className="text-center p-6 bg-dark-gray rounded-lg tactical-border"
                 initial={{ opacity: 0, y: 30 }}
@@ -245,7 +253,7 @@ const CaseStudies = () => {
       {/* CTA Section */}
       <section className="py-20 bg-tactical-red">
         <div className="container mx-auto px-4 text-center">
-          <motion.div
+          <motion.div 
             className="max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -258,9 +266,10 @@ const CaseStudies = () => {
             <p className="text-xl text-white/90 mb-8">
               Join the ranks of businesses that have transformed their marketing results with our proven strategies.
             </p>
-            <Link
-              to="/contact"
+            <Link 
+              to="/contact" 
               className="inline-flex items-center space-x-2 px-8 py-4 bg-white text-tactical-red rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105"
+              onClick={() => trackButtonClick('Start Your Success Story', 'case-studies-cta')}
             >
               <span>Start Your Success Story</span>
               <SafeIcon icon={FiArrowRight} />

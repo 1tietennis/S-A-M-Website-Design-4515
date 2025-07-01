@@ -7,22 +7,24 @@
     <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title>
     <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." />
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Global Site Tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
-      gtag('config', 'YOUR_TRACKING_ID');
+      gtag('config', 'G-CTDQQ8XMKC');
       
-      // Make gtag available globally
+      // Make gtag available globally for page tracking
       window.gtag = gtag;
+      
+      // Log successful GA initialization
+      console.log('🎯 Google Analytics initialized with tracking ID: G-CTDQQ8XMKC');
     </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Firebase Analytics -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -36,7 +38,7 @@
         storageBucket: "YOUR_PROJECT_ID.appspot.com",
         messagingSenderId: "YOUR_SENDER_ID",
         appId: "YOUR_APP_ID",
-        measurementId: "YOUR_TRACKING_ID"
+        measurementId: "G-CTDQQ8XMKC"
       };
 
       // Initialize Firebase
@@ -46,6 +48,7 @@
         
         // Make analytics available globally
         window.firebaseAnalytics = analytics;
+        console.log('🔥 Firebase Analytics initialized');
       } catch (error) {
         console.log('Firebase initialization error:', error);
       }
@@ -68,6 +71,7 @@
       try {
         CyborgCRM('init', 'YOUR_WEBSITE_ID');
         CyborgCRM('track', 'pageview');
+        console.log('🤖 CyborgCRM initialized');
       } catch (error) {
         console.log('CyborgCRM initialization error:', error);
       }
@@ -88,6 +92,7 @@
           scriptElement.id = 'site-behaviour-script-v2';
           scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
           document.head.appendChild(scriptElement);
+          console.log('📊 SiteBehaviour tracking initialized');
         } catch (error) {
           console.log('SiteBehaviour initialization error:', error);
         }

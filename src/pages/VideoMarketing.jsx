@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import { trackPageView, trackButtonClick } from '../utils/analytics';
 
 const { FiPlay, FiVideo, FiTrendingUp, FiZap, FiTarget, FiArrowRight, FiCheck } = FiIcons;
 
@@ -12,29 +13,65 @@ const VideoMarketing = () => {
   const [servicesRef, servicesInView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [statsRef, statsInView] = useInView({ threshold: 0.1, triggerOnce: true });
 
+  // Google Analytics Test & Page Tracking
+  useEffect(() => {
+    if (window.gtag) {
+      console.log('✅ Google Analytics loaded on Video Marketing page');
+      window.gtag('config', 'G-CTDQQ8XMKC', {
+        page_title: 'Video Marketing - Secret Agent Digital Marketing',
+        page_location: window.location.href
+      });
+      window.gtag('event', 'page_load', {
+        event_category: 'engagement',
+        event_label: 'video_marketing_page'
+      });
+    }
+    trackPageView('/video-marketing', 'Video Marketing - Secret Agent Digital Marketing');
+  }, []);
+
   const videoServices = [
     {
       title: '15-60 Second Social Media Ads',
       description: 'Cinematic motion graphics that stop the scroll and spark action',
-      features: ['Dynamic transitions', 'Bold visual effects', 'Platform optimization', 'A/B testing ready'],
+      features: [
+        'Dynamic transitions',
+        'Bold visual effects',
+        'Platform optimization',
+        'A/B testing ready'
+      ],
       price: '$797'
     },
     {
       title: 'Corporate Brand Videos',
       description: 'Sleek brand stories with professional text overlays and product highlights',
-      features: ['Professional scripting', 'Brand consistency', 'Product showcasing', 'Multi-format delivery'],
+      features: [
+        'Professional scripting',
+        'Brand consistency',
+        'Product showcasing',
+        'Multi-format delivery'
+      ],
       price: '$1,297'
     },
     {
       title: 'Animated Explainer Videos',
       description: 'Kinetic typography and voiceover that simplify complex concepts',
-      features: ['Custom animations', 'Professional voiceover', 'Script development', 'Engaging storytelling'],
+      features: [
+        'Custom animations',
+        'Professional voiceover',
+        'Script development',
+        'Engaging storytelling'
+      ],
       price: '$1,597'
     },
     {
       title: 'Event Promos & Testimonials',
       description: 'Energy-packed reels with powerful transitions and social proof',
-      features: ['Event highlight reels', 'Customer testimonials', 'Social media ready', 'Quick turnaround'],
+      features: [
+        'Event highlight reels',
+        'Customer testimonials',
+        'Social media ready',
+        'Quick turnaround'
+      ],
       price: '$997'
     }
   ];
@@ -44,14 +81,24 @@ const VideoMarketing = () => {
       name: 'Starter Package',
       price: '$1,497',
       originalPrice: '$2,091',
-      includes: ['2 Social Media Ads', 'Multi-platform delivery', 'Basic revisions', '5-day turnaround'],
+      includes: [
+        '2 Social Media Ads',
+        'Multi-platform delivery',
+        'Basic revisions',
+        '5-day turnaround'
+      ],
       savings: '$594'
     },
     {
       name: 'Professional Package',
       price: '$2,797',
       originalPrice: '$4,188',
-      includes: ['4 Video types included', 'Voiceover + Scriptwriting', 'Branded intro/outros', '3-day turnaround'],
+      includes: [
+        '4 Video types included',
+        'Voiceover + Scriptwriting',
+        'Branded intro/outros',
+        '3-day turnaround'
+      ],
       savings: '$1,391',
       popular: true
     },
@@ -59,23 +106,40 @@ const VideoMarketing = () => {
       name: 'Enterprise Package',
       price: '$4,997',
       originalPrice: '$7,485',
-      includes: ['Unlimited revisions', 'Rush 2-day delivery', 'Custom animations', 'Dedicated video strategist'],
+      includes: [
+        'Unlimited revisions',
+        'Rush 2-day delivery',
+        'Custom animations',
+        'Dedicated video strategist'
+      ],
       savings: '$2,488'
     }
   ];
 
   return (
     <div className="min-h-screen pt-20">
+      {/* Google tag (gtag.js) */}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-CTDQQ8XMKC');
+          console.log('Video Marketing page Google Analytics loaded');
+        `
+      }} />
+
       {/* Hero Section */}
       <section ref={heroRef} className="hero-bg py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div
+          <motion.div 
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 50 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <motion.div
+            <motion.div 
               className="inline-flex items-center space-x-2 mb-6 px-4 py-2 bg-tactical-red/20 rounded-full border border-tactical-red/50"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={heroInView ? { opacity: 1, scale: 1 } : {}}
@@ -90,20 +154,21 @@ const VideoMarketing = () => {
               <br />
               <span className="gradient-text">That Commands Attention</span>
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
               In a scroll-happy world, video is your greatest weapon. Our cinematic ads, brand stories, and promos use flashing transitions, dynamic animations, and bold visuals to stop the scroll—and spark action.
             </p>
-            
-            <motion.div
+
+            <motion.div 
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               initial={{ opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <Link
-                to="/contact"
+              <Link 
+                to="/contact" 
                 className="px-8 py-4 btn-primary rounded-lg font-semibold text-lg flex items-center space-x-2"
+                onClick={() => trackButtonClick('Start Your Video Mission', 'video-marketing-hero')}
               >
                 <SafeIcon icon={FiPlay} />
                 <span>Start Your Video Mission</span>
@@ -114,12 +179,12 @@ const VideoMarketing = () => {
 
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
+          <motion.div 
             className="absolute top-20 left-10 w-20 h-20 border-2 border-tactical-red/30 rounded-full"
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           />
-          <motion.div
+          <motion.div 
             className="absolute bottom-20 right-10 w-16 h-16 bg-tactical-red/20 rounded-lg"
             animate={{ y: [-10, 10, -10] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -130,7 +195,7 @@ const VideoMarketing = () => {
       {/* Stats Section */}
       <section ref={statsRef} className="py-16 bg-tactical-red">
         <div className="container mx-auto px-4">
-          <motion.div
+          <motion.div 
             className="text-center mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={statsInView ? { opacity: 1, y: 0 } : {}}
@@ -151,7 +216,7 @@ const VideoMarketing = () => {
               { number: '80%', label: 'Increase in Conversions' },
               { number: '2-5', label: 'Day Turnaround' }
             ].map((stat, index) => (
-              <motion.div
+              <motion.div 
                 key={index}
                 className="text-center text-white"
                 initial={{ opacity: 0, y: 30 }}
@@ -169,7 +234,7 @@ const VideoMarketing = () => {
       {/* Services Section */}
       <section ref={servicesRef} className="py-20 bg-dark-gray">
         <div className="container mx-auto px-4">
-          <motion.div
+          <motion.div 
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             animate={servicesInView ? { opacity: 1, y: 0 } : {}}
@@ -179,10 +244,10 @@ const VideoMarketing = () => {
               What We <span className="text-tactical-red">Create</span>
             </h2>
           </motion.div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {videoServices.map((service, index) => (
-              <motion.div
+              <motion.div 
                 key={index}
                 className="bg-medium-gray rounded-lg p-8 tactical-border card-hover"
                 initial={{ opacity: 0, y: 50 }}
@@ -194,7 +259,6 @@ const VideoMarketing = () => {
                   <span className="text-tactical-red font-bold text-xl">Starting at {service.price}</span>
                 </div>
                 <p className="text-gray-300 mb-6">{service.description}</p>
-                
                 <div className="grid grid-cols-2 gap-4">
                   {service.features.map((feature, featureIndex) => (
                     <div key={featureIndex} className="flex items-center space-x-2">
@@ -212,7 +276,7 @@ const VideoMarketing = () => {
       {/* Bundle Packages */}
       <section className="py-20 bg-jet-black">
         <div className="container mx-auto px-4">
-          <motion.div
+          <motion.div 
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -227,7 +291,7 @@ const VideoMarketing = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {bundles.map((bundle, index) => (
-              <motion.div
+              <motion.div 
                 key={index}
                 className={`relative bg-medium-gray rounded-lg p-8 ${
                   bundle.popular ? 'tactical-border ring-2 ring-tactical-red' : 'border border-gray-600'
@@ -263,13 +327,14 @@ const VideoMarketing = () => {
                   ))}
                 </ul>
 
-                <Link
-                  to="/contact"
+                <Link 
+                  to="/contact" 
                   className={`block text-center px-6 py-3 rounded-lg font-semibold transition-all ${
-                    bundle.popular
-                      ? 'btn-primary'
+                    bundle.popular 
+                      ? 'btn-primary' 
                       : 'border-2 border-tactical-red text-tactical-red hover:bg-tactical-red hover:text-white'
                   }`}
+                  onClick={() => trackButtonClick(`Choose ${bundle.name}`, 'video-marketing-bundles')}
                 >
                   Choose {bundle.name}
                 </Link>
@@ -282,7 +347,7 @@ const VideoMarketing = () => {
       {/* Why Choose Us */}
       <section className="py-20 bg-dark-gray">
         <div className="container mx-auto px-4">
-          <motion.div
+          <motion.div 
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -312,7 +377,7 @@ const VideoMarketing = () => {
                 description: 'Top-tier visuals without Hollywood pricing or timelines'
               }
             ].map((reason, index) => (
-              <motion.div
+              <motion.div 
                 key={index}
                 className="text-center p-6"
                 initial={{ opacity: 0, y: 30 }}
@@ -332,7 +397,7 @@ const VideoMarketing = () => {
       {/* CTA Section */}
       <section className="py-20 bg-tactical-red">
         <div className="container mx-auto px-4 text-center">
-          <motion.div
+          <motion.div 
             className="max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -345,9 +410,10 @@ const VideoMarketing = () => {
             <p className="text-xl text-white/90 mb-8">
               Let's create videos that don't just get views—they get results.
             </p>
-            <Link
-              to="/contact"
+            <Link 
+              to="/contact" 
               className="inline-flex items-center space-x-2 px-8 py-4 bg-white text-tactical-red rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105"
+              onClick={() => trackButtonClick('Launch Your Video Campaign', 'video-marketing-cta')}
             >
               <SafeIcon icon={FiPlay} />
               <span>Launch Your Video Campaign</span>
