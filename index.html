@@ -7,7 +7,7 @@
     <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title>
     <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." />
     
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) - Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -18,8 +18,15 @@
       // Make gtag available globally for page tracking
       window.gtag = gtag;
       
-      // Log successful GA initialization
-      console.log('🎯 Google Analytics initialized with tracking ID: G-CTDQQ8XMKC');
+      // Log successful GA4 initialization
+      console.log('🎯 Google Analytics 4 initialized with tracking ID: G-CTDQQ8XMKC');
+      
+      // Fire initial test event
+      gtag('event', 'ga4_initialized', {
+        event_category: 'analytics',
+        event_label: 'google_analytics_4',
+        timestamp: new Date().toISOString()
+      });
     </script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,14 +64,14 @@
     <!-- CyborgCRM Tracking Code -->
     <script>
       (function(c,y,b,o,r,g){
-        c.CyborgCRM=c.CyborgCRM||function(){
-          (c.CyborgCRM.q=c.CyborgCRM.q||[]).push(arguments)
+        c.CyborgCRM = c.CyborgCRM || function(){
+          (c.CyborgCRM.q = c.CyborgCRM.q || []).push(arguments)
         };
-        c.CyborgCRM.l=1*new Date();
-        g=y.createElement(b);
-        o=y.getElementsByTagName(b)[0];
-        g.async=1;
-        g.src=r;
+        c.CyborgCRM.l = 1*new Date();
+        g = y.createElement(b);
+        o = y.getElementsByTagName(b)[0];
+        g.async = 1;
+        g.src = r;
         o.parentNode.insertBefore(g,o)
       })(window,document,'script','https://cdn.cyborgcrm.com/tracking.js');
       
@@ -76,10 +83,6 @@
         console.log('CyborgCRM initialization error:', error);
       }
     </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
     
     <!-- SiteBehaviour Tracking Script -->
     <script type="text/javascript">
@@ -98,5 +101,9 @@
         }
       })()
     </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

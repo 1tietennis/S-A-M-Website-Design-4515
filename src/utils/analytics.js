@@ -1,4 +1,4 @@
-// Enhanced Google Analytics & Multi-Platform Analytics Helper Functions
+// Enhanced Google Analytics 4 & Multi-Platform Analytics Helper Functions
 
 // Automatic page view tracking for React Router
 export const initializePageTracking = () => {
@@ -16,8 +16,11 @@ export const initializePageTracking = () => {
 export const trackEvent = (eventName, parameters = {}) => {
   // Track with Google Analytics 4
   if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-    window.gtag('event', eventName, parameters);
-    console.log('📊 GA Event tracked:', eventName, parameters);
+    window.gtag('event', eventName, {
+      ...parameters,
+      timestamp: new Date().toISOString()
+    });
+    console.log('📊 GA4 Event tracked:', eventName, parameters);
   }
   
   // Track with Firebase Analytics
@@ -25,9 +28,15 @@ export const trackEvent = (eventName, parameters = {}) => {
     window.firebaseAnalytics.logEvent(eventName, parameters);
   }
   
-  // Track with CyborgCRM if available
+  // Track with CyborgCRM
   if (typeof window !== 'undefined' && window.CyborgCRM) {
     window.CyborgCRM('track', eventName, parameters);
+  }
+  
+  // Track with SiteBehaviour if available
+  if (typeof window !== 'undefined' && window.sitebehaviourTrackingSecret) {
+    // SiteBehaviour automatically tracks user behavior
+    console.log('📊 SiteBehaviour tracking active');
   }
 };
 
@@ -39,7 +48,7 @@ export const trackPageView = (pagePath, pageTitle) => {
       page_title: pageTitle,
       page_location: window.location.href
     });
-    console.log('📄 Page view tracked:', pagePath, pageTitle);
+    console.log('📄 GA4 Page view tracked:', pagePath, pageTitle);
   }
   
   // Track with Firebase Analytics
@@ -51,7 +60,7 @@ export const trackPageView = (pagePath, pageTitle) => {
     });
   }
   
-  // Track with CyborgCRM if available
+  // Track with CyborgCRM
   if (typeof window !== 'undefined' && window.CyborgCRM) {
     window.CyborgCRM('track', 'pageview', {
       page: pagePath,
@@ -68,16 +77,27 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
     currency: currency,
     transaction_id: `${conversionType}_${Date.now()}`
   };
-  
+
   // Track with Google Analytics 4
   if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
+    // Track conversion event
     window.gtag('event', 'conversion', conversionData);
+    
+    // Track purchase event for e-commerce
     window.gtag('event', 'purchase', {
       transaction_id: conversionData.transaction_id,
       value: value,
-      currency: currency
+      currency: currency,
+      items: [{
+        item_id: conversionType,
+        item_name: conversionType,
+        category: 'marketing_service',
+        price: value,
+        quantity: 1
+      }]
     });
-    console.log('💰 Conversion tracked:', conversionType, value);
+    
+    console.log('💰 GA4 Conversion tracked:', conversionType, value);
   }
   
   // Track with Firebase Analytics
@@ -89,7 +109,7 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
     });
   }
   
-  // Track with CyborgCRM if available
+  // Track with CyborgCRM
   if (typeof window !== 'undefined' && window.CyborgCRM) {
     window.CyborgCRM('track', 'conversion', conversionData);
   }
@@ -103,7 +123,7 @@ export const trackFormSubmission = (formName, formData = {}) => {
     timestamp: new Date().toISOString(),
     ...formData
   };
-  
+
   trackEvent('form_submit', eventData);
   
   // Also track as a lead conversion
@@ -119,7 +139,7 @@ export const trackButtonClick = (buttonName, location = '', additionalData = {})
     timestamp: new Date().toISOString(),
     ...additionalData
   };
-  
+
   trackEvent('click', eventData);
   console.log('🖱️ Button click tracked:', buttonName, 'at', location);
 };
@@ -133,7 +153,7 @@ export const trackUserEngagement = (action, element, additionalData = {}) => {
     timestamp: new Date().toISOString(),
     ...additionalData
   };
-  
+
   trackEvent('engagement', eventData);
 };
 
@@ -146,7 +166,7 @@ export const trackSPANavigation = (fromPath, toPath, pageTitle) => {
     to_page: toPath,
     page_title: pageTitle
   });
-  
+
   // Track the new page view
   trackPageView(toPath, pageTitle);
 };

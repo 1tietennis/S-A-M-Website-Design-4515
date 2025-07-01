@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiCheck, FiX, FiActivity, FiCode } = FiIcons;
+const { FiCheck, FiX, FiActivity, FiCode, FiEye, FiTarget } = FiIcons;
 
 const AnalyticsDebugger = ({ showDebugger = false }) => {
   const [analyticsStatus, setAnalyticsStatus] = useState({
-    gtag: false,
+    ga4: false,
     dataLayer: false,
     script: false,
-    trackingId: false,
+    siteBehaviour: false,
     events: 0
   });
 
@@ -21,10 +21,10 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
 
     const checkAnalytics = () => {
       const status = {
-        gtag: typeof window.gtag === 'function',
+        ga4: typeof window.gtag === 'function',
         dataLayer: window.dataLayer && Array.isArray(window.dataLayer),
         script: !!document.querySelector('script[src*="googletagmanager.com/gtag/js"]'),
-        trackingId: document.documentElement.innerHTML.includes('G-CTDQQ8XMKC'),
+        siteBehaviour: !!document.querySelector('#site-behaviour-script-v2') && !!window.sitebehaviourTrackingSecret,
         events: window.dataLayer ? window.dataLayer.length : 0
       };
 
@@ -32,7 +32,7 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
 
       // Log status
       const log = `[${new Date().toLocaleTimeString()}] Analytics Check: ${
-        Object.values(status).every(v => v === true || typeof v === 'number') ? 'OPERATIONAL' : 'ISSUES DETECTED'
+        Object.entries(status).every(([key, value]) => key === 'events' || value === true) ? 'ALL OPERATIONAL' : 'ISSUES DETECTED'
       }`;
       
       setDebugLogs(prev => [...prev.slice(-4), log]);
@@ -44,14 +44,14 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
     // Check every 5 seconds
     const interval = setInterval(checkAnalytics, 5000);
 
-    // Override console.log to catch GA logs
+    // Override console.log to catch analytics logs
     const originalLog = console.log;
     console.log = (...args) => {
       originalLog.apply(console, args);
       
       const message = args.join(' ');
-      if (message.includes('Google Analytics') || message.includes('gtag') || message.includes('G-CTDQQ8XMKC')) {
-        const log = `[${new Date().toLocaleTimeString()}] GA: ${message}`;
+      if (message.includes('GA4') || message.includes('gtag') || message.includes('SiteBehaviour') || message.includes('G-CTDQQ8XMKC')) {
+        const log = `[${new Date().toLocaleTimeString()}] ${message}`;
         setDebugLogs(prev => [...prev.slice(-9), log]);
       }
     };
@@ -67,10 +67,19 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
       window.gtag('event', 'debug_test', {
         event_category: 'debugging',
         event_label: 'manual_test',
-        value: 1
+        value: 1,
+        timestamp: new Date().toISOString()
       });
       
-      const log = `[${new Date().toLocaleTimeString()}] Test event fired`;
+      const log = `[${new Date().toLocaleTimeString()}] GA4 Test event fired`;
+      setDebugLogs(prev => [...prev.slice(-9), log]);
+    }
+  };
+
+  const runFullTest = () => {
+    if (window.logAnalyticsStatus) {
+      window.logAnalyticsStatus();
+      const log = `[${new Date().toLocaleTimeString()}] Full analytics test completed`;
       setDebugLogs(prev => [...prev.slice(-9), log]);
     }
   };
@@ -85,30 +94,30 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="flex items-center justify-between mb-3">
-        <h4 className="text-tactical-red font-bold text-sm">GA Debug Panel</h4>
+        <h4 className="text-tactical-red font-bold text-sm">Analytics Debug Panel</h4>
         <SafeIcon icon={FiActivity} className="text-tactical-red" />
       </div>
 
       <div className="space-y-2 mb-3">
         <div className="flex items-center justify-between text-xs">
-          <span>gtag Function:</span>
-          <SafeIcon icon={analyticsStatus.gtag ? FiCheck : FiX} 
-                   className={analyticsStatus.gtag ? 'text-green-400' : 'text-red-400'} />
+          <span>GA4 Function:</span>
+          <SafeIcon icon={analyticsStatus.ga4 ? FiCheck : FiX} 
+                   className={analyticsStatus.ga4 ? 'text-green-400' : 'text-red-400'} />
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span>dataLayer:</span>
+          <span>DataLayer:</span>
           <SafeIcon icon={analyticsStatus.dataLayer ? FiCheck : FiX} 
                    className={analyticsStatus.dataLayer ? 'text-green-400' : 'text-red-400'} />
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span>GA Script:</span>
+          <span>GA4 Script:</span>
           <SafeIcon icon={analyticsStatus.script ? FiCheck : FiX} 
                    className={analyticsStatus.script ? 'text-green-400' : 'text-red-400'} />
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span>Tracking ID:</span>
-          <SafeIcon icon={analyticsStatus.trackingId ? FiCheck : FiX} 
-                   className={analyticsStatus.trackingId ? 'text-green-400' : 'text-red-400'} />
+          <span>SiteBehaviour:</span>
+          <SafeIcon icon={analyticsStatus.siteBehaviour ? FiCheck : FiX} 
+                   className={analyticsStatus.siteBehaviour ? 'text-green-400' : 'text-red-400'} />
         </div>
         <div className="flex items-center justify-between text-xs">
           <span>Events:</span>
@@ -116,12 +125,20 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
         </div>
       </div>
 
-      <button 
-        onClick={fireTestEvent}
-        className="w-full px-3 py-1 bg-tactical-red text-white rounded text-xs mb-3 hover:bg-red-700 transition-colors"
-      >
-        Fire Test Event
-      </button>
+      <div className="space-y-2 mb-3">
+        <button 
+          onClick={fireTestEvent}
+          className="w-full px-3 py-1 bg-tactical-red text-white rounded text-xs hover:bg-red-700 transition-colors"
+        >
+          Fire GA4 Test Event
+        </button>
+        <button 
+          onClick={runFullTest}
+          className="w-full px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700 transition-colors"
+        >
+          Run Full Test
+        </button>
+      </div>
 
       <div className="border-t border-gray-600 pt-2">
         <div className="text-xs text-gray-400 mb-1">Recent Logs:</div>
