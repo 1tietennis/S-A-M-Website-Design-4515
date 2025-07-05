@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiteBehaviour Connection Test - Secret Agent Digital Marketing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .test-container {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #ED2729;
+        }
+        .test-button {
+            background: #ED2729;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #b91c1c;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #22c55e20;
+            border: 1px solid #22c55e;
+            color: #22c55e;
+        }
+        .error {
+            background: #ef444420;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+        .warning {
+            background: #f59e0b20;
+            border: 1px solid #f59e0b;
+            color: #f59e0b;
+        }
+        .info {
+            background: #3b82f620;
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+        }
+        .console-output {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 SiteBehaviour Connection Test</h1>
+    <h2>Secret Agent Digital Marketing</h2>
+    
+    <!-- SiteBehaviour Script Implementation -->
+    <script type="text/javascript">
+        (function() {
+            var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+            window.sitebehaviourTrackingSecret = sbSiteSecret;
+            
+            var scriptElement = document.createElement('script');
+            scriptElement.defer = true;
+            scriptElement.id = 'site-behaviour-script-v2';
+            scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
+            
+            scriptElement.onload = function() {
+                logToConsole('✅ SiteBehaviour script loaded successfully');
+                logToConsole('🎯 Secret: ' + sbSiteSecret.substring(0,8) + '...');
+                updateConnectionStatus();
+            };
+            
+            scriptElement.onerror = function() {
+                logToConsole('❌ SiteBehaviour script failed to load');
+                updateConnectionStatus();
+            };
+            
+            document.head.appendChild(scriptElement);
+            logToConsole('🚀 SiteBehaviour script loading initiated...');
+        })();
+    </script>
+
+    <div class="test-container">
+        <h3>🔧 Connection Status</h3>
+        <div id="connection-status">
+            <div class="test-result info">⏳ Checking SiteBehaviour connection...</div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h3>🧪 Test Controls</h3>
+        <button class="test-button" onclick="checkConnection()">Check Connection Status</button>
+        <button class="test-button" onclick="testEventFiring()">Test Event Firing</button>
+        <button class="test-button" onclick="sendTestPageView()">Send Test Page View</button>
+        <button class="test-button" onclick="clearConsole()">Clear Console</button>
+    </div>
+
+    <div class="test-container">
+        <h3>📊 Real-time Console Output</h3>
+        <div id="console-output" class="console-output">
+            [Starting SiteBehaviour connection test...]
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h3>📋 Connection Details</h3>
+        <div id="connection-details">
+            <div class="test-result info">Details will appear after connection check...</div>
+        </div>
+    </div>
+
+    <script>
+        // Console logging functions
+        function logToConsole(message) {
+            const consoleOutput = document.getElementById('console-output');
+            const timestamp = new Date().toLocaleTimeString();
+            consoleOutput.innerHTML += `[${timestamp}] ${message}\n`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            console.log(message);
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').innerHTML = '[Console cleared]\n';
+        }
+
+        // Connection status checker
+        function updateConnectionStatus() {
+            const statusDiv = document.getElementById('connection-status');
+            const detailsDiv = document.getElementById('connection-details');
+            
+            const script = document.querySelector('#site-behaviour-script-v2');
+            const secret = window.sitebehaviourTrackingSecret;
+            const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+            
+            const tests = {
+                scriptElement: !!script,
+                secretSet: !!secret,
+                secretCorrect: secret === expectedSecret,
+                scriptSrc: script ? script.src : null
+            };
+
+            // Update status
+            statusDiv.innerHTML = '';
+            
+            if (tests.scriptElement && tests.secretSet && tests.secretCorrect) {
+                statusDiv.innerHTML = '<div class="test-result success">🎉 SiteBehaviour FULLY CONNECTED</div>';
+                logToConsole('🎉 SiteBehaviour connection verified successfully');
+            } else {
+                statusDiv.innerHTML = '<div class="test-result error">❌ SiteBehaviour connection issues detected</div>';
+                logToConsole('❌ SiteBehaviour connection problems found');
+            }
+
+            // Update details
+            detailsDiv.innerHTML = `
+                <div class="test-result ${tests.scriptElement ? 'success' : 'error'}">
+                    ${tests.scriptElement ? '✅' : '❌'} Script Element: ${tests.scriptElement ? 'LOADED' : 'MISSING'}
+                </div>
+                <div class="test-result ${tests.secretSet ? 'success' : 'error'}">
+                    ${tests.secretSet ? '✅' : '❌'} Secret Variable: ${tests.secretSet ? 'SET' : 'MISSING'}
+                </div>
+                <div class="test-result ${tests.secretCorrect ? 'success' : 'error'}">
+                    ${tests.secretCorrect ? '✅' : '❌'} Secret Correct: ${tests.secretCorrect ? 'VALID' : 'INVALID'}
+                </div>
+                <div class="test-result info">
+                    📍 Script Source: ${tests.scriptSrc || 'Not available'}
+                </div>
+                <div class="test-result info">
+                    🔑 Secret Value: ${secret ? secret.substring(0,8) + '...' : 'Not set'}
+                </div>
+            `;
+        }
+
+        // Test functions
+        function checkConnection() {
+            logToConsole('🔍 Running connection check...');
+            updateConnectionStatus();
+        }
+
+        function testEventFiring() {
+            logToConsole('🧪 Testing event firing...');
+            
+            try {
+                // Test custom event
+                document.dispatchEvent(new CustomEvent('sitebehaviour-test-event', {
+                    detail: {
+                        test: true,
+                        timestamp: Date.now(),
+                        source: 'test-page'
+                    }
+                }));
+                logToConsole('✅ Test event fired successfully');
+            } catch (error) {
+                logToConsole('❌ Error firing test event: ' + error.message);
+            }
+        }
+
+        function sendTestPageView() {
+            logToConsole('📊 Sending test page view...');
+            
+            try {
+                document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
+                    detail: {
+                        page: '/test-page',
+                        title: 'SiteBehaviour Test Page',
+                        timestamp: Date.now(),
+                        url: window.location.href
+                    }
+                }));
+                logToConsole('✅ Test page view sent successfully');
+            } catch (error) {
+                logToConsole('❌ Error sending page view: ' + error.message);
+            }
+        }
+
+        // Auto-check connection on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                logToConsole('🔄 Auto-checking connection after page load...');
+                updateConnectionStatus();
+            }, 3000);
+        });
+
+        // Monitor script loading
+        const checkInterval = setInterval(() => {
+            if (document.querySelector('#site-behaviour-script-v2')) {
+                updateConnectionStatus();
+                clearInterval(checkInterval);
+            }
+        }, 500);
+    </script>
+</body>
+</html>
