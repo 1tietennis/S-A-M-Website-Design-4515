@@ -27,6 +27,7 @@ const About = () => {
         event_label: 'about_page'
       });
     }
+
     trackPageView('/about', 'About - Secret Agent Digital Marketing');
   }, []);
 
@@ -76,18 +77,20 @@ const About = () => {
     <div className="min-h-screen pt-20">
       {/* Google tag (gtag.js) */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-      <script dangerouslySetInnerHTML={{__html: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-CTDQQ8XMKC');
-        console.log('About page Google Analytics loaded');
-      `}} />
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-CTDQQ8XMKC');
+          console.log('About page Google Analytics loaded');
+        `
+      }} />
 
       {/* Hero Section */}
       <section ref={heroRef} className="py-20 bg-jet-black">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 50 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
@@ -113,7 +116,7 @@ const About = () => {
               transition={{ duration: 0.8 }}
             >
               <div className="relative w-full h-96 rounded-lg tactical-border overflow-hidden">
-                <img 
+                <img
                   src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751100821048-Tie%20picturesmart%20crop%2840%20x%2040%20px%29%20%28280%20x%20280%20px%29%20%28300%20x%20300%20px%29.png"
                   alt="Tie Staton - Founder of Secret Agent Digital Marketing"
                   className="w-full h-full object-cover"
@@ -168,7 +171,7 @@ const About = () => {
       {/* Our Code (Values) */}
       <section ref={valuesRef} className="py-20 bg-jet-black">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             animate={valuesInView ? { opacity: 1, y: 0 } : {}}
@@ -184,7 +187,7 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((value, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className="text-center p-8 bg-dark-gray rounded-lg tactical-border card-hover"
                 initial={{ opacity: 0, y: 50 }}
@@ -203,7 +206,7 @@ const About = () => {
       {/* Team Section */}
       <section ref={teamRef} className="py-20 bg-dark-gray">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             animate={teamInView ? { opacity: 1, y: 0 } : {}}
@@ -219,7 +222,7 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className="bg-medium-gray rounded-lg p-8 tactical-border card-hover"
                 initial={{ opacity: 0, y: 50 }}
@@ -237,7 +240,7 @@ const About = () => {
                   <h4 className="font-semibold mb-2 text-tactical-red">Specialties:</h4>
                   <div className="flex flex-wrap gap-2">
                     {member.specialties.map((specialty, specialtyIndex) => (
-                      <span 
+                      <span
                         key={specialtyIndex}
                         className="px-3 py-1 bg-tactical-red/20 text-tactical-red rounded-full text-xs"
                       >
@@ -255,7 +258,7 @@ const About = () => {
       {/* Stats Section */}
       <section className="py-20 bg-jet-black">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -274,7 +277,7 @@ const About = () => {
               { number: '24/7', label: 'Mission Support' },
               { number: '98%', label: 'Client Satisfaction' }
             ].map((stat, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className="text-center"
                 initial={{ opacity: 0, y: 30 }}
@@ -295,7 +298,7 @@ const About = () => {
       {/* CTA Section */}
       <section className="py-20 bg-tactical-red">
         <div className="container mx-auto px-4 text-center">
-          <motion.div 
+          <motion.div
             className="max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -308,8 +311,8 @@ const About = () => {
             <p className="text-xl text-white/90 mb-8">
               Let's discuss how our team can help your business achieve its marketing objectives.
             </p>
-            <Link 
-              to="/contact" 
+            <Link
+              to="/contact"
               className="inline-flex items-center space-x-2 px-8 py-4 bg-white text-tactical-red rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105"
               onClick={() => trackButtonClick('Start Your Mission', 'about-cta')}
             >

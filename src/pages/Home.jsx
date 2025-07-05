@@ -19,10 +19,10 @@ const Home = () => {
   useEffect(() => {
     // Set page title for better tracking
     document.title = 'Home - Secret Agent Digital Marketing';
-    
+
     // Track page view
     trackPageView('/', 'Home - Secret Agent Digital Marketing');
-    
+
     // Track page load event
     if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
       window.gtag('event', 'page_load', {
@@ -102,30 +102,38 @@ const Home = () => {
   ];
 
   const industries = [
-    'Healthcare', 'Real Estate', 'E-commerce', 'Legal', 
-    'Finance', 'Automotive', 'Home Services', 'Restaurants'
+    'Healthcare',
+    'Real Estate',
+    'E-commerce',
+    'Legal',
+    'Finance',
+    'Automotive',
+    'Home Services',
+    'Restaurants'
   ];
 
   return (
     <div className="min-h-screen">
       {/* Google tag (gtag.js) */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-      <script dangerouslySetInnerHTML={{__html: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-CTDQQ8XMKC');
-        console.log('Home page Google Analytics loaded');
-      `}} />
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-CTDQQ8XMKC');
+          console.log('Home page Google Analytics loaded');
+        `
+      }} />
 
       {/* Hero Section */}
       <section 
-        ref={heroRef} 
+        ref={heroRef}
         className="hero-bg min-h-screen flex items-center relative overflow-hidden"
       >
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h1 
+            <motion.h1
               className="text-5xl md:text-7xl font-display font-bold mb-6 glow-text"
               initial={{ opacity: 0, y: 50 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
@@ -135,7 +143,7 @@ const Home = () => {
               <span className="gradient-text">Real Results.</span>
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
@@ -144,22 +152,22 @@ const Home = () => {
               Tired of agencies with vague promises and cookie-cutter tactics? We tailor powerful, ROI-driven digital campaigns that get results.
             </motion.p>
 
-            <motion.div 
+            <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               initial={{ opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <Link 
-                to="/contact" 
+              <Link
+                to="/contact"
                 className="px-8 py-4 btn-primary rounded-lg font-semibold text-lg flex items-center space-x-2 animate-pulse-red"
                 onClick={() => trackCtaClick('Start Your Mission', 'hero_primary')}
               >
                 <span>Start Your Mission</span>
                 <SafeIcon icon={FiArrowRight} />
               </Link>
-              <Link 
-                to="/case-studies" 
+              <Link
+                to="/case-studies"
                 className="px-8 py-4 border-2 border-tactical-red text-tactical-red rounded-lg font-semibold text-lg hover:bg-tactical-red hover:text-white transition-all duration-300"
                 onClick={() => trackCtaClick('View Case Studies', 'hero_secondary')}
               >
@@ -173,7 +181,7 @@ const Home = () => {
       {/* Problem Section */}
       <section ref={problemRef} className="py-20 bg-dark-gray">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 50 }}
             animate={problemInView ? { opacity: 1, y: 0 } : {}}
@@ -182,7 +190,6 @@ const Home = () => {
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">
               Tired of These <span className="text-tactical-red">Marketing Frustrations?</span>
             </h2>
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
               {[
                 'Wasted ad spend with no clear ROI',
@@ -190,7 +197,7 @@ const Home = () => {
                 'One-size-fits-all campaigns that don\'t work',
                 'Over-promising agencies that under-deliver'
               ].map((problem, index) => (
-                <motion.div 
+                <motion.div
                   key={index}
                   className="flex items-center space-x-4 p-6 bg-medium-gray rounded-lg"
                   initial={{ opacity: 0, x: -30 }}
@@ -209,7 +216,7 @@ const Home = () => {
       {/* Solution Section */}
       <section ref={solutionRef} className="py-20 bg-jet-black">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 50 }}
             animate={solutionInView ? { opacity: 1, y: 0 } : {}}
@@ -218,19 +225,33 @@ const Home = () => {
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">
               Meet Your <span className="gradient-text">Elite Task Force</span>
             </h2>
-            
             <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
               Secret Agent Digital Marketing is the elite task force solving these frustrations with military precision and a firefighter's urgency. We under-promise and over-deliver on every mission.
             </p>
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
-                { icon: FiShield, title: 'Integrity-Driven', desc: 'Christian values guide every decision' },
-                { icon: FiEye, title: 'Transparent Reporting', desc: 'Real-time dashboards and clear metrics' },
-                { icon: FiTarget, title: 'Fighter\'s Mentality', desc: 'MMA-inspired determination and focus' },
-                { icon: FiZap, title: 'Firefighter Urgency', desc: 'Life-saving speed applied to your campaigns' }
+                {
+                  icon: FiShield,
+                  title: 'Integrity-Driven',
+                  desc: 'Christian values guide every decision'
+                },
+                {
+                  icon: FiEye,
+                  title: 'Transparent Reporting',
+                  desc: 'Real-time dashboards and clear metrics'
+                },
+                {
+                  icon: FiTarget,
+                  title: 'Fighter\'s Mentality',
+                  desc: 'MMA-inspired determination and focus'
+                },
+                {
+                  icon: FiZap,
+                  title: 'Firefighter Urgency',
+                  desc: 'Life-saving speed applied to your campaigns'
+                }
               ].map((item, index) => (
-                <motion.div 
+                <motion.div
                   key={index}
                   className="p-6 bg-dark-gray rounded-lg card-hover tactical-border"
                   initial={{ opacity: 0, y: 30 }}
@@ -250,7 +271,7 @@ const Home = () => {
       {/* Benefits Section */}
       <section ref={benefitsRef} className="py-20 bg-dark-gray">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
@@ -263,7 +284,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {benefits.map((benefit, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className="text-center p-8 bg-medium-gray rounded-lg card-hover"
                 initial={{ opacity: 0, y: 50 }}
@@ -284,7 +305,7 @@ const Home = () => {
       {/* Social Proof Section */}
       <section ref={socialProofRef} className="py-20 bg-jet-black">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             animate={socialProofInView ? { opacity: 1, y: 0 } : {}}
@@ -300,7 +321,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {testimonials.map((testimonial, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className="p-6 bg-dark-gray rounded-lg tactical-border card-hover"
                 initial={{ opacity: 0, y: 30 }}
@@ -319,7 +340,7 @@ const Home = () => {
             ))}
           </div>
 
-          <motion.div 
+          <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 30 }}
             animate={socialProofInView ? { opacity: 1, y: 0 } : {}}
@@ -328,7 +349,7 @@ const Home = () => {
             <h3 className="text-2xl font-bold mb-6">Industries We Serve</h3>
             <div className="flex flex-wrap justify-center gap-4">
               {industries.map((industry, index) => (
-                <span 
+                <span
                   key={index}
                   className="px-4 py-2 bg-medium-gray rounded-full text-sm border border-tactical-red/30"
                 >
@@ -343,7 +364,7 @@ const Home = () => {
       {/* Final CTA Section */}
       <section className="py-20 bg-tactical-red">
         <div className="container mx-auto px-4 text-center">
-          <motion.div 
+          <motion.div
             className="max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -356,8 +377,8 @@ const Home = () => {
             <p className="text-xl text-white/90 mb-8">
               Limited onboarding slots available this quarter. Under-promise, over-deliver—that's our guarantee.
             </p>
-            <Link 
-              to="/contact" 
+            <Link
+              to="/contact"
               className="inline-flex items-center space-x-2 px-8 py-4 bg-white text-tactical-red rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105"
               onClick={() => trackCtaClick('Launch Your Strategy Call Now', 'final_cta')}
             >

@@ -6,6 +6,20 @@ import SafeIcon from '../common/SafeIcon';
 const { FiTarget, FiMail, FiPhone, FiMapPin, FiFacebook, FiTwitter, FiLinkedin, FiInstagram } = FiIcons;
 
 const Footer = () => {
+  const handleSocialClick = (platform, url) => {
+    // Track social media clicks
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'social_media_click', {
+        event_category: 'engagement',
+        event_label: platform,
+        click_url: url
+      });
+    }
+    
+    // Open link in new tab
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <footer className="bg-dark-gray border-t border-tactical-red/20">
       <div className="container mx-auto px-4 py-12">
@@ -21,18 +35,34 @@ const Footer = () => {
               Elite digital marketing strategies for businesses ready to dominate their market. We deliver stealth-level tactics with transparent results.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-tactical-red transition-colors">
+              <button
+                onClick={() => handleSocialClick('Facebook', 'https://www.facebook.com/secretagentdigitalmarketing/')}
+                className="text-gray-400 hover:text-tactical-red transition-colors"
+                aria-label="Visit our Facebook page"
+              >
                 <SafeIcon icon={FiFacebook} className="text-xl" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-tactical-red transition-colors">
+              </button>
+              <button
+                onClick={() => handleSocialClick('Twitter', 'https://twitter.com/secretagentdigitalmarketing')}
+                className="text-gray-400 hover:text-tactical-red transition-colors"
+                aria-label="Visit our Twitter page"
+              >
                 <SafeIcon icon={FiTwitter} className="text-xl" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-tactical-red transition-colors">
+              </button>
+              <button
+                onClick={() => handleSocialClick('LinkedIn', 'https://www.linkedin.com/company/secret-agent-digital-marketing/?viewAsMember=true')}
+                className="text-gray-400 hover:text-tactical-red transition-colors"
+                aria-label="Visit our LinkedIn page"
+              >
                 <SafeIcon icon={FiLinkedin} className="text-xl" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-tactical-red transition-colors">
+              </button>
+              <button
+                onClick={() => handleSocialClick('Instagram', 'https://www.instagram.com/secretagentdigitalmarketing/')}
+                className="text-gray-400 hover:text-tactical-red transition-colors"
+                aria-label="Visit our Instagram page"
+              >
                 <SafeIcon icon={FiInstagram} className="text-xl" />
-              </a>
+              </button>
             </div>
           </div>
 

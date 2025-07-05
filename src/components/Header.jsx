@@ -16,6 +16,7 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -46,8 +47,8 @@ const Header = () => {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20'
+        isScrolled 
+          ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20' 
           : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
@@ -56,14 +57,14 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link
-            to="/"
+          <Link 
+            to="/" 
             className="flex items-center space-x-2"
             onClick={() => handleNavClick('Logo', '/')}
           >
             <SafeIcon icon={FiTarget} className="text-tactical-red text-2xl" />
             <span className="text-xl font-display font-bold gradient-text">
-              Secret Agent Digital
+              Secret Agent Digital Marketing
             </span>
           </Link>
 
