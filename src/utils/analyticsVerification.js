@@ -1,4 +1,4 @@
-// Google Analytics 4 & SiteBehaviour Verification Utilities
+// SiteBehaviour-Focused Analytics Verification Utilities
 
 export const verifyAllAnalytics = () => {
   const results = {
@@ -7,144 +7,120 @@ export const verifyAllAnalytics = () => {
     overall: false
   };
 
-  // Test 1: Check if gtag function exists (GA4)
-  results.tests.gtagFunction = {
-    name: 'Google Analytics 4 gtag Function',
-    passed: typeof window.gtag === 'function',
-    details: typeof window.gtag === 'function' ? 'GA4 gtag function loaded' : 'GA4 gtag function missing'
-  };
-
-  // Test 2: Check dataLayer (GA4)
-  results.tests.dataLayer = {
-    name: 'GA4 DataLayer Exists',
-    passed: window.dataLayer && Array.isArray(window.dataLayer),
-    details: window.dataLayer ? `GA4 dataLayer with ${window.dataLayer.length} entries` : 'GA4 dataLayer missing'
-  };
-
-  // Test 3: Check GA4 script tag
-  const ga4Script = document.querySelector('script[src*="googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"]');
-  results.tests.ga4ScriptTag = {
-    name: 'Google Analytics 4 Script Tag',
-    passed: !!ga4Script,
-    details: ga4Script ? `GA4 script loaded from ${ga4Script.src}` : 'GA4 script tag not found'
-  };
-
-  // Test 4: Check GA4 tracking ID configuration
-  const hasGA4TrackingId = window.dataLayer && window.dataLayer.some(item => 
-    Array.isArray(item) && item[0] === 'config' && item[1] === 'G-CTDQQ8XMKC'
-  );
-  results.tests.ga4Configuration = {
-    name: 'GA4 Configuration',
-    passed: hasGA4TrackingId,
-    details: hasGA4TrackingId ? 'GA4 config called for G-CTDQQ8XMKC' : 'GA4 config not detected'
-  };
-
-  // Test 5: Check SiteBehaviour tracking
+  // Test 1: Check SiteBehaviour script
   const siteBehaviourScript = document.querySelector('#site-behaviour-script-v2');
-  results.tests.siteBehaviour = {
-    name: 'SiteBehaviour Tracking',
-    passed: !!siteBehaviourScript && !!window.sitebehaviourTrackingSecret,
-    details: siteBehaviourScript ? 'SiteBehaviour script loaded and active' : 'SiteBehaviour not detected'
+  results.tests.siteBehaviourScript = {
+    name: 'SiteBehaviour Script Loaded',
+    passed: !!siteBehaviourScript,
+    details: siteBehaviourScript ? `Script loaded from ${siteBehaviourScript.src}` : 'SiteBehaviour script not found'
   };
 
-  // Test 6: Check SiteBehaviour secret
+  // Test 2: Check SiteBehaviour secret
+  const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
   results.tests.siteBehaviourSecret = {
-    name: 'SiteBehaviour Secret Key',
-    passed: window.sitebehaviourTrackingSecret === '507f5743-d0f0-49db-a5f0-0d702b989128',
-    details: window.sitebehaviourTrackingSecret ? 'SiteBehaviour secret key configured' : 'SiteBehaviour secret missing'
+    name: 'SiteBehaviour Secret Configuration',
+    passed: window.sitebehaviourTrackingSecret === expectedSecret,
+    details: window.sitebehaviourTrackingSecret ? 
+      `Secret configured: ${window.sitebehaviourTrackingSecret.substring(0, 8)}...` : 
+      'SiteBehaviour secret not found'
   };
 
-  // Test 7: Fire GA4 test event
-  let ga4EventFired = false;
+  // Test 3: Check SiteBehaviour API availability
+  results.tests.siteBehaviourAPI = {
+    name: 'SiteBehaviour API Active',
+    passed: typeof window.siteBehaviour !== 'undefined',
+    details: typeof window.siteBehaviour !== 'undefined' ? 
+      'SiteBehaviour API object available' : 
+      'SiteBehaviour API not initialized'
+  };
+
+  // Test 4: Test SiteBehaviour event firing
+  let siteBehaviourEventFired = false;
   try {
-    if (window.gtag) {
-      window.gtag('event', 'analytics_verification_test', {
-        event_category: 'testing',
-        event_label: 'ga4_verification',
-        custom_parameter: 'test_successful',
-        timestamp: new Date().toISOString()
-      });
-      ga4EventFired = true;
-    }
+    document.dispatchEvent(new CustomEvent('sitebehaviour-test-event', {
+      detail: {
+        test: true,
+        timestamp: Date.now()
+      }
+    }));
+    siteBehaviourEventFired = true;
   } catch (error) {
-    console.error('Error firing GA4 test event:', error);
+    console.error('Error firing SiteBehaviour test event:', error);
   }
 
-  results.tests.ga4EventFiring = {
-    name: 'GA4 Event Firing Test',
-    passed: ga4EventFired,
-    details: ga4EventFired ? 'GA4 test event fired successfully' : 'Could not fire GA4 test event'
+  results.tests.siteBehaviourEventFiring = {
+    name: 'SiteBehaviour Event Firing Test',
+    passed: siteBehaviourEventFired,
+    details: siteBehaviourEventFired ? 
+      'SiteBehaviour test event fired successfully' : 
+      'Could not fire SiteBehaviour test event'
   };
 
-  // Test 8: Check Firebase Analytics (if configured)
+  // Test 5: Check Firebase Analytics (if configured)
   results.tests.firebaseAnalytics = {
     name: 'Firebase Analytics',
     passed: !!window.firebaseAnalytics,
-    details: window.firebaseAnalytics ? 'Firebase Analytics available' : 'Firebase Analytics not configured'
+    details: window.firebaseAnalytics ? 
+      'Firebase Analytics available' : 
+      'Firebase Analytics not configured'
   };
 
-  // Test 9: Check CyborgCRM (if configured)
+  // Test 6: Check CyborgCRM (if configured)
   results.tests.cyborgCRM = {
     name: 'CyborgCRM Tracking',
     passed: typeof window.CyborgCRM === 'function',
-    details: typeof window.CyborgCRM === 'function' ? 'CyborgCRM tracking available' : 'CyborgCRM not configured'
+    details: typeof window.CyborgCRM === 'function' ? 
+      'CyborgCRM tracking available' : 
+      'CyborgCRM not configured'
   };
 
-  // Calculate overall status
-  const criticalTests = ['gtagFunction', 'dataLayer', 'ga4ScriptTag', 'ga4Configuration', 'ga4EventFiring'];
-  const passedCriticalTests = criticalTests.filter(test => results.tests[test].passed).length;
-  const totalCriticalTests = criticalTests.length;
-  
-  results.overall = passedCriticalTests === totalCriticalTests;
-  results.score = `${passedCriticalTests}/${totalCriticalTests} critical tests passed`;
+  // Calculate overall status - focus on SiteBehaviour as primary
+  const siteBehaviourTests = ['siteBehaviourScript', 'siteBehaviourSecret', 'siteBehaviourEventFiring'];
+  const passedSiteBehaviourTests = siteBehaviourTests.filter(test => results.tests[test].passed).length;
+  const totalSiteBehaviourTests = siteBehaviourTests.length;
+
+  results.overall = passedSiteBehaviourTests === totalSiteBehaviourTests;
+  results.score = `${passedSiteBehaviourTests}/${totalSiteBehaviourTests} SiteBehaviour tests passed`;
 
   return results;
 };
 
 export const logAnalyticsStatus = () => {
   const results = verifyAllAnalytics();
-  
-  console.group('🎯 COMPLETE ANALYTICS VERIFICATION REPORT');
+
+  console.group('🎯 SITEBEHAVIOUR-FOCUSED ANALYTICS VERIFICATION');
   console.log(`📊 Overall Status: ${results.overall ? '✅ FULLY OPERATIONAL' : '⚠️ ISSUES DETECTED'}`);
   console.log(`📈 Score: ${results.score}`);
   console.log(`🕒 Timestamp: ${results.timestamp}`);
-  
+
   console.group('🔍 Detailed Test Results:');
-  
+
   // Group results by platform
-  console.group('📊 Google Analytics 4:');
-  ['gtagFunction', 'dataLayer', 'ga4ScriptTag', 'ga4Configuration', 'ga4EventFiring'].forEach(testKey => {
+  console.group('📊 SiteBehaviour (Primary Platform):');
+  ['siteBehaviourScript', 'siteBehaviourSecret', 'siteBehaviourAPI', 'siteBehaviourEventFiring'].forEach(testKey => {
     const test = results.tests[testKey];
     console.log(`${test.passed ? '✅' : '❌'} ${test.name}: ${test.details}`);
   });
   console.groupEnd();
-  
-  console.group('📊 SiteBehaviour Tracking:');
-  ['siteBehaviour', 'siteBehaviourSecret'].forEach(testKey => {
-    const test = results.tests[testKey];
-    console.log(`${test.passed ? '✅' : '❌'} ${test.name}: ${test.details}`);
-  });
-  console.groupEnd();
-  
+
   console.group('📊 Additional Platforms:');
   ['firebaseAnalytics', 'cyborgCRM'].forEach(testKey => {
     const test = results.tests[testKey];
     console.log(`${test.passed ? '✅' : '❌'} ${test.name}: ${test.details}`);
   });
   console.groupEnd();
-  
+
   console.groupEnd();
 
   if (results.overall) {
-    console.log('🎉 All critical tests passed! Analytics is fully operational.');
-    console.log('📊 GA4 is actively tracking user behavior and sending data to Google.');
-    console.log('📈 SiteBehaviour is monitoring user interactions and engagement.');
+    console.log('🎉 All SiteBehaviour tests passed! Analytics is fully operational.');
+    console.log('📊 SiteBehaviour is actively tracking user behavior and sending data.');
   } else {
-    console.log('⚠️ Some critical tests failed. Check the failed items above.');
+    console.log('⚠️ Some SiteBehaviour tests failed. Check the failed items above.');
   }
 
   console.groupEnd();
-  
+
   return results;
 };
 
@@ -153,34 +129,34 @@ export const trackPageLoadComplete = (pageName) => {
   if (document.readyState === 'complete') {
     setTimeout(() => {
       logAnalyticsStatus();
-      
-      // Fire page-specific tracking
-      if (window.gtag) {
-        window.gtag('event', 'page_load_complete', {
-          event_category: 'navigation',
-          event_label: pageName,
+
+      // Fire page-specific SiteBehaviour tracking
+      document.dispatchEvent(new CustomEvent('sitebehaviour-page-load-complete', {
+        detail: {
+          page_name: pageName,
           page_title: document.title,
           page_location: window.location.href,
           timestamp: new Date().toISOString()
-        });
-        console.log(`📄 GA4 Page load complete tracked for: ${pageName}`);
-      }
+        }
+      }));
+
+      console.log(`📄 SiteBehaviour page load complete tracked for: ${pageName}`);
     }, 1000);
   } else {
     window.addEventListener('load', () => {
       setTimeout(() => {
         logAnalyticsStatus();
-        
-        if (window.gtag) {
-          window.gtag('event', 'page_load_complete', {
-            event_category: 'navigation',
-            event_label: pageName,
+
+        document.dispatchEvent(new CustomEvent('sitebehaviour-page-load-complete', {
+          detail: {
+            page_name: pageName,
             page_title: document.title,
             page_location: window.location.href,
             timestamp: new Date().toISOString()
-          });
-          console.log(`📄 GA4 Page load complete tracked for: ${pageName}`);
-        }
+          }
+        }));
+
+        console.log(`📄 SiteBehaviour page load complete tracked for: ${pageName}`);
       }, 1000);
     });
   }
@@ -191,10 +167,10 @@ if (typeof window !== 'undefined') {
   // Make verification functions available globally for testing
   window.verifyAllAnalytics = verifyAllAnalytics;
   window.logAnalyticsStatus = logAnalyticsStatus;
-  
-  // Auto-run verification after a short delay
+
+  // Auto-run verification after SiteBehaviour should be loaded
   setTimeout(() => {
-    console.log('🔍 Auto-running complete analytics verification...');
+    console.log('🔍 Auto-running SiteBehaviour-focused analytics verification...');
     logAnalyticsStatus();
   }, 3000);
 }

@@ -1,57 +1,67 @@
-// Enhanced Google Analytics 4 & Multi-Platform Analytics Helper Functions
+// Enhanced SiteBehaviour & Multi-Platform Analytics Helper Functions
 
 // Automatic page view tracking for React Router
 export const initializePageTracking = () => {
-  // Track initial page load
-  if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-    window.gtag('config', 'G-CTDQQ8XMKC', {
-      page_title: document.title,
-      page_location: window.location.href,
-      send_page_view: true
-    });
-    console.log('📈 Initial page view tracked:', window.location.pathname);
+  // Track initial page load with SiteBehaviour focus
+  if (typeof window !== 'undefined') {
+    console.log('📈 Initializing SiteBehaviour-focused page tracking...');
+    
+    // Send page view to SiteBehaviour
+    document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
+      detail: {
+        page_title: document.title,
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        timestamp: new Date().toISOString()
+      }
+    }));
+    
+    console.log('📊 Initial page view tracked:', window.location.pathname);
   }
 };
 
 export const trackEvent = (eventName, parameters = {}) => {
-  // Track with Google Analytics 4
-  if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-    window.gtag('event', eventName, {
-      ...parameters,
-      timestamp: new Date().toISOString()
-    });
-    console.log('📊 GA4 Event tracked:', eventName, parameters);
+  // Primary tracking with SiteBehaviour
+  if (typeof window !== 'undefined') {
+    // Send to SiteBehaviour
+    document.dispatchEvent(new CustomEvent(`sitebehaviour-${eventName}`, {
+      detail: {
+        ...parameters,
+        timestamp: new Date().toISOString()
+      }
+    }));
+    
+    console.log('📊 SiteBehaviour Event tracked:', eventName, parameters);
   }
-  
-  // Track with Firebase Analytics
+
+  // Track with Firebase Analytics if available
   if (typeof window !== 'undefined' && window.firebaseAnalytics) {
     window.firebaseAnalytics.logEvent(eventName, parameters);
   }
-  
-  // Track with CyborgCRM
+
+  // Track with CyborgCRM if available
   if (typeof window !== 'undefined' && window.CyborgCRM) {
     window.CyborgCRM('track', eventName, parameters);
-  }
-  
-  // Track with SiteBehaviour if available
-  if (typeof window !== 'undefined' && window.sitebehaviourTrackingSecret) {
-    // SiteBehaviour automatically tracks user behavior
-    console.log('📊 SiteBehaviour tracking active');
   }
 };
 
 export const trackPageView = (pagePath, pageTitle) => {
-  // Track with Google Analytics 4
-  if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-    window.gtag('config', 'G-CTDQQ8XMKC', {
-      page_path: pagePath,
-      page_title: pageTitle,
-      page_location: window.location.href
-    });
-    console.log('📄 GA4 Page view tracked:', pagePath, pageTitle);
+  // Primary SiteBehaviour page tracking
+  if (typeof window !== 'undefined') {
+    document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
+      detail: {
+        page_path: pagePath,
+        page_title: pageTitle,
+        page_location: window.location.href,
+        referrer: document.referrer,
+        timestamp: new Date().toISOString()
+      }
+    }));
+    
+    console.log('📄 SiteBehaviour Page view tracked:', pagePath, pageTitle);
   }
-  
-  // Track with Firebase Analytics
+
+  // Track with Firebase Analytics if available
   if (typeof window !== 'undefined' && window.firebaseAnalytics) {
     window.firebaseAnalytics.logEvent('page_view', {
       page_path: pagePath,
@@ -59,8 +69,8 @@ export const trackPageView = (pagePath, pageTitle) => {
       page_location: window.location.href
     });
   }
-  
-  // Track with CyborgCRM
+
+  // Track with CyborgCRM if available
   if (typeof window !== 'undefined' && window.CyborgCRM) {
     window.CyborgCRM('track', 'pageview', {
       page: pagePath,
@@ -78,29 +88,12 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
     transaction_id: `${conversionType}_${Date.now()}`
   };
 
-  // Track with Google Analytics 4
-  if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-    // Track conversion event
-    window.gtag('event', 'conversion', conversionData);
-    
-    // Track purchase event for e-commerce
-    window.gtag('event', 'purchase', {
-      transaction_id: conversionData.transaction_id,
-      value: value,
-      currency: currency,
-      items: [{
-        item_id: conversionType,
-        item_name: conversionType,
-        category: 'marketing_service',
-        price: value,
-        quantity: 1
-      }]
-    });
-    
-    console.log('💰 GA4 Conversion tracked:', conversionType, value);
-  }
-  
-  // Track with Firebase Analytics
+  // Track with SiteBehaviour
+  document.dispatchEvent(new CustomEvent('sitebehaviour-conversion', {
+    detail: conversionData
+  }));
+
+  // Track with Firebase Analytics if available
   if (typeof window !== 'undefined' && window.firebaseAnalytics) {
     window.firebaseAnalytics.logEvent('purchase', {
       currency: currency,
@@ -108,11 +101,13 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
       transaction_id: conversionData.transaction_id
     });
   }
-  
-  // Track with CyborgCRM
+
+  // Track with CyborgCRM if available
   if (typeof window !== 'undefined' && window.CyborgCRM) {
     window.CyborgCRM('track', 'conversion', conversionData);
   }
+
+  console.log('💰 Conversion tracked:', conversionType, value);
 };
 
 export const trackFormSubmission = (formName, formData = {}) => {
@@ -124,10 +119,13 @@ export const trackFormSubmission = (formName, formData = {}) => {
     ...formData
   };
 
+  // Track with SiteBehaviour
   trackEvent('form_submit', eventData);
-  
+
   // Also track as a lead conversion
   trackConversion('lead_form_submission', 99.99, 'USD');
+
+  console.log('📝 Form submission tracked:', formName);
 };
 
 export const trackButtonClick = (buttonName, location = '', additionalData = {}) => {
@@ -140,7 +138,9 @@ export const trackButtonClick = (buttonName, location = '', additionalData = {})
     ...additionalData
   };
 
+  // Track with SiteBehaviour
   trackEvent('click', eventData);
+
   console.log('🖱️ Button click tracked:', buttonName, 'at', location);
 };
 
@@ -154,6 +154,7 @@ export const trackUserEngagement = (action, element, additionalData = {}) => {
     ...additionalData
   };
 
+  // Track with SiteBehaviour
   trackEvent('engagement', eventData);
 };
 

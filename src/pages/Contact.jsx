@@ -10,6 +10,7 @@ const { FiMail, FiPhone, FiMapPin, FiSend, FiCheck, FiClock, FiTarget } = FiIcon
 const Contact = () => {
   const [heroRef, heroInView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [formRef, formInView] = useInView({ threshold: 0.1, triggerOnce: true });
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,22 +21,12 @@ const Contact = () => {
     message: '',
     urgency: 'standard'
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Google Analytics Test & Page Tracking
+  // SiteBehaviour Page Tracking
   useEffect(() => {
-    if (window.gtag) {
-      console.log('✅ Google Analytics loaded on Contact page');
-      window.gtag('config', 'G-CTDQQ8XMKC', {
-        page_title: 'Contact - Secret Agent Digital Marketing',
-        page_location: window.location.href
-      });
-      window.gtag('event', 'page_load', {
-        event_category: 'engagement',
-        event_label: 'contact_page'
-      });
-    }
     trackPageView('/contact', 'Contact - Secret Agent Digital Marketing');
     trackEvent('page_engagement', {
       action: 'page_load',
@@ -46,16 +37,6 @@ const Contact = () => {
   // Track conversion when form is submitted
   useEffect(() => {
     if (isSubmitted) {
-      // Google Analytics conversion tracking
-      if (window.gtag) {
-        window.gtag('event', 'conversion', {
-          send_to: 'G-CTDQQ8XMKC/CONVERSION_ID',
-          event_category: 'form',
-          event_label: 'contact_form_submission',
-          value: 99.99,
-          currency: 'USD'
-        });
-      }
       trackConversion('contact_form_submission', 99.99, 'USD');
       trackFormSubmission('contact_form', {
         name: formData.name,
@@ -73,13 +54,6 @@ const Contact = () => {
     setFormData({ ...formData, [name]: value });
 
     // Track form field interactions
-    if (window.gtag) {
-      window.gtag('event', 'form_interaction', {
-        event_category: 'form',
-        event_label: name,
-        field_value: name === 'email' ? 'email_entered' : (value ? 'filled' : 'cleared')
-      });
-    }
     trackEvent('form_interaction', {
       field: name,
       value: name === 'email' ? 'email_entered' : (value ? 'filled' : 'cleared'),
@@ -92,15 +66,6 @@ const Contact = () => {
     setIsSubmitting(true);
 
     // Track form submission attempt
-    if (window.gtag) {
-      window.gtag('event', 'form_submit_attempt', {
-        event_category: 'form',
-        event_label: 'contact_form',
-        urgency: formData.urgency,
-        service: formData.service,
-        budget: formData.budget
-      });
-    }
     trackEvent('form_submit_attempt', {
       form: 'contact',
       page: '/contact',
@@ -111,6 +76,7 @@ const Contact = () => {
 
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));
+
     setIsSubmitting(false);
     setIsSubmitted(true);
   };
@@ -137,17 +103,7 @@ const Contact = () => {
   if (isSubmitted) {
     return (
       <div className="min-h-screen pt-20 flex items-center justify-center bg-jet-black">
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-        <script dangerouslySetInnerHTML={{__html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-CTDQQ8XMKC');
-          console.log('Contact thank you page Google Analytics loaded');
-        `}} />
-
-        <motion.div 
+        <motion.div
           className="text-center max-w-2xl mx-auto px-4"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -156,11 +112,11 @@ const Contact = () => {
           <div className="w-20 h-20 bg-tactical-red/20 rounded-full flex items-center justify-center mb-6 mx-auto">
             <SafeIcon icon={FiCheck} className="text-tactical-red text-4xl" />
           </div>
-          
+
           <h1 className="text-4xl font-display font-bold mb-6">
             Mission <span className="text-tactical-red">Received</span>
           </h1>
-          
+
           <p className="text-xl text-gray-300 mb-8">
             Your strategy briefing has been received. One of our operatives will contact you within 24 hours to discuss your marketing objectives and develop your custom battle plan.
           </p>
@@ -189,20 +145,10 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen pt-20">
-      {/* Google tag (gtag.js) */}
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-      <script dangerouslySetInnerHTML={{__html: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-CTDQQ8XMKC');
-        console.log('Contact page Google Analytics loaded');
-      `}} />
-
       {/* Hero Section */}
       <section ref={heroRef} className="py-20 bg-jet-black">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 50 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
@@ -224,7 +170,7 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <motion.div 
+              <motion.div
                 className="bg-medium-gray rounded-lg p-8 tactical-border"
                 initial={{ opacity: 0, x: -50 }}
                 animate={formInView ? { opacity: 1, x: 0 } : {}}
@@ -238,9 +184,9 @@ const Contact = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold mb-2">Name *</label>
-                      <input 
-                        type="text" 
-                        name="name" 
+                      <input
+                        type="text"
+                        name="name"
                         value={formData.name}
                         onChange={handleInputChange}
                         required
@@ -250,9 +196,9 @@ const Contact = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2">Email *</label>
-                      <input 
-                        type="email" 
-                        name="email" 
+                      <input
+                        type="email"
+                        name="email"
                         value={formData.email}
                         onChange={handleInputChange}
                         required
@@ -265,9 +211,9 @@ const Contact = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold mb-2">Phone</label>
-                      <input 
-                        type="tel" 
-                        name="phone" 
+                      <input
+                        type="tel"
+                        name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 bg-dark-gray border border-gray-600 rounded-lg focus:border-tactical-red focus:outline-none transition-colors"
@@ -276,9 +222,9 @@ const Contact = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2">Company</label>
-                      <input 
-                        type="text" 
-                        name="company" 
+                      <input
+                        type="text"
+                        name="company"
                         value={formData.company}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 bg-dark-gray border border-gray-600 rounded-lg focus:border-tactical-red focus:outline-none transition-colors"
@@ -289,8 +235,8 @@ const Contact = () => {
 
                   <div>
                     <label className="block text-sm font-semibold mb-2">Primary Service Interest</label>
-                    <select 
-                      name="service" 
+                    <select
+                      name="service"
                       value={formData.service}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 bg-dark-gray border border-gray-600 rounded-lg focus:border-tactical-red focus:outline-none transition-colors"
@@ -304,8 +250,8 @@ const Contact = () => {
 
                   <div>
                     <label className="block text-sm font-semibold mb-2">Monthly Marketing Budget</label>
-                    <select 
-                      name="budget" 
+                    <select
+                      name="budget"
                       value={formData.budget}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 bg-dark-gray border border-gray-600 rounded-lg focus:border-tactical-red focus:outline-none transition-colors"
@@ -326,17 +272,17 @@ const Contact = () => {
                         { value: 'emergency', label: 'Emergency', desc: 'ASAP' }
                       ].map((urgency) => (
                         <label key={urgency.value} className="cursor-pointer">
-                          <input 
-                            type="radio" 
-                            name="urgency" 
+                          <input
+                            type="radio"
+                            name="urgency"
                             value={urgency.value}
                             checked={formData.urgency === urgency.value}
                             onChange={handleInputChange}
                             className="sr-only"
                           />
                           <div className={`p-3 border-2 rounded-lg text-center transition-colors ${
-                            formData.urgency === urgency.value 
-                              ? 'border-tactical-red bg-tactical-red/20 text-tactical-red' 
+                            formData.urgency === urgency.value
+                              ? 'border-tactical-red bg-tactical-red/20 text-tactical-red'
                               : 'border-gray-600 hover:border-tactical-red/50'
                           }`}>
                             <div className="font-semibold">{urgency.label}</div>
@@ -349,8 +295,8 @@ const Contact = () => {
 
                   <div>
                     <label className="block text-sm font-semibold mb-2">Mission Objectives</label>
-                    <textarea 
-                      name="message" 
+                    <textarea
+                      name="message"
                       value={formData.message}
                       onChange={handleInputChange}
                       rows={4}
@@ -359,8 +305,8 @@ const Contact = () => {
                     ></textarea>
                   </div>
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={isSubmitting}
                     className="w-full px-8 py-4 btn-primary rounded-lg font-semibold text-lg flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
@@ -382,7 +328,7 @@ const Contact = () => {
 
             {/* Contact Info */}
             <div className="lg:col-span-1">
-              <motion.div 
+              <motion.div
                 className="space-y-8"
                 initial={{ opacity: 0, x: 50 }}
                 animate={formInView ? { opacity: 1, x: 0 } : {}}
@@ -403,7 +349,7 @@ const Contact = () => {
                       <SafeIcon icon={FiPhone} className="text-tactical-red" />
                       <div>
                         <div className="font-semibold">Phone</div>
-                        <div className="text-gray-400 text-sm">(555) 123-AGENT</div>
+                        <div className="text-gray-400 text-sm">301-205-5131</div>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">

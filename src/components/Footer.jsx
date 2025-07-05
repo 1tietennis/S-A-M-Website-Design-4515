@@ -14,12 +14,11 @@ const Footer = () => {
             <div className="flex items-center space-x-2 mb-4">
               <SafeIcon icon={FiTarget} className="text-tactical-red text-2xl" />
               <span className="text-xl font-display font-bold gradient-text">
-                Secret Agent Digital
+                Secret Agent Digital Marketing
               </span>
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
-              Elite digital marketing strategies for businesses ready to dominate their market. 
-              We deliver stealth-level tactics with transparent results.
+              Elite digital marketing strategies for businesses ready to dominate their market. We deliver stealth-level tactics with transparent results.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-tactical-red transition-colors">
@@ -57,7 +56,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <SafeIcon icon={FiPhone} className="text-tactical-red" />
-                <span className="text-gray-400">(555) 123-AGENT</span>
+                <span className="text-gray-400">301-205-5131</span>
               </div>
               <div className="flex items-center space-x-2">
                 <SafeIcon icon={FiMapPin} className="text-tactical-red" />

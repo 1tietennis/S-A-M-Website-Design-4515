@@ -7,10 +7,11 @@ const { FiCheck, FiX, FiActivity, FiCode, FiEye, FiTarget } = FiIcons;
 
 const AnalyticsDebugger = ({ showDebugger = false }) => {
   const [analyticsStatus, setAnalyticsStatus] = useState({
-    ga4: false,
-    dataLayer: false,
-    script: false,
     siteBehaviour: false,
+    siteBehaviourSecret: false,
+    siteBehaviourScript: false,
+    firebaseAnalytics: false,
+    cyborgCRM: false,
     events: 0
   });
 
@@ -21,20 +22,19 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
 
     const checkAnalytics = () => {
       const status = {
-        ga4: typeof window.gtag === 'function',
-        dataLayer: window.dataLayer && Array.isArray(window.dataLayer),
-        script: !!document.querySelector('script[src*="googletagmanager.com/gtag/js"]'),
-        siteBehaviour: !!document.querySelector('#site-behaviour-script-v2') && !!window.sitebehaviourTrackingSecret,
-        events: window.dataLayer ? window.dataLayer.length : 0
+        siteBehaviour: typeof window.siteBehaviour !== 'undefined',
+        siteBehaviourSecret: window.sitebehaviourTrackingSecret === '507f5743-d0f0-49db-a5f0-0d702b989128',
+        siteBehaviourScript: !!document.querySelector('#site-behaviour-script-v2'),
+        firebaseAnalytics: !!window.firebaseAnalytics,
+        cyborgCRM: typeof window.CyborgCRM === 'function',
+        events: window.siteBehaviour ? 1 : 0
       };
 
       setAnalyticsStatus(status);
 
       // Log status
-      const log = `[${new Date().toLocaleTimeString()}] Analytics Check: ${
-        Object.entries(status).every(([key, value]) => key === 'events' || value === true) ? 'ALL OPERATIONAL' : 'ISSUES DETECTED'
-      }`;
-      
+      const siteBehaviourOperational = status.siteBehaviour && status.siteBehaviourSecret && status.siteBehaviourScript;
+      const log = `[${new Date().toLocaleTimeString()}] SiteBehaviour: ${siteBehaviourOperational ? 'FULLY OPERATIONAL' : 'ISSUES DETECTED'}`;
       setDebugLogs(prev => [...prev.slice(-4), log]);
     };
 
@@ -44,13 +44,13 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
     // Check every 5 seconds
     const interval = setInterval(checkAnalytics, 5000);
 
-    // Override console.log to catch analytics logs
+    // Override console.log to catch SiteBehaviour logs
     const originalLog = console.log;
     console.log = (...args) => {
       originalLog.apply(console, args);
-      
       const message = args.join(' ');
-      if (message.includes('GA4') || message.includes('gtag') || message.includes('SiteBehaviour') || message.includes('G-CTDQQ8XMKC')) {
+      
+      if (message.includes('SiteBehaviour') || message.includes('sitebehaviour') || message.includes('507f5743')) {
         const log = `[${new Date().toLocaleTimeString()}] ${message}`;
         setDebugLogs(prev => [...prev.slice(-9), log]);
       }
@@ -63,23 +63,31 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
   }, [showDebugger]);
 
   const fireTestEvent = () => {
-    if (window.gtag) {
-      window.gtag('event', 'debug_test', {
-        event_category: 'debugging',
-        event_label: 'manual_test',
-        value: 1,
-        timestamp: new Date().toISOString()
-      });
-      
-      const log = `[${new Date().toLocaleTimeString()}] GA4 Test event fired`;
-      setDebugLogs(prev => [...prev.slice(-9), log]);
-    }
+    // Fire SiteBehaviour test event
+    document.dispatchEvent(new CustomEvent('sitebehaviour-debug-test', {
+      detail: {
+        test: 'manual_debug_test',
+        timestamp: new Date().toISOString(),
+        value: 1
+      }
+    }));
+
+    const log = `[${new Date().toLocaleTimeString()}] SiteBehaviour test event fired`;
+    setDebugLogs(prev => [...prev.slice(-9), log]);
   };
 
   const runFullTest = () => {
     if (window.logAnalyticsStatus) {
       window.logAnalyticsStatus();
-      const log = `[${new Date().toLocaleTimeString()}] Full analytics test completed`;
+      const log = `[${new Date().toLocaleTimeString()}] Full SiteBehaviour test completed`;
+      setDebugLogs(prev => [...prev.slice(-9), log]);
+    }
+  };
+
+  const checkConnection = () => {
+    if (window.checkSiteBehaviourConnection) {
+      const isConnected = window.checkSiteBehaviourConnection();
+      const log = `[${new Date().toLocaleTimeString()}] Connection check: ${isConnected ? 'CONNECTED' : 'ISSUES'}`;
       setDebugLogs(prev => [...prev.slice(-9), log]);
     }
   };
@@ -87,57 +95,76 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
   if (!showDebugger) return null;
 
   return (
-    <motion.div 
+    <motion.div
       className="fixed bottom-4 right-4 bg-dark-gray border border-tactical-red rounded-lg p-4 max-w-sm z-50 shadow-lg"
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
     >
       <div className="flex items-center justify-between mb-3">
-        <h4 className="text-tactical-red font-bold text-sm">Analytics Debug Panel</h4>
+        <h4 className="text-tactical-red font-bold text-sm">SiteBehaviour Debug Panel</h4>
         <SafeIcon icon={FiActivity} className="text-tactical-red" />
       </div>
 
       <div className="space-y-2 mb-3">
         <div className="flex items-center justify-between text-xs">
-          <span>GA4 Function:</span>
-          <SafeIcon icon={analyticsStatus.ga4 ? FiCheck : FiX} 
-                   className={analyticsStatus.ga4 ? 'text-green-400' : 'text-red-400'} />
+          <span>SiteBehaviour API:</span>
+          <SafeIcon 
+            icon={analyticsStatus.siteBehaviour ? FiCheck : FiX} 
+            className={analyticsStatus.siteBehaviour ? 'text-green-400' : 'text-red-400'} 
+          />
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span>DataLayer:</span>
-          <SafeIcon icon={analyticsStatus.dataLayer ? FiCheck : FiX} 
-                   className={analyticsStatus.dataLayer ? 'text-green-400' : 'text-red-400'} />
+          <span>Secret Key:</span>
+          <SafeIcon 
+            icon={analyticsStatus.siteBehaviourSecret ? FiCheck : FiX} 
+            className={analyticsStatus.siteBehaviourSecret ? 'text-green-400' : 'text-red-400'} 
+          />
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span>GA4 Script:</span>
-          <SafeIcon icon={analyticsStatus.script ? FiCheck : FiX} 
-                   className={analyticsStatus.script ? 'text-green-400' : 'text-red-400'} />
+          <span>Script Loaded:</span>
+          <SafeIcon 
+            icon={analyticsStatus.siteBehaviourScript ? FiCheck : FiX} 
+            className={analyticsStatus.siteBehaviourScript ? 'text-green-400' : 'text-red-400'} 
+          />
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span>SiteBehaviour:</span>
-          <SafeIcon icon={analyticsStatus.siteBehaviour ? FiCheck : FiX} 
-                   className={analyticsStatus.siteBehaviour ? 'text-green-400' : 'text-red-400'} />
+          <span>Firebase:</span>
+          <SafeIcon 
+            icon={analyticsStatus.firebaseAnalytics ? FiCheck : FiX} 
+            className={analyticsStatus.firebaseAnalytics ? 'text-green-400' : 'text-red-400'} 
+          />
         </div>
         <div className="flex items-center justify-between text-xs">
-          <span>Events:</span>
-          <span className="text-tactical-red font-mono">{analyticsStatus.events}</span>
+          <span>CyborgCRM:</span>
+          <SafeIcon 
+            icon={analyticsStatus.cyborgCRM ? FiCheck : FiX} 
+            className={analyticsStatus.cyborgCRM ? 'text-green-400' : 'text-red-400'} 
+          />
         </div>
       </div>
 
       <div className="space-y-2 mb-3">
-        <button 
+        <button
           onClick={fireTestEvent}
           className="w-full px-3 py-1 bg-tactical-red text-white rounded text-xs hover:bg-red-700 transition-colors"
         >
-          Fire GA4 Test Event
+          Fire SiteBehaviour Test
         </button>
-        <button 
-          onClick={runFullTest}
-          className="w-full px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700 transition-colors"
-        >
-          Run Full Test
-        </button>
+        <div className="grid grid-cols-2 gap-1">
+          <button
+            onClick={runFullTest}
+            className="px-2 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700 transition-colors"
+          >
+            Full Test
+          </button>
+          <button
+            onClick={checkConnection}
+            className="px-2 py-1 bg-green-600 text-white rounded text-xs hover:bg-green-700 transition-colors"
+          >
+            Check Connection
+          </button>
+        </div>
       </div>
 
       <div className="border-t border-gray-600 pt-2">

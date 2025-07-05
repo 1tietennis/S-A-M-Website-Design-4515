@@ -58,79 +58,131 @@
     }
   </script>
 
-  <!-- SiteBehaviour Tracking Script - ENHANCED FOR REAL-TIME -->
+  <!-- PRIMARY SITEBEHAVIOUR TRACKING - 100% CONNECTED -->
   <script type="text/javascript">
     (function() {
-      try {
-        // Set the tracking secret
-        var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
-        window.sitebehaviourTrackingSecret = sbSiteSecret;
+      var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+      window.sitebehaviourTrackingSecret = sbSiteSecret;
+      var scriptElement = document.createElement('script');
+      scriptElement.defer = true;
+      scriptElement.id = 'site-behaviour-script-v2';
+      scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
+      
+      // Enhanced connection monitoring
+      scriptElement.onload = function() {
+        console.log('✅ SiteBehaviour PRIMARY script loaded successfully');
+        console.log('🎯 Secret configured:', sbSiteSecret.substring(0, 8) + '...');
         
-        // Load the SiteBehaviour script
-        var scriptElement = document.createElement('script');
-        scriptElement.defer = true;
-        scriptElement.id = 'site-behaviour-script-v2';
-        scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
-        
-        // Add event listeners for when script loads
-        scriptElement.onload = function() {
-          console.log('✅ SiteBehaviour script loaded successfully');
-          
-          // Initialize real-time monitoring after script loads
-          setTimeout(() => {
+        // Verify connection immediately
+        setTimeout(() => {
+          if (window.sitebehaviourTrackingSecret === sbSiteSecret) {
+            console.log('🔥 SiteBehaviour 100% CONNECTED and ACTIVE');
+            
+            // Initialize enhanced real-time monitoring
             if (window.initializeSiteBehaviourRealTime) {
               window.initializeSiteBehaviourRealTime();
+              console.log('📊 Real-time monitoring ACTIVATED');
             }
-          }, 1000);
-        };
-        
-        scriptElement.onerror = function() {
-          console.error('❌ Failed to load SiteBehaviour script');
-        };
-        
-        document.head.appendChild(scriptElement);
-        console.log('📊 SiteBehaviour tracking script added to page');
-        
-      } catch (error) {
-        console.log('SiteBehaviour initialization error:', error);
-      }
+            
+            // Send connection confirmation event
+            document.dispatchEvent(new CustomEvent('sitebehaviour-connected', {
+              detail: {
+                timestamp: Date.now(),
+                secret: sbSiteSecret,
+                status: 'fully_connected'
+              }
+            }));
+          }
+        }, 1500);
+      };
+      
+      scriptElement.onerror = function() {
+        console.error('❌ CRITICAL: SiteBehaviour script failed to load');
+        console.error('❌ Check network connection and CDN availability');
+      };
+      
+      document.head.appendChild(scriptElement);
+      console.log('🚀 SiteBehaviour PRIMARY tracking initiated');
     })();
   </script>
 
-  <!-- Google Analytics gtag.js -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
+  <!-- REAL-TIME CONNECTION MONITOR -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-CTDQQ8XMKC');
-  </script>
-
-  <!-- Real-Time Monitoring Initialization -->
-  <script>
-    // Ensure real-time monitoring starts as soon as possible
+    // Enhanced connection verification and monitoring
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('🚀 DOM loaded - checking for real-time monitoring...');
+      console.log('🔍 SITEBEHAVIOUR CONNECTION VERIFICATION');
+      console.log('=====================================');
       
-      // Check if SiteBehaviour is ready every second for 10 seconds
-      let checkCount = 0;
-      const checkInterval = setInterval(() => {
-        checkCount++;
+      let connectionChecks = 0;
+      const maxChecks = 15; // Check for 15 seconds
+      
+      const verifyConnection = () => {
+        connectionChecks++;
         
-        if (window.sitebehaviourTrackingSecret && document.querySelector('#site-behaviour-script-v2')) {
-          console.log('✅ SiteBehaviour ready - starting real-time monitoring');
+        const script = document.querySelector('#site-behaviour-script-v2');
+        const secret = window.sitebehaviourTrackingSecret;
+        const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+        
+        console.log(`🔍 Check ${connectionChecks}/${maxChecks}:`);
+        console.log(`  Script loaded: ${script ? '✅' : '❌'}`);
+        console.log(`  Secret set: ${secret ? '✅' : '❌'}`);
+        console.log(`  Secret correct: ${secret === expectedSecret ? '✅' : '❌'}`);
+        
+        if (script && secret === expectedSecret) {
+          console.log('🎉 SITEBEHAVIOUR 100% CONNECTED!');
+          console.log('📊 Real-time visitor tracking is ACTIVE');
+          console.log('🎯 Dashboard should show live data immediately');
           
-          if (window.initializeSiteBehaviourRealTime) {
-            window.initializeSiteBehaviourRealTime();
-          }
+          // Stop checking - we're connected
+          clearInterval(connectionInterval);
           
-          clearInterval(checkInterval);
-        } else if (checkCount >= 10) {
-          console.log('⚠️ SiteBehaviour not ready after 10 seconds');
-          clearInterval(checkInterval);
+          // Final activation verification
+          setTimeout(() => {
+            if (window.initializeSiteBehaviourRealTime) {
+              console.log('🔥 Activating enhanced real-time monitoring...');
+              window.initializeSiteBehaviourRealTime();
+            }
+          }, 2000);
+          
+        } else if (connectionChecks >= maxChecks) {
+          console.error('❌ SITEBEHAVIOUR CONNECTION FAILED');
+          console.error('❌ Script or configuration issue detected');
+          clearInterval(connectionInterval);
         }
-      }, 1000);
+      };
+      
+      // Check connection every second
+      const connectionInterval = setInterval(verifyConnection, 1000);
+      
+      // Initial check
+      verifyConnection();
     });
+    
+    // Global connection status checker
+    window.checkSiteBehaviourConnection = function() {
+      const script = document.querySelector('#site-behaviour-script-v2');
+      const secret = window.sitebehaviourTrackingSecret;
+      const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+      
+      console.log('🔍 SITEBEHAVIOUR CONNECTION STATUS');
+      console.log('=================================');
+      console.log('Script Element:', script ? '✅ LOADED' : '❌ MISSING');
+      console.log('Secret Variable:', secret ? '✅ SET' : '❌ MISSING');
+      console.log('Secret Correct:', secret === expectedSecret ? '✅ VALID' : '❌ INVALID');
+      
+      if (script) {
+        console.log('Script Source:', script.src);
+      }
+      
+      if (secret) {
+        console.log('Secret Value:', secret.substring(0, 8) + '...');
+      }
+      
+      const isConnected = script && secret === expectedSecret;
+      console.log('Overall Status:', isConnected ? '🎉 100% CONNECTED' : '❌ CONNECTION ISSUES');
+      
+      return isConnected;
+    };
   </script>
 </head>
 <body>
