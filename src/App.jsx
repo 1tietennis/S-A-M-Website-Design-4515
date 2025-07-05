@@ -9,6 +9,7 @@ import CaseStudies from './pages/CaseStudies';
 import Contact from './pages/Contact';
 import VideoMarketing from './pages/VideoMarketing';
 import AnalyticsDebugger from './components/AnalyticsDebugger';
+import SiteBehaviourController from './components/SiteBehaviourController';
 import { initializePageTracking, trackSPANavigation } from './utils/analytics';
 import { trackPageLoadComplete } from './utils/analyticsVerification';
 import './App.css';
@@ -34,7 +35,7 @@ function App() {
   useEffect(() => {
     // Initialize page tracking when app loads
     initializePageTracking();
-    
+
     // Track initial app load
     if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
       window.gtag('event', 'app_loaded', {
@@ -42,15 +43,23 @@ function App() {
         timestamp: new Date().toISOString()
       });
     }
-    
+
     // Run comprehensive analytics verification
     trackPageLoadComplete('App');
-    
+
+    // Initialize SiteBehaviour commands
+    import('./utils/siteBehaviourCommands.js').then(() => {
+      console.log('🎯 SiteBehaviour commands loaded');
+    });
+
     console.log('🚀 Secret Agent Digital Marketing App Loaded with Analytics');
   }, []);
 
-  // Show debugger in development
+  // Show debugger in development or with debug parameter
   const showDebugger = process.env.NODE_ENV === 'development' || window.location.search.includes('debug=true');
+  
+  // Show SiteBehaviour controller with sitebehaviour parameter
+  const showSiteBehaviour = window.location.search.includes('sitebehaviour=true') || process.env.NODE_ENV === 'development';
 
   return (
     <Router>
@@ -69,9 +78,12 @@ function App() {
           </main>
           <Footer />
         </AnalyticsWrapper>
-        
+
         {/* Analytics Debugger - shows when debug=true in URL or in development */}
         <AnalyticsDebugger showDebugger={showDebugger} />
+
+        {/* SiteBehaviour Controller - shows when sitebehaviour=true in URL or in development */}
+        <SiteBehaviourController showController={showSiteBehaviour} />
       </div>
     </Router>
   );
