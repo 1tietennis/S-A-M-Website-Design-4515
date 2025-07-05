@@ -47,12 +47,20 @@ function App() {
     // Run comprehensive analytics verification
     trackPageLoadComplete('App');
 
-    // Initialize SiteBehaviour commands
-    import('./utils/siteBehaviourCommands.js').then(() => {
-      console.log('🎯 SiteBehaviour commands loaded');
+    // Initialize SiteBehaviour commands and real-time monitoring
+    Promise.all([
+      import('./utils/siteBehaviourCommands.js'),
+      import('./utils/siteBehaviourRealTimeMonitor.js')
+    ]).then(([commands, monitor]) => {
+      console.log('🎯 SiteBehaviour systems loaded');
+      
+      // Auto-start real-time monitoring
+      if (monitor.default && monitor.default.initializeRealTimeMonitoring) {
+        monitor.default.initializeRealTimeMonitoring();
+      }
     });
 
-    console.log('🚀 Secret Agent Digital Marketing App Loaded with Analytics');
+    console.log('🚀 Secret Agent Digital Marketing App Loaded with Real-Time Analytics');
   }, []);
 
   // Show debugger in development or with debug parameter

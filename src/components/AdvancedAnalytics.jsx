@@ -114,7 +114,7 @@ const AdvancedAnalytics = () => {
 
     document.addEventListener('mousemove', trackMouseMovement);
     document.addEventListener('click', trackClick);
-    
+
     // Store cleanup functions
     window.advancedAnalyticsCleanup = window.advancedAnalyticsCleanup || [];
     window.advancedAnalyticsCleanup.push(() => {
@@ -152,14 +152,14 @@ const AdvancedAnalytics = () => {
 
     // Track on initial load and route changes
     trackPageVisit();
-    
+
     // Listen for route changes (for SPA)
     const originalPushState = history.pushState;
     history.pushState = function() {
       originalPushState.apply(history, arguments);
       setTimeout(trackPageVisit, 100);
     };
-    
+
     window.addEventListener('popstate', trackPageVisit);
   };
 
@@ -172,7 +172,7 @@ const AdvancedAnalytics = () => {
       { name: 'Form Started', event: 'form_interaction', weight: 4 },
       { name: 'Form Submitted', event: 'form_submit', weight: 5 }
     ];
-    
+
     const trackFunnelStep = (stepName, stepWeight) => {
       const funnelData = {
         step: stepName,
@@ -196,10 +196,11 @@ const AdvancedAnalytics = () => {
         });
       }
     };
-    
+
     // Track based on current page
     const currentPath = window.location.pathname;
     const currentStep = funnelSteps.find(step => step.path === currentPath);
+    
     if (currentStep) {
       trackFunnelStep(currentStep.name, currentStep.weight);
     }
@@ -217,7 +218,7 @@ const AdvancedAnalytics = () => {
         timestamp: sessionStart
       });
     }
-    
+
     // Track session duration periodically
     const trackSessionDuration = () => {
       const duration = Date.now() - sessionStart;
@@ -231,10 +232,10 @@ const AdvancedAnalytics = () => {
         });
       }
     };
-    
+
     // Track every 30 seconds
     const durationInterval = setInterval(trackSessionDuration, 30000);
-    
+
     // Track on page unload
     window.addEventListener('beforeunload', () => {
       clearInterval(durationInterval);
@@ -252,10 +253,12 @@ const AdvancedAnalytics = () => {
 
   const getSessionId = () => {
     let sessionId = sessionStorage.getItem('analytics_session_id');
+    
     if (!sessionId) {
       sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       sessionStorage.setItem('analytics_session_id', sessionId);
     }
+    
     return sessionId;
   };
 
@@ -280,11 +283,11 @@ const AdvancedAnalytics = () => {
         }
       }));
     };
-    
+
     // Update every 5 seconds
     const realTimeInterval = setInterval(updateRealTimeData, 5000);
     updateRealTimeData(); // Initial update
-    
+
     // Store cleanup function
     window.advancedAnalyticsCleanup = window.advancedAnalyticsCleanup || [];
     window.advancedAnalyticsCleanup.push(() => {
@@ -305,19 +308,19 @@ const AdvancedAnalytics = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const ctx = canvas.getContext('2d');
-    
+
     // Create gradient for heatmap
     const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 50);
     gradient.addColorStop(0, 'rgba(237, 39, 41, 0.8)');
     gradient.addColorStop(1, 'rgba(237, 39, 41, 0)');
-    
+
     analyticsData.heatmapData.forEach(point => {
       if (point.type === 'click') {
         ctx.fillStyle = gradient;
         ctx.fillRect(point.x - 25, point.y - 25, 50, 50);
       }
     });
-    
+
     return canvas.toDataURL();
   };
 
@@ -332,17 +335,17 @@ const AdvancedAnalytics = () => {
       topPages: getTopPages(),
       conversionRate: calculateConversionRate()
     };
-    
+
     // Download as JSON
     const dataStr = JSON.stringify(report, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
     const exportFileDefaultName = `analytics-report-${new Date().toISOString().split('T')[0]}.json`;
-    
+
     const linkElement = document.createElement('a');
     linkElement.setAttribute('href', dataUri);
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
-    
+
     // Track export event
     if (window.gtag) {
       window.gtag('event', 'analytics_export', {
@@ -355,12 +358,13 @@ const AdvancedAnalytics = () => {
 
   const getTopPages = () => {
     const pageCounts = {};
+    
     analyticsData.userJourney.forEach(step => {
       pageCounts[step.page] = (pageCounts[step.page] || 0) + 1;
     });
-    
+
     return Object.entries(pageCounts)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, 5)
       .map(([page, count]) => ({ page, count }));
   };
@@ -459,6 +463,7 @@ const AdvancedAnalytics = () => {
           <h3 className="text-xl font-bold">User Interaction Heatmap</h3>
           <SafeIcon icon={FiMousePointer} className="text-tactical-red text-xl" />
         </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <h4 className="font-semibold mb-2">Click Density</h4>
@@ -471,6 +476,7 @@ const AdvancedAnalytics = () => {
               ))}
             </div>
           </div>
+          
           <div>
             <h4 className="font-semibold mb-2">Interaction Stats</h4>
             <div className="space-y-2 text-sm">
@@ -502,6 +508,7 @@ const AdvancedAnalytics = () => {
           <h3 className="text-xl font-bold">User Journey Flow</h3>
           <SafeIcon icon={FiActivity} className="text-tactical-red text-xl" />
         </div>
+        
         <div className="space-y-2">
           {analyticsData.userJourney.slice(-10).map((step, index) => (
             <div key={index} className="flex items-center space-x-4 p-2 bg-dark-gray rounded">
@@ -524,6 +531,7 @@ const AdvancedAnalytics = () => {
           <h3 className="text-xl font-bold">Conversion Funnel</h3>
           <SafeIcon icon={FiTrendingUp} className="text-tactical-red text-xl" />
         </div>
+        
         <div className="space-y-3">
           {[
             { name: 'Landing Page Views', count: analyticsData.userJourney.filter(s => s.page === '/').length },
@@ -537,7 +545,9 @@ const AdvancedAnalytics = () => {
               <div className="flex-1 bg-dark-gray rounded-full h-2">
                 <div 
                   className="bg-tactical-red h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${Math.min(100, (step.count / Math.max(1, analyticsData.userJourney.length)) * 100)}%` }}
+                  style={{ 
+                    width: `${Math.min(100, (step.count / Math.max(1, analyticsData.userJourney.length)) * 100)}%` 
+                  }}
                 ></div>
               </div>
               <div className="w-12 text-sm text-tactical-red font-semibold">{step.count}</div>
