@@ -1,0 +1,173 @@
+// Quick Debug Commands for SiteBehaviour - Copy/Paste into Browser Console
+
+console.log('🔍 SITEBEHAVIOUR QUICK DEBUG COMMANDS');
+console.log('====================================');
+
+// Command 1: Check overall status
+console.log('\n1️⃣ Checking Overall Status...');
+try {
+    if (typeof checkSiteBehaviourConnection === 'function') {
+        checkSiteBehaviourConnection();
+    } else {
+        console.log('❌ checkSiteBehaviourConnection function not available');
+        
+        // Manual check
+        const script = document.querySelector('#site-behaviour-script-v2');
+        const secret = window.sitebehaviourTrackingSecret;
+        const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+        
+        console.log('Manual Status Check:');
+        console.log('Script Element:', script ? '✅ FOUND' : '❌ MISSING');
+        console.log('Secret Variable:', secret ? '✅ SET' : '❌ MISSING');
+        console.log('Secret Correct:', secret === expectedSecret ? '✅ VALID' : '❌ INVALID');
+        
+        if (script) {
+            console.log('Script Source:', script.src);
+        }
+        if (secret) {
+            console.log('Secret Value:', secret.substring(0, 8) + '...');
+        }
+    }
+} catch (error) {
+    console.error('Error in status check:', error);
+}
+
+// Command 2: Run transmission test
+console.log('\n2️⃣ Running Transmission Test...');
+try {
+    if (typeof testSiteBehaviourConnection === 'function') {
+        testSiteBehaviourConnection();
+    } else {
+        console.log('❌ testSiteBehaviourConnection function not available');
+        
+        // Manual transmission test
+        try {
+            document.dispatchEvent(new CustomEvent('sitebehaviour-test', {
+                detail: {
+                    test: 'manual_debug',
+                    timestamp: Date.now(),
+                    source: 'debug_commands'
+                }
+            }));
+            console.log('✅ Manual test event dispatched');
+        } catch (testError) {
+            console.error('❌ Failed to dispatch test event:', testError);
+        }
+    }
+} catch (error) {
+    console.error('Error in transmission test:', error);
+}
+
+// Command 3: View script element
+console.log('\n3️⃣ Viewing Script Element...');
+try {
+    const script = document.querySelector('#site-behaviour-script-v2');
+    
+    if (script) {
+        console.log('✅ Script Element Details:');
+        console.log(script);
+        console.log('Properties:');
+        console.log('  - ID:', script.id);
+        console.log('  - Source:', script.src);
+        console.log('  - Defer:', script.defer);
+        console.log('  - Parent:', script.parentNode.tagName);
+        console.log('  - Loaded:', script.readyState || 'unknown');
+    } else {
+        console.log('❌ Script element not found');
+        console.log('Checking all scripts with "sitebehaviour" in src...');
+        
+        const allScripts = document.querySelectorAll('script[src*="sitebehaviour"]');
+        if (allScripts.length > 0) {
+            console.log('Found related scripts:');
+            allScripts.forEach((s, i) => {
+                console.log(`  ${i + 1}. ${s.src}`);
+            });
+        } else {
+            console.log('No SiteBehaviour scripts found in DOM');
+        }
+    }
+} catch (error) {
+    console.error('Error viewing script element:', error);
+}
+
+// Command 4: Check secret
+console.log('\n4️⃣ Checking Secret Variable...');
+try {
+    const secret = window.sitebehaviourTrackingSecret;
+    const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+    
+    if (secret) {
+        console.log('✅ Secret Variable Details:');
+        console.log('  - Type:', typeof secret);
+        console.log('  - Length:', secret.length, 'characters');
+        console.log('  - Preview:', secret.substring(0, 8) + '...');
+        console.log('  - Full Value:', secret);
+        console.log('  - Expected:', expectedSecret);
+        console.log('  - Match:', secret === expectedSecret ? '✅ YES' : '❌ NO');
+        
+        if (secret !== expectedSecret) {
+            console.log('⚠️ SECRET MISMATCH DETECTED');
+            console.log('This could prevent tracking from working properly');
+        }
+    } else {
+        console.log('❌ Secret variable not found');
+        console.log('window.sitebehaviourTrackingSecret is:', secret);
+        
+        // Check if it might be set differently
+        const allKeys = Object.keys(window).filter(key => 
+            key.toLowerCase().includes('sitebehaviour') || 
+            key.toLowerCase().includes('tracking')
+        );
+        
+        if (allKeys.length > 0) {
+            console.log('Related window variables found:');
+            allKeys.forEach(key => {
+                console.log(`  - ${key}:`, window[key]);
+            });
+        }
+    }
+} catch (error) {
+    console.error('Error checking secret:', error);
+}
+
+// Summary
+console.log('\n📊 QUICK DEBUG SUMMARY');
+console.log('=====================');
+
+const script = document.querySelector('#site-behaviour-script-v2');
+const secret = window.sitebehaviourTrackingSecret;
+const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+
+const checks = {
+    scriptLoaded: !!script,
+    secretSet: !!secret,
+    secretCorrect: secret === expectedSecret,
+    functionsAvailable: typeof checkSiteBehaviourConnection === 'function'
+};
+
+console.log('Status Overview:');
+Object.entries(checks).forEach(([check, passed]) => {
+    console.log(`  ${passed ? '✅' : '❌'} ${check}: ${passed ? 'PASS' : 'FAIL'}`);
+});
+
+const allPassed = Object.values(checks).every(Boolean);
+console.log('\n🎯 Overall Status:', allPassed ? '✅ ALL SYSTEMS GO' : '⚠️ ISSUES DETECTED');
+
+if (!allPassed) {
+    console.log('\n🔧 TROUBLESHOOTING STEPS:');
+    if (!checks.scriptLoaded) {
+        console.log('1. Script not loaded - check network connection');
+        console.log('2. Verify CDN is accessible: https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/');
+    }
+    if (!checks.secretSet) {
+        console.log('3. Secret not set - check tracking code implementation');
+    }
+    if (checks.secretSet && !checks.secretCorrect) {
+        console.log('4. Secret mismatch - verify tracking key is correct');
+    }
+    if (!checks.functionsAvailable) {
+        console.log('5. Debug functions not available - check script loading order');
+    }
+}
+
+console.log('\n💡 To run these commands again, refresh page and paste this script');
