@@ -20,18 +20,14 @@ export const verifyAllAnalytics = () => {
   results.tests.siteBehaviourSecret = {
     name: 'SiteBehaviour Secret Configuration',
     passed: window.sitebehaviourTrackingSecret === expectedSecret,
-    details: window.sitebehaviourTrackingSecret ? 
-      `Secret configured: ${window.sitebehaviourTrackingSecret.substring(0, 8)}...` : 
-      'SiteBehaviour secret not found'
+    details: window.sitebehaviourTrackingSecret ? `Secret configured: ${window.sitebehaviourTrackingSecret.substring(0, 8)}...` : 'SiteBehaviour secret not found'
   };
 
   // Test 3: Check SiteBehaviour API availability
   results.tests.siteBehaviourAPI = {
     name: 'SiteBehaviour API Active',
     passed: typeof window.siteBehaviour !== 'undefined',
-    details: typeof window.siteBehaviour !== 'undefined' ? 
-      'SiteBehaviour API object available' : 
-      'SiteBehaviour API not initialized'
+    details: typeof window.siteBehaviour !== 'undefined' ? 'SiteBehaviour API object available' : 'SiteBehaviour API not initialized'
   };
 
   // Test 4: Test SiteBehaviour event firing
@@ -51,27 +47,28 @@ export const verifyAllAnalytics = () => {
   results.tests.siteBehaviourEventFiring = {
     name: 'SiteBehaviour Event Firing Test',
     passed: siteBehaviourEventFired,
-    details: siteBehaviourEventFired ? 
-      'SiteBehaviour test event fired successfully' : 
-      'Could not fire SiteBehaviour test event'
+    details: siteBehaviourEventFired ? 'SiteBehaviour test event fired successfully' : 'Could not fire SiteBehaviour test event'
   };
 
-  // Test 5: Check Firebase Analytics (if configured)
+  // Test 5: Check Google Analytics (gtag)
+  results.tests.googleAnalytics = {
+    name: 'Google Analytics (gtag)',
+    passed: typeof window.gtag === 'function',
+    details: typeof window.gtag === 'function' ? 'Google Analytics gtag available' : 'Google Analytics gtag not configured'
+  };
+
+  // Test 6: Check Firebase Analytics (if configured)
   results.tests.firebaseAnalytics = {
     name: 'Firebase Analytics',
     passed: !!window.firebaseAnalytics,
-    details: window.firebaseAnalytics ? 
-      'Firebase Analytics available' : 
-      'Firebase Analytics not configured'
+    details: window.firebaseAnalytics ? 'Firebase Analytics available' : 'Firebase Analytics not configured'
   };
 
-  // Test 6: Check CyborgCRM (if configured)
+  // Test 7: Check CyborgCRM (if configured)
   results.tests.cyborgCRM = {
     name: 'CyborgCRM Tracking',
     passed: typeof window.CyborgCRM === 'function',
-    details: typeof window.CyborgCRM === 'function' ? 
-      'CyborgCRM tracking available' : 
-      'CyborgCRM not configured'
+    details: typeof window.CyborgCRM === 'function' ? 'CyborgCRM tracking available' : 'CyborgCRM not configured'
   };
 
   // Calculate overall status - focus on SiteBehaviour as primary
@@ -104,7 +101,7 @@ export const logAnalyticsStatus = () => {
   console.groupEnd();
 
   console.group('📊 Additional Platforms:');
-  ['firebaseAnalytics', 'cyborgCRM'].forEach(testKey => {
+  ['googleAnalytics', 'firebaseAnalytics', 'cyborgCRM'].forEach(testKey => {
     const test = results.tests[testKey];
     console.log(`${test.passed ? '✅' : '❌'} ${test.name}: ${test.details}`);
   });
@@ -120,7 +117,6 @@ export const logAnalyticsStatus = () => {
   }
 
   console.groupEnd();
-
   return results;
 };
 
@@ -129,7 +125,7 @@ export const trackPageLoadComplete = (pageName) => {
   if (document.readyState === 'complete') {
     setTimeout(() => {
       logAnalyticsStatus();
-
+      
       // Fire page-specific SiteBehaviour tracking
       document.dispatchEvent(new CustomEvent('sitebehaviour-page-load-complete', {
         detail: {
@@ -139,14 +135,14 @@ export const trackPageLoadComplete = (pageName) => {
           timestamp: new Date().toISOString()
         }
       }));
-
+      
       console.log(`📄 SiteBehaviour page load complete tracked for: ${pageName}`);
     }, 1000);
   } else {
     window.addEventListener('load', () => {
       setTimeout(() => {
         logAnalyticsStatus();
-
+        
         document.dispatchEvent(new CustomEvent('sitebehaviour-page-load-complete', {
           detail: {
             page_name: pageName,
@@ -155,7 +151,7 @@ export const trackPageLoadComplete = (pageName) => {
             timestamp: new Date().toISOString()
           }
         }));
-
+        
         console.log(`📄 SiteBehaviour page load complete tracked for: ${pageName}`);
       }, 1000);
     });

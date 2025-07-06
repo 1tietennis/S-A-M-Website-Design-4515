@@ -1,53 +1,56 @@
-// Enhanced SiteBehaviour & Multi-Platform Analytics Helper Functions
+// Enhanced Analytics with NEW Google Tag (gtag.js) Implementation
 
-// Automatic page view tracking for React Router
-export const initializePageTracking = () => {
-  // Track initial page load with SiteBehaviour focus
+// Initialize analytics tracking
+export const initializeAnalytics = () => {
   if (typeof window !== 'undefined') {
-    console.log('📈 Initializing SiteBehaviour-focused page tracking...');
+    console.log('📈 Initializing NEW Google Analytics 4 (gtag.js)...');
     
-    // Send page view to SiteBehaviour
-    document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
-      detail: {
+    // Verify gtag is loaded
+    if (typeof window.gtag === 'function') {
+      console.log('✅ gtag function is available');
+      
+      // Send initial page view
+      gtag('config', 'G-CTDQQ8XMKC', {
         page_title: document.title,
-        page_location: window.location.href,
-        page_path: window.location.pathname,
-        timestamp: new Date().toISOString()
-      }
-    }));
-    
-    console.log('📊 Initial page view tracked:', window.location.pathname);
+        page_location: window.location.href
+      });
+      
+      console.log('📊 GA4 initialized with measurement ID: G-CTDQQ8XMKC');
+    } else {
+      console.error('❌ gtag function not available - check Google Analytics implementation');
+    }
   }
 };
 
-export const trackEvent = (eventName, parameters = {}) => {
-  // Primary tracking with SiteBehaviour
-  if (typeof window !== 'undefined') {
-    // Send to SiteBehaviour
-    document.dispatchEvent(new CustomEvent(`sitebehaviour-${eventName}`, {
-      detail: {
-        ...parameters,
-        timestamp: new Date().toISOString()
-      }
-    }));
-    
-    console.log('📊 SiteBehaviour Event tracked:', eventName, parameters);
-  }
-
-  // Track with Firebase Analytics if available
-  if (typeof window !== 'undefined' && window.firebaseAnalytics) {
-    window.firebaseAnalytics.logEvent(eventName, parameters);
-  }
-
-  // Track with CyborgCRM if available
-  if (typeof window !== 'undefined' && window.CyborgCRM) {
-    window.CyborgCRM('track', eventName, parameters);
-  }
+// Initialize page tracking (alias for initializeAnalytics)
+export const initializePageTracking = () => {
+  initializeAnalytics();
+  console.log('📄 Page tracking initialized');
 };
 
+// Enhanced page view tracking with NEW gtag
 export const trackPageView = (pagePath, pageTitle) => {
-  // Primary SiteBehaviour page tracking
   if (typeof window !== 'undefined') {
+    // Primary tracking with NEW Google Analytics 4
+    if (typeof window.gtag === 'function') {
+      gtag('config', 'G-CTDQQ8XMKC', {
+        page_path: pagePath,
+        page_title: pageTitle,
+        page_location: window.location.href
+      });
+      
+      // Also send as event for better tracking
+      gtag('event', 'page_view', {
+        page_path: pagePath,
+        page_title: pageTitle,
+        page_location: window.location.href,
+        timestamp: new Date().toISOString()
+      });
+      
+      console.log('📄 NEW GA4 Page view tracked:', pagePath, pageTitle);
+    }
+    
+    // Track with SiteBehaviour
     document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
       detail: {
         page_path: pagePath,
@@ -58,27 +61,60 @@ export const trackPageView = (pagePath, pageTitle) => {
       }
     }));
     
-    console.log('📄 SiteBehaviour Page view tracked:', pagePath, pageTitle);
-  }
-
-  // Track with Firebase Analytics if available
-  if (typeof window !== 'undefined' && window.firebaseAnalytics) {
-    window.firebaseAnalytics.logEvent('page_view', {
-      page_path: pagePath,
-      page_title: pageTitle,
-      page_location: window.location.href
-    });
-  }
-
-  // Track with CyborgCRM if available
-  if (typeof window !== 'undefined' && window.CyborgCRM) {
-    window.CyborgCRM('track', 'pageview', {
-      page: pagePath,
-      title: pageTitle
-    });
+    // Track with Firebase Analytics if available
+    if (typeof window.firebaseAnalytics !== 'undefined') {
+      window.firebaseAnalytics.logEvent('page_view', {
+        page_path: pagePath,
+        page_title: pageTitle,
+        page_location: window.location.href
+      });
+    }
+    
+    // Track with CyborgCRM if available
+    if (typeof window.CyborgCRM === 'function') {
+      window.CyborgCRM('track', 'pageview', {
+        page: pagePath,
+        title: pageTitle
+      });
+    }
   }
 };
 
+// Enhanced event tracking with NEW gtag
+export const trackEvent = (eventName, parameters = {}) => {
+  if (typeof window !== 'undefined') {
+    // Primary tracking with NEW Google Analytics 4
+    if (typeof window.gtag === 'function') {
+      gtag('event', eventName, {
+        ...parameters,
+        timestamp: new Date().toISOString(),
+        measurement_id: 'G-CTDQQ8XMKC'
+      });
+      
+      console.log('📊 NEW GA4 Event tracked:', eventName, parameters);
+    }
+    
+    // Track with SiteBehaviour
+    document.dispatchEvent(new CustomEvent(`sitebehaviour-${eventName}`, {
+      detail: {
+        ...parameters,
+        timestamp: new Date().toISOString()
+      }
+    }));
+    
+    // Track with Firebase Analytics if available
+    if (typeof window.firebaseAnalytics !== 'undefined') {
+      window.firebaseAnalytics.logEvent(eventName, parameters);
+    }
+    
+    // Track with CyborgCRM if available
+    if (typeof window.CyborgCRM === 'function') {
+      window.CyborgCRM('track', eventName, parameters);
+    }
+  }
+};
+
+// Enhanced conversion tracking with NEW gtag
 export const trackConversion = (conversionType, value = 0, currency = 'USD') => {
   const conversionData = {
     event_category: 'conversion',
@@ -87,75 +123,98 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
     currency: currency,
     transaction_id: `${conversionType}_${Date.now()}`
   };
-
-  // Track with SiteBehaviour
-  document.dispatchEvent(new CustomEvent('sitebehaviour-conversion', {
-    detail: conversionData
-  }));
-
-  // Track with Firebase Analytics if available
-  if (typeof window !== 'undefined' && window.firebaseAnalytics) {
-    window.firebaseAnalytics.logEvent('purchase', {
-      currency: currency,
-      value: value,
-      transaction_id: conversionData.transaction_id
-    });
+  
+  if (typeof window !== 'undefined') {
+    // Track with NEW Google Analytics 4
+    if (typeof window.gtag === 'function') {
+      // Send as purchase event for e-commerce tracking
+      gtag('event', 'purchase', {
+        transaction_id: conversionData.transaction_id,
+        value: value,
+        currency: currency,
+        items: [{
+          item_id: conversionType,
+          item_name: conversionType,
+          category: 'conversion',
+          quantity: 1,
+          price: value
+        }]
+      });
+      
+      // Also send as custom conversion event
+      gtag('event', 'conversion', conversionData);
+      
+      console.log('💰 NEW GA4 Conversion tracked:', conversionType, value);
+    }
+    
+    // Track with SiteBehaviour
+    document.dispatchEvent(new CustomEvent('sitebehaviour-conversion', {
+      detail: conversionData
+    }));
+    
+    // Track with Firebase Analytics if available
+    if (typeof window.firebaseAnalytics !== 'undefined') {
+      window.firebaseAnalytics.logEvent('purchase', {
+        currency: currency,
+        value: value,
+        transaction_id: conversionData.transaction_id
+      });
+    }
+    
+    // Track with CyborgCRM if available
+    if (typeof window.CyborgCRM === 'function') {
+      window.CyborgCRM('track', 'conversion', conversionData);
+    }
   }
-
-  // Track with CyborgCRM if available
-  if (typeof window !== 'undefined' && window.CyborgCRM) {
-    window.CyborgCRM('track', 'conversion', conversionData);
-  }
-
-  console.log('💰 Conversion tracked:', conversionType, value);
 };
 
+// Enhanced form submission tracking
 export const trackFormSubmission = (formName, formData = {}) => {
   const eventData = {
-    event_category: 'form',
+    event_category: 'form_interaction',
     event_label: formName,
     form_name: formName,
     timestamp: new Date().toISOString(),
     ...formData
   };
-
-  // Track with SiteBehaviour
+  
+  // Track form submission as event
   trackEvent('form_submit', eventData);
-
-  // Also track as a lead conversion
-  trackConversion('lead_form_submission', 99.99, 'USD');
-
+  
+  // Also track as conversion with value
+  trackConversion('form_submission', 99.99, 'USD');
+  
   console.log('📝 Form submission tracked:', formName);
 };
 
+// Enhanced button click tracking
 export const trackButtonClick = (buttonName, location = '', additionalData = {}) => {
   const eventData = {
-    event_category: 'engagement',
+    event_category: 'user_interaction',
     event_label: buttonName,
     button_name: buttonName,
     click_location: location,
     timestamp: new Date().toISOString(),
     ...additionalData
   };
-
-  // Track with SiteBehaviour
-  trackEvent('click', eventData);
-
+  
+  trackEvent('button_click', eventData);
+  
   console.log('🖱️ Button click tracked:', buttonName, 'at', location);
 };
 
+// User engagement tracking
 export const trackUserEngagement = (action, element, additionalData = {}) => {
   const eventData = {
-    event_category: 'user_interaction',
+    event_category: 'user_engagement',
     event_label: element,
     interaction_type: action,
     element: element,
     timestamp: new Date().toISOString(),
     ...additionalData
   };
-
-  // Track with SiteBehaviour
-  trackEvent('engagement', eventData);
+  
+  trackEvent('user_engagement', eventData);
 };
 
 // Enhanced page tracking for Single Page Applications
@@ -167,25 +226,35 @@ export const trackSPANavigation = (fromPath, toPath, pageTitle) => {
     to_page: toPath,
     page_title: pageTitle
   });
-
+  
   // Track the new page view
   trackPageView(toPath, pageTitle);
 };
 
-// Track scroll depth
+// Scroll depth tracking
 export const trackScrollDepth = (depth) => {
   trackEvent('scroll_depth', {
-    event_category: 'engagement',
+    event_category: 'user_engagement',
     scroll_depth: depth,
     page_path: window.location.pathname
   });
 };
 
-// Track time on page
+// Time on page tracking
 export const trackTimeOnPage = (timeInSeconds) => {
   trackEvent('time_on_page', {
-    event_category: 'engagement',
+    event_category: 'user_engagement',
     time_seconds: timeInSeconds,
     page_path: window.location.pathname
   });
 };
+
+// Initialize analytics when module loads
+if (typeof window !== 'undefined') {
+  // Auto-initialize after DOM loads
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAnalytics);
+  } else {
+    initializeAnalytics();
+  }
+}

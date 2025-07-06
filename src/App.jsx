@@ -54,20 +54,24 @@ function App() {
     ]).then(([commands, monitor]) => {
       console.log('🎯 SiteBehaviour systems loaded');
       
-      // Auto-start real-time monitoring
+      // Auto-start real-time monitoring if available
       if (monitor.default && monitor.default.initializeRealTimeMonitoring) {
         monitor.default.initializeRealTimeMonitoring();
       }
+    }).catch(error => {
+      console.log('SiteBehaviour systems not available:', error.message);
     });
 
     console.log('🚀 Secret Agent Digital Marketing App Loaded with Real-Time Analytics');
   }, []);
 
   // Show debugger in development or with debug parameter
-  const showDebugger = process.env.NODE_ENV === 'development' || window.location.search.includes('debug=true');
-  
+  const showDebugger = process.env.NODE_ENV === 'development' || 
+                      (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
+
   // Show SiteBehaviour controller with sitebehaviour parameter
-  const showSiteBehaviour = window.location.search.includes('sitebehaviour=true') || process.env.NODE_ENV === 'development';
+  const showSiteBehaviour = (typeof window !== 'undefined' && window.location.search.includes('sitebehaviour=true')) || 
+                           process.env.NODE_ENV === 'development';
 
   return (
     <Router>
