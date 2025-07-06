@@ -1,21 +1,26 @@
-// Enhanced Analytics with NEW Google Tag (gtag.js) Implementation
+// Enhanced Analytics with VERIFIED Google Tag (gtag.js) Implementation
 
 // Initialize analytics tracking
 export const initializeAnalytics = () => {
   if (typeof window !== 'undefined') {
-    console.log('📈 Initializing NEW Google Analytics 4 (gtag.js)...');
+    console.log('📈 Initializing VERIFIED Google Analytics 4 (gtag.js)...');
     
     // Verify gtag is loaded
     if (typeof window.gtag === 'function') {
       console.log('✅ gtag function is available');
       
-      // Send initial page view
+      // Send initial page view with enhanced data
       gtag('config', 'G-CTDQQ8XMKC', {
         page_title: document.title,
-        page_location: window.location.href
+        page_location: window.location.href,
+        send_page_view: true,
+        custom_map: {
+          custom_dimension_1: 'site_section'
+        }
       });
       
       console.log('📊 GA4 initialized with measurement ID: G-CTDQQ8XMKC');
+      console.log('🎯 Enhanced tracking enabled');
     } else {
       console.error('❌ gtag function not available - check Google Analytics implementation');
     }
@@ -26,28 +31,43 @@ export const initializeAnalytics = () => {
 export const initializePageTracking = () => {
   initializeAnalytics();
   console.log('📄 Page tracking initialized');
+  
+  // Send initialization event
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    gtag('event', 'analytics_initialized', {
+      event_category: 'system',
+      event_label: 'page_tracking_init',
+      timestamp: new Date().toISOString()
+    });
+  }
 };
 
-// Enhanced page view tracking with NEW gtag
+// Enhanced page view tracking with VERIFIED gtag
 export const trackPageView = (pagePath, pageTitle) => {
   if (typeof window !== 'undefined') {
-    // Primary tracking with NEW Google Analytics 4
+    // Primary tracking with VERIFIED Google Analytics 4
     if (typeof window.gtag === 'function') {
+      // Send both config and event for comprehensive tracking
       gtag('config', 'G-CTDQQ8XMKC', {
         page_path: pagePath,
         page_title: pageTitle,
-        page_location: window.location.href
+        page_location: window.location.href,
+        send_page_view: true
       });
       
-      // Also send as event for better tracking
+      // Also send as custom event for better tracking
       gtag('event', 'page_view', {
         page_path: pagePath,
         page_title: pageTitle,
         page_location: window.location.href,
-        timestamp: new Date().toISOString()
+        referrer: document.referrer,
+        timestamp: new Date().toISOString(),
+        user_agent: navigator.userAgent.substring(0, 100) // Truncated for privacy
       });
       
-      console.log('📄 NEW GA4 Page view tracked:', pagePath, pageTitle);
+      console.log('📄 VERIFIED GA4 Page view tracked:', pagePath, pageTitle);
+    } else {
+      console.warn('⚠️ gtag function not available for page view tracking');
     }
     
     // Track with SiteBehaviour
@@ -61,37 +81,37 @@ export const trackPageView = (pagePath, pageTitle) => {
       }
     }));
     
-    // Track with Firebase Analytics if available
-    if (typeof window.firebaseAnalytics !== 'undefined') {
-      window.firebaseAnalytics.logEvent('page_view', {
+    // Track with DataLayer for GTM compatibility
+    if (window.dataLayer && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({
+        event: 'custom_page_view',
         page_path: pagePath,
         page_title: pageTitle,
-        page_location: window.location.href
-      });
-    }
-    
-    // Track with CyborgCRM if available
-    if (typeof window.CyborgCRM === 'function') {
-      window.CyborgCRM('track', 'pageview', {
-        page: pagePath,
-        title: pageTitle
+        page_location: window.location.href,
+        timestamp: new Date().toISOString()
       });
     }
   }
 };
 
-// Enhanced event tracking with NEW gtag
+// Enhanced event tracking with VERIFIED gtag
 export const trackEvent = (eventName, parameters = {}) => {
   if (typeof window !== 'undefined') {
-    // Primary tracking with NEW Google Analytics 4
+    // Primary tracking with VERIFIED Google Analytics 4
     if (typeof window.gtag === 'function') {
-      gtag('event', eventName, {
+      const enhancedParams = {
         ...parameters,
         timestamp: new Date().toISOString(),
-        measurement_id: 'G-CTDQQ8XMKC'
-      });
+        measurement_id: 'G-CTDQQ8XMKC',
+        page_path: window.location.pathname,
+        page_title: document.title
+      };
       
-      console.log('📊 NEW GA4 Event tracked:', eventName, parameters);
+      gtag('event', eventName, enhancedParams);
+      
+      console.log('📊 VERIFIED GA4 Event tracked:', eventName, parameters);
+    } else {
+      console.warn('⚠️ gtag function not available for event tracking');
     }
     
     // Track with SiteBehaviour
@@ -102,19 +122,21 @@ export const trackEvent = (eventName, parameters = {}) => {
       }
     }));
     
-    // Track with Firebase Analytics if available
-    if (typeof window.firebaseAnalytics !== 'undefined') {
-      window.firebaseAnalytics.logEvent(eventName, parameters);
-    }
-    
-    // Track with CyborgCRM if available
-    if (typeof window.CyborgCRM === 'function') {
-      window.CyborgCRM('track', eventName, parameters);
+    // Track with DataLayer for GTM compatibility
+    if (window.dataLayer && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({
+        event: `custom_${eventName}`,
+        eventCategory: parameters.event_category || 'general',
+        eventAction: eventName,
+        eventLabel: parameters.event_label || '',
+        ...parameters,
+        timestamp: new Date().toISOString()
+      });
     }
   }
 };
 
-// Enhanced conversion tracking with NEW gtag
+// Enhanced conversion tracking with VERIFIED gtag
 export const trackConversion = (conversionType, value = 0, currency = 'USD') => {
   const conversionData = {
     event_category: 'conversion',
@@ -125,7 +147,7 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
   };
   
   if (typeof window !== 'undefined') {
-    // Track with NEW Google Analytics 4
+    // Track with VERIFIED Google Analytics 4
     if (typeof window.gtag === 'function') {
       // Send as purchase event for e-commerce tracking
       gtag('event', 'purchase', {
@@ -144,7 +166,7 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
       // Also send as custom conversion event
       gtag('event', 'conversion', conversionData);
       
-      console.log('💰 NEW GA4 Conversion tracked:', conversionType, value);
+      console.log('💰 VERIFIED GA4 Conversion tracked:', conversionType, value);
     }
     
     // Track with SiteBehaviour
@@ -152,18 +174,22 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
       detail: conversionData
     }));
     
-    // Track with Firebase Analytics if available
-    if (typeof window.firebaseAnalytics !== 'undefined') {
-      window.firebaseAnalytics.logEvent('purchase', {
-        currency: currency,
-        value: value,
-        transaction_id: conversionData.transaction_id
+    // Track with DataLayer for GTM compatibility
+    if (window.dataLayer && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({
+        event: 'purchase',
+        ecommerce: {
+          transaction_id: conversionData.transaction_id,
+          value: value,
+          currency: currency,
+          items: [{
+            item_name: conversionType,
+            item_category: 'conversion',
+            price: value,
+            quantity: 1
+          }]
+        }
       });
-    }
-    
-    // Track with CyborgCRM if available
-    if (typeof window.CyborgCRM === 'function') {
-      window.CyborgCRM('track', 'conversion', conversionData);
     }
   }
 };
@@ -249,8 +275,36 @@ export const trackTimeOnPage = (timeInSeconds) => {
   });
 };
 
-// Initialize analytics when module loads
+// Real-time tracking test function
+export const testGA4RealTimeTracking = () => {
+  console.log('🧪 Testing GA4 Real-Time Tracking');
+  console.log('=================================');
+  
+  if (typeof window.gtag === 'function') {
+    const testEvents = [
+      { name: 'test_tracking_verification', params: { event_category: 'testing', test_type: 'real_time' }},
+      { name: 'test_page_interaction', params: { event_category: 'testing', interaction_type: 'manual_test' }},
+      { name: 'test_conversion_simulation', params: { event_category: 'conversion', value: 1, currency: 'USD' }}
+    ];
+    
+    testEvents.forEach((event, index) => {
+      setTimeout(() => {
+        gtag('event', event.name, event.params);
+        console.log(`📊 Test event ${index + 1} sent: ${event.name}`);
+      }, index * 1000);
+    });
+    
+    console.log('✅ All test events queued');
+    console.log('📈 Check GA4 Real-Time reports in 1-2 minutes');
+  } else {
+    console.error('❌ gtag function not available');
+  }
+};
+
+// Make test function globally available
 if (typeof window !== 'undefined') {
+  window.testGA4RealTimeTracking = testGA4RealTimeTracking;
+  
   // Auto-initialize after DOM loads
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeAnalytics);

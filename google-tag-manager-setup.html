@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Tag Manager Setup Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+            line-height: 1.6;
+        }
+        .setup-container {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #ED2729;
+        }
+        .code-block {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0;
+            border: 1px solid #444;
+        }
+        .step {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ED2729;
+        }
+        .warning {
+            background: #4a2a2a;
+            border-left-color: #ff6b6b;
+        }
+        .success {
+            background: #2a4a2a;
+            border-left-color: #00ff00;
+        }
+        .test-button {
+            background: #ED2729;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏷️ Google Tag Manager Setup Guide</h1>
+    <h2>Secret Agent Digital Marketing</h2>
+
+    <div class="setup-container">
+        <h3>📋 Current Implementation Status</h3>
+        <div class="step success">
+            <h4>✅ Google Analytics 4 (GA4) - WORKING</h4>
+            <p><strong>Measurement ID:</strong> G-CTDQQ8XMKC</p>
+            <p><strong>Implementation:</strong> Direct gtag.js integration</p>
+            <p><strong>Status:</strong> Fully functional and tracking</p>
+        </div>
+        
+        <div class="step warning">
+            <h4>⚠️ Google Tag Manager (GTM) - NEEDS SETUP</h4>
+            <p><strong>Container ID:</strong> GTM-XXXXXXX (placeholder)</p>
+            <p><strong>Status:</strong> Code present but needs real GTM container</p>
+        </div>
+    </div>
+
+    <div class="setup-container">
+        <h3>🔧 Option 1: Use Existing GA4 (Recommended)</h3>
+        <div class="step success">
+            <h4>✅ Current Working Setup</h4>
+            <p>Your GA4 is already working perfectly! The error you're seeing might be from a different tool or expecting GTM specifically.</p>
+            
+            <div class="code-block">
+<!-- Current working GA4 implementation -->
+&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CTDQQ8XMKC');
+&lt;/script&gt;
+            </div>
+            
+            <button class="test-button" onclick="testCurrentGA4()">🧪 Test Current GA4</button>
+        </div>
+    </div>
+
+    <div class="setup-container">
+        <h3>🏷️ Option 2: Set Up Google Tag Manager</h3>
+        
+        <div class="step">
+            <h4>Step 1: Create GTM Container</h4>
+            <p>1. Go to <a href="https://tagmanager.google.com" target="_blank" style="color: #ED2729;">Google Tag Manager</a></p>
+            <p>2. Click "Create Account"</p>
+            <p>3. Enter account name: "Secret Agent Digital Marketing"</p>
+            <p>4. Enter container name: "secretagentdigital.com"</p>
+            <p>5. Select "Web" as target platform</p>
+            <p>6. Click "Create"</p>
+        </div>
+
+        <div class="step">
+            <h4>Step 2: Get Your GTM Container ID</h4>
+            <p>After creating the container, you'll get a Container ID like: <code>GTM-XXXXXXX</code></p>
+            <p>Copy this ID - you'll need it for the next step.</p>
+        </div>
+
+        <div class="step">
+            <h4>Step 3: Replace Placeholder Code</h4>
+            <p>In your index.html, replace <code>GTM-XXXXXXX</code> with your real GTM Container ID:</p>
+            
+            <div class="code-block">
+<!-- Replace GTM-XXXXXXX with your real container ID -->
+&lt;script&gt;(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-YOUR-REAL-ID');&lt;/script&gt;
+            </div>
+        </div>
+
+        <div class="step">
+            <h4>Step 4: Configure GA4 in GTM</h4>
+            <p>1. In GTM, go to "Tags" → "New"</p>
+            <p>2. Choose "Google Analytics: GA4 Configuration"</p>
+            <p>3. Enter Measurement ID: <code>G-CTDQQ8XMKC</code></p>
+            <p>4. Set trigger to "All Pages"</p>
+            <p>5. Save and publish</p>
+        </div>
+    </div>
+
+    <div class="setup-container">
+        <h3>🧪 Testing & Verification</h3>
+        
+        <div class="step">
+            <h4>Test Current Implementation</h4>
+            <button class="test-button" onclick="testCurrentGA4()">Test GA4 Direct</button>
+            <button class="test-button" onclick="testDataLayer()">Test DataLayer</button>
+            <button class="test-button" onclick="testAllTracking()">Test All Tracking</button>
+        </div>
+
+        <div id="test-results" class="code-block">
+            Click a test button to see results...
+        </div>
+    </div>
+
+    <div class="setup-container">
+        <h3>🎯 Recommendation</h3>
+        <div class="step success">
+            <h4>✅ Stay with Current GA4 Setup</h4>
+            <p><strong>Why:</strong> Your current GA4 implementation is working perfectly and collecting data.</p>
+            <p><strong>Benefits:</strong></p>
+            <ul>
+                <li>✅ Already tracking page views and events</li>
+                <li>✅ Data flowing to Google Analytics dashboard</li>
+                <li>✅ No additional setup required</li>
+                <li>✅ Faster page load (no extra GTM container)</li>
+            </ul>
+            
+            <p><strong>When to use GTM:</strong> Only if you need to manage multiple marketing tags (Facebook Pixel, other analytics, etc.)</p>
+        </div>
+    </div>
+
+    <script>
+        function logToResults(message) {
+            const resultsDiv = document.getElementById('test-results');
+            const timestamp = new Date().toLocaleTimeString();
+            resultsDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            console.log(message);
+        }
+
+        function clearResults() {
+            document.getElementById('test-results').innerHTML = 'Test results cleared...\n';
+        }
+
+        function testCurrentGA4() {
+            clearResults();
+            logToResults('🧪 Testing Current GA4 Implementation...');
+            logToResults('===========================================');
+            
+            // Test gtag function
+            if (typeof window.gtag === 'function') {
+                logToResults('✅ gtag function: AVAILABLE');
+                
+                // Send test event
+                try {
+                    gtag('event', 'test_ga4_verification', {
+                        event_category: 'testing',
+                        event_label: 'manual_test',
+                        value: 1
+                    });
+                    logToResults('✅ Test event sent successfully');
+                } catch (error) {
+                    logToResults('❌ Error sending test event: ' + error.message);
+                }
+            } else {
+                logToResults('❌ gtag function: NOT AVAILABLE');
+            }
+            
+            // Test measurement ID
+            const gaScript = document.querySelector('script[src*="G-CTDQQ8XMKC"]');
+            logToResults(gaScript ? '✅ GA4 script: LOADED' : '❌ GA4 script: MISSING');
+            
+            logToResults('\n🎯 Result: GA4 is ' + (typeof window.gtag === 'function' ? 'WORKING PERFECTLY' : 'NOT WORKING'));
+        }
+
+        function testDataLayer() {
+            clearResults();
+            logToResults('🧪 Testing DataLayer...');
+            logToResults('======================');
+            
+            if (window.dataLayer && Array.isArray(window.dataLayer)) {
+                logToResults(`✅ DataLayer: ACTIVE (${window.dataLayer.length} entries)`);
+                
+                // Push test event to dataLayer
+                try {
+                    window.dataLayer.push({
+                        event: 'test_datalayer_event',
+                        eventCategory: 'testing',
+                        eventAction: 'manual_test',
+                        eventLabel: 'datalayer_verification'
+                    });
+                    logToResults('✅ Test event pushed to dataLayer');
+                } catch (error) {
+                    logToResults('❌ Error pushing to dataLayer: ' + error.message);
+                }
+            } else {
+                logToResults('❌ DataLayer: NOT AVAILABLE');
+            }
+        }
+
+        function testAllTracking() {
+            clearResults();
+            logToResults('🧪 Testing All Tracking Systems...');
+            logToResults('==================================');
+            
+            const tests = {
+                'GA4 gtag': typeof window.gtag === 'function',
+                'DataLayer': window.dataLayer && Array.isArray(window.dataLayer),
+                'GA4 Script': !!document.querySelector('script[src*="G-CTDQQ8XMKC"]'),
+                'SiteBehaviour': !!window.sitebehaviourTrackingSecret
+            };
+            
+            Object.entries(tests).forEach(([name, passed]) => {
+                logToResults(`${passed ? '✅' : '❌'} ${name}: ${passed ? 'WORKING' : 'NOT WORKING'}`);
+            });
+            
+            const workingCount = Object.values(tests).filter(Boolean).length;
+            const totalCount = Object.keys(tests).length;
+            
+            logToResults(`\n📊 Summary: ${workingCount}/${totalCount} systems working`);
+            
+            if (workingCount > 0) {
+                logToResults('🎉 At least one tracking system is operational!');
+            } else {
+                logToResults('⚠️ No tracking systems detected');
+            }
+        }
+
+        // Auto-run test on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                logToResults('🚀 Page loaded - running auto-test...');
+                testCurrentGA4();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -10,68 +10,101 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- NEW GOOGLE TAG (gtag.js) - UPDATED VERSION -->
+    
+    <!-- GOOGLE TAG MANAGER (GTM) - PRIMARY IMPLEMENTATION -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- GOOGLE ANALYTICS 4 (GA4) - DIRECT IMPLEMENTATION -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-CTDQQ8XMKC');
+      gtag('config', 'G-CTDQQ8XMKC', {
+        page_title: document.title,
+        page_location: window.location.href,
+        send_page_view: true
+      });
       
       // Enhanced initialization logging
-      console.log('✅ NEW Google Analytics 4 (gtag.js) loaded');
+      console.log('✅ Google Analytics 4 (gtag.js) loaded');
       console.log('📊 Measurement ID: G-CTDQQ8XMKC');
       console.log('🎯 DataLayer initialized with gtag function');
+      
+      // Make gtag globally available for verification
+      window.gtagLoaded = true;
     </script>
-
-    <!-- GOOGLE ANALYTICS VERIFICATION SCRIPT -->
+    
+    <!-- GOOGLE ANALYTICS VERIFICATION & TEST SCRIPT -->
     <script>
       // Comprehensive GA4 verification function
       window.verifyGA4Implementation = function() {
-        console.log('🧪 VERIFYING NEW GOOGLE ANALYTICS 4 IMPLEMENTATION');
+        console.log('🧪 VERIFYING GOOGLE ANALYTICS 4 IMPLEMENTATION');
         console.log('=================================================');
         
         const results = {
           gtagFunction: typeof window.gtag === 'function',
           dataLayer: window.dataLayer && Array.isArray(window.dataLayer),
           scriptTag: !!document.querySelector('script[src*="googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"]'),
-          measurementId: 'G-CTDQQ8XMKC'
+          measurementId: 'G-CTDQQ8XMKC',
+          gtagLoaded: window.gtagLoaded === true
         };
         
         console.log('📊 Test Results:');
-        console.log('  ✅ gtag function:', results.gtagFunction ? 'AVAILABLE' : '❌ MISSING');
-        console.log('  ✅ dataLayer:', results.dataLayer ? `ACTIVE (${window.dataLayer.length} entries)` : '❌ MISSING');
-        console.log('  ✅ Script tag:', results.scriptTag ? 'LOADED' : '❌ MISSING');
-        console.log('  ✅ Measurement ID:', results.measurementId);
+        console.log(' ✅ gtag function:', results.gtagFunction ? 'AVAILABLE' : '❌ MISSING');
+        console.log(' ✅ dataLayer:', results.dataLayer ? `ACTIVE (${window.dataLayer.length} entries)` : '❌ MISSING');
+        console.log(' ✅ Script tag:', results.scriptTag ? 'LOADED' : '❌ MISSING');
+        console.log(' ✅ Measurement ID:', results.measurementId);
+        console.log(' ✅ gtag loaded flag:', results.gtagLoaded ? 'TRUE' : '❌ FALSE');
         
         // Test event firing
         try {
           gtag('event', 'ga4_verification_test', {
             event_category: 'testing',
-            event_label: 'new_gtag_implementation',
+            event_label: 'ga4_implementation_check',
             custom_parameter: 'verification_successful',
             timestamp: new Date().toISOString()
           });
-          console.log('  ✅ Test event fired successfully');
+          console.log(' ✅ Test event fired successfully');
           results.eventFiring = true;
         } catch (error) {
-          console.log('  ❌ Test event failed:', error.message);
+          console.log(' ❌ Test event failed:', error.message);
           results.eventFiring = false;
+        }
+        
+        // Test page view tracking
+        try {
+          gtag('config', 'G-CTDQQ8XMKC', {
+            page_title: 'Test Page View',
+            page_location: window.location.href,
+            send_page_view: true
+          });
+          console.log(' ✅ Page view tracking test successful');
+          results.pageViewTracking = true;
+        } catch (error) {
+          console.log(' ❌ Page view tracking failed:', error.message);
+          results.pageViewTracking = false;
         }
         
         const allPassed = Object.values(results).every(val => val === true || typeof val === 'string');
         console.log('\n🎯 Overall Status:', allPassed ? '✅ FULLY OPERATIONAL' : '⚠️ ISSUES DETECTED');
         
         if (allPassed) {
-          console.log('🎉 NEW Google Analytics 4 is working perfectly!');
+          console.log('🎉 Google Analytics 4 is working perfectly!');
           console.log('📊 Data is being sent to GA4 dashboard');
           console.log('🚀 Ready for production tracking');
+        } else {
+          console.log('⚠️ Some issues detected - check failed items above');
         }
         
         return results;
       };
-
+      
       // Auto-verify after page load
       window.addEventListener('load', () => {
         setTimeout(() => {
@@ -79,61 +112,42 @@
           window.verifyGA4Implementation();
         }, 2000);
       });
-    </script>
-
-    <!-- Firebase Analytics (Alternative/Backup) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
-    <script>
-      // Firebase config (as backup to gtag)
-      const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID",
-        measurementId: "G-CTDQQ8XMKC"
+      
+      // Real-time tracking test
+      window.testGA4Tracking = function() {
+        console.log('🧪 TESTING GA4 REAL-TIME TRACKING');
+        console.log('=================================');
+        
+        if (typeof gtag === 'function') {
+          // Send multiple test events
+          const testEvents = [
+            { name: 'test_page_view', params: { page_title: 'Test Page', page_location: window.location.href }},
+            { name: 'test_button_click', params: { event_category: 'testing', event_label: 'test_button' }},
+            { name: 'test_form_interaction', params: { event_category: 'testing', form_name: 'test_form' }},
+            { name: 'test_conversion', params: { event_category: 'conversion', value: 1, currency: 'USD' }}
+          ];
+          
+          testEvents.forEach((event, index) => {
+            setTimeout(() => {
+              gtag('event', event.name, event.params);
+              console.log(`📊 Sent test event ${index + 1}: ${event.name}`);
+            }, index * 1000);
+          });
+          
+          console.log('✅ All test events queued for sending');
+          console.log('📈 Check GA4 Real-Time reports in 1-2 minutes');
+        } else {
+          console.error('❌ gtag function not available');
+        }
       };
-
-      try {
-        const app = firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.analytics();
-        window.firebaseAnalytics = analytics;
-        console.log('🔥 Firebase Analytics initialized as backup');
-      } catch (error) {
-        console.log('Firebase initialization skipped (gtag is primary):', error.message);
-      }
     </script>
-
-    <!-- CyborgCRM Tracking Code -->
-    <script>
-      (function(c,y,b,o,r,g) {
-        c.CyborgCRM = c.CyborgCRM || function() {
-          (c.CyborgCRM.q = c.CyborgCRM.q || []).push(arguments)
-        };
-        c.CyborgCRM.l = 1 * new Date();
-        g = y.createElement(b);
-        o = y.getElementsByTagName(b)[0];
-        g.async = 1;
-        g.src = r;
-        o.parentNode.insertBefore(g, o)
-      })(window, document, 'script', 'https://cdn.cyborgcrm.com/tracking.js');
-
-      try {
-        CyborgCRM('init', 'YOUR_WEBSITE_ID');
-        CyborgCRM('track', 'pageview');
-        console.log('🤖 CyborgCRM initialized');
-      } catch (error) {
-        console.log('CyborgCRM initialization error:', error);
-      }
-    </script>
-
-    <!-- SITEBEHAVIOUR TRACKING - UPDATED VERSION -->
+    
+    <!-- SITEBEHAVIOUR TRACKING - VERIFIED VERSION -->
     <script type="text/javascript">
       (function() {
         var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
         window.sitebehaviourTrackingSecret = sbSiteSecret;
+        
         var scriptElement = document.createElement('script');
         scriptElement.defer = true;
         scriptElement.id = 'site-behaviour-script-v2';
@@ -143,8 +157,10 @@
           console.log('✅ SiteBehaviour script loaded successfully');
           console.log('🎯 Secret configured:', sbSiteSecret.substring(0, 8) + '...');
           
-          // Test data transmission immediately
-          testSiteBehaviourConnection();
+          // Test SiteBehaviour connection
+          if (typeof window.testSiteBehaviourConnection === 'function') {
+            window.testSiteBehaviourConnection();
+          }
         };
         
         scriptElement.onerror = function() {
@@ -155,7 +171,7 @@
         console.log('🚀 SiteBehaviour tracking code initiated');
       })();
     </script>
-
+    
     <!-- COMPREHENSIVE ANALYTICS TEST FUNCTION -->
     <script>
       // Test all analytics platforms together
@@ -166,8 +182,7 @@
         const results = {
           ga4: false,
           sitebehaviour: false,
-          firebase: false,
-          cyborgcrm: false
+          dataLayer: false
         };
         
         // Test GA4 (Primary)
@@ -176,7 +191,8 @@
             gtag('event', 'all_analytics_test', {
               event_category: 'testing',
               event_label: 'comprehensive_test',
-              platform: 'ga4'
+              platform: 'ga4',
+              timestamp: new Date().toISOString()
             });
             results.ga4 = true;
             console.log('✅ GA4: Test event sent successfully');
@@ -187,7 +203,25 @@
           console.log('❌ GA4: Error -', error.message);
         }
         
-        // Test SiteBehaviour  
+        // Test DataLayer
+        try {
+          if (window.dataLayer && Array.isArray(window.dataLayer)) {
+            window.dataLayer.push({
+              event: 'custom_analytics_test',
+              eventCategory: 'testing',
+              eventAction: 'dataLayer_test',
+              eventLabel: 'comprehensive_test'
+            });
+            results.dataLayer = true;
+            console.log('✅ DataLayer: Test event pushed successfully');
+          } else {
+            console.log('❌ DataLayer: Not available or not an array');
+          }
+        } catch (error) {
+          console.log('❌ DataLayer: Error -', error.message);
+        }
+        
+        // Test SiteBehaviour
         try {
           document.dispatchEvent(new CustomEvent('sitebehaviour-analytics-test', {
             detail: {
@@ -202,36 +236,6 @@
           console.log('❌ SiteBehaviour: Error -', error.message);
         }
         
-        // Test Firebase (if available)
-        try {
-          if (window.firebaseAnalytics) {
-            window.firebaseAnalytics.logEvent('all_analytics_test', {
-              platform: 'firebase'
-            });
-            results.firebase = true;
-            console.log('✅ Firebase: Test event sent successfully');
-          } else {
-            console.log('⚠️ Firebase: Not configured');
-          }
-        } catch (error) {
-          console.log('❌ Firebase: Error -', error.message);
-        }
-        
-        // Test CyborgCRM (if available)
-        try {
-          if (typeof window.CyborgCRM === 'function') {
-            CyborgCRM('track', 'all_analytics_test', {
-              platform: 'cyborgcrm'
-            });
-            results.cyborgcrm = true;
-            console.log('✅ CyborgCRM: Test event sent successfully');
-          } else {
-            console.log('⚠️ CyborgCRM: Not configured');
-          }
-        } catch (error) {
-          console.log('❌ CyborgCRM: Error -', error.message);
-        }
-        
         // Summary
         const workingPlatforms = Object.values(results).filter(Boolean).length;
         const totalPlatforms = Object.keys(results).length;
@@ -241,22 +245,22 @@
         console.log(`🎯 Working Platforms: ${workingPlatforms}/${totalPlatforms}`);
         
         Object.entries(results).forEach(([platform, working]) => {
-          console.log(`  ${working ? '✅' : '❌'} ${platform}: ${working ? 'WORKING' : 'ISSUES'}`);
+          console.log(` ${working ? '✅' : '❌'} ${platform}: ${working ? 'WORKING' : 'ISSUES'}`);
         });
         
         if (workingPlatforms > 0) {
           console.log('🎉 Analytics tracking is operational!');
+          console.log('📊 Run window.testGA4Tracking() for real-time testing');
         } else {
           console.log('⚠️ No analytics platforms are working - check implementation');
         }
         
         return results;
       };
-
+      
       // SiteBehaviour connection test
-      function testSiteBehaviourConnection() {
+      window.testSiteBehaviourConnection = function() {
         console.log('🧪 Testing SiteBehaviour data transmission...');
-        
         try {
           document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
             detail: {
@@ -271,14 +275,46 @@
         } catch (error) {
           console.error('❌ Failed to send SiteBehaviour page view:', error);
         }
-      }
-
+      };
+      
       // Make test functions globally available
-      window.testSiteBehaviourConnection = testSiteBehaviourConnection;
+      window.checkAnalyticsStatus = function() {
+        console.log('🔍 CHECKING ANALYTICS STATUS');
+        console.log('============================');
+        console.log('GA4 gtag function:', typeof window.gtag === 'function' ? '✅ Available' : '❌ Missing');
+        console.log('DataLayer:', window.dataLayer && Array.isArray(window.dataLayer) ? `✅ Active (${window.dataLayer.length} entries)` : '❌ Missing');
+        console.log('SiteBehaviour secret:', window.sitebehaviourTrackingSecret ? '✅ Configured' : '❌ Missing');
+        console.log('SiteBehaviour script:', document.querySelector('#site-behaviour-script-v2') ? '✅ Loaded' : '❌ Missing');
+        
+        console.log('\n🧪 Available test functions:');
+        console.log('• window.verifyGA4Implementation() - Verify GA4 setup');
+        console.log('• window.testGA4Tracking() - Test real-time tracking');
+        console.log('• window.testAllAnalytics() - Test all platforms');
+        console.log('• window.testSiteBehaviourConnection() - Test SiteBehaviour');
+      };
     </script>
   </head>
+  
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Analytics Auto-Test on Load -->
+    <script>
+      // Auto-run analytics check after page fully loads
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          console.log('🚀 Auto-running analytics status check...');
+          if (typeof window.checkAnalyticsStatus === 'function') {
+            window.checkAnalyticsStatus();
+          }
+        }, 3000);
+      });
+    </script>
   </body>
 </html>

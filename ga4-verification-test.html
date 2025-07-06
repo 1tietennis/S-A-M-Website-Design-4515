@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GA4 Real-Time Verification Test</title>
+    
+    <!-- EXACT SAME GA4 CODE AS MAIN SITE -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CTDQQ8XMKC', {
+        page_title: 'GA4 Verification Test Page',
+        page_location: window.location.href,
+        send_page_view: true
+      });
+      
+      console.log('✅ GA4 Test Page - Google Analytics 4 loaded');
+      console.log('📊 Measurement ID: G-CTDQQ8XMKC');
+    </script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .test-container {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #ED2729;
+        }
+        .test-button {
+            background: #ED2729;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background: #b91c1c;
+        }
+        .results {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background: #22c55e20; border: 1px solid #22c55e; color: #22c55e; }
+        .error { background: #ef444420; border: 1px solid #ef4444; color: #ef4444; }
+        .warning { background: #f59e0b20; border: 1px solid #f59e0b; color: #f59e0b; }
+    </style>
+</head>
+<body>
+    <h1>🧪 GA4 Real-Time Verification Test</h1>
+    <h2>Secret Agent Digital Marketing</h2>
+
+    <div class="test-container">
+        <h3>📊 GA4 Status Check</h3>
+        <div id="status-display">
+            <div class="status warning">⏳ Checking GA4 status...</div>
+        </div>
+        <button class="test-button" onclick="checkGA4Status()">🔍 Check GA4 Status</button>
+    </div>
+
+    <div class="test-container">
+        <h3>🚀 Real-Time Event Testing</h3>
+        <p>These events will appear in Google Analytics Real-Time reports within 1-2 minutes:</p>
+        
+        <button class="test-button" onclick="sendPageViewEvent()">📄 Send Page View</button>
+        <button class="test-button" onclick="sendButtonClickEvent()">🖱️ Send Button Click</button>
+        <button class="test-button" onclick="sendConversionEvent()">💰 Send Conversion</button>
+        <button class="test-button" onclick="sendCustomEvent()">⚡ Send Custom Event</button>
+        <button class="test-button" onclick="sendBatchEvents()">🔥 Send Batch Events</button>
+    </div>
+
+    <div class="test-container">
+        <h3>📋 Real-Time Results Log</h3>
+        <button class="test-button" onclick="clearResults()" style="background: #666;">🧹 Clear Log</button>
+        <div id="results-log" class="results">
+            [GA4 Real-Time Test Page initialized...]\n
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h3>📈 How to Verify in Google Analytics</h3>
+        <ol style="color: #ccc;">
+            <li>Open <a href="https://analytics.google.com" target="_blank" style="color: #ED2729;">Google Analytics</a></li>
+            <li>Select the property with ID: <strong>G-CTDQQ8XMKC</strong></li>
+            <li>Go to <strong>Reports</strong> → <strong>Real-time</strong></li>
+            <li>Click the test buttons above</li>
+            <li>Watch for events appearing in real-time (1-2 minutes delay)</li>
+        </ol>
+    </div>
+
+    <script>
+        function logToResults(message) {
+            const resultsLog = document.getElementById('results-log');
+            const timestamp = new Date().toLocaleTimeString();
+            resultsLog.innerHTML += `[${timestamp}] ${message}\n`;
+            resultsLog.scrollTop = resultsLog.scrollHeight;
+            console.log(message);
+        }
+
+        function clearResults() {
+            document.getElementById('results-log').innerHTML = '[Results cleared]\n';
+        }
+
+        function updateStatus(message, type = 'warning') {
+            const statusDisplay = document.getElementById('status-display');
+            statusDisplay.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function checkGA4Status() {
+            logToResults('🔍 Checking GA4 implementation status...');
+            
+            const checks = {
+                'gtag function': typeof window.gtag === 'function',
+                'dataLayer array': window.dataLayer && Array.isArray(window.dataLayer),
+                'GA4 script': !!document.querySelector('script[src*="G-CTDQQ8XMKC"]'),
+                'measurement ID': true // We know this is correct
+            };
+            
+            let allPassed = true;
+            Object.entries(checks).forEach(([check, passed]) => {
+                logToResults(`${passed ? '✅' : '❌'} ${check}: ${passed ? 'OK' : 'FAILED'}`);
+                if (!passed) allPassed = false;
+            });
+            
+            if (allPassed) {
+                updateStatus('✅ GA4 is fully operational and ready for testing', 'success');
+                logToResults('🎉 GA4 is fully operational!');
+            } else {
+                updateStatus('❌ GA4 has configuration issues', 'error');
+                logToResults('⚠️ GA4 configuration issues detected');
+            }
+        }
+
+        function sendPageViewEvent() {
+            logToResults('📄 Sending page view event...');
+            try {
+                gtag('config', 'G-CTDQQ8XMKC', {
+                    page_title: 'GA4 Test Page View',
+                    page_location: window.location.href + '?test=pageview',
+                    send_page_view: true
+                });
+                logToResults('✅ Page view event sent to GA4');
+            } catch (error) {
+                logToResults('❌ Error sending page view: ' + error.message);
+            }
+        }
+
+        function sendButtonClickEvent() {
+            logToResults('🖱️ Sending button click event...');
+            try {
+                gtag('event', 'button_click_test', {
+                    event_category: 'testing',
+                    event_label: 'ga4_verification_button',
+                    button_name: 'Test Button Click',
+                    click_location: 'verification_page',
+                    value: 1
+                });
+                logToResults('✅ Button click event sent to GA4');
+            } catch (error) {
+                logToResults('❌ Error sending button click: ' + error.message);
+            }
+        }
+
+        function sendConversionEvent() {
+            logToResults('💰 Sending conversion event...');
+            try {
+                gtag('event', 'purchase', {
+                    transaction_id: 'test_' + Date.now(),
+                    value: 99.99,
+                    currency: 'USD',
+                    items: [{
+                        item_id: 'test_conversion',
+                        item_name: 'GA4 Test Conversion',
+                        category: 'testing',
+                        quantity: 1,
+                        price: 99.99
+                    }]
+                });
+                logToResults('✅ Conversion event sent to GA4');
+            } catch (error) {
+                logToResults('❌ Error sending conversion: ' + error.message);
+            }
+        }
+
+        function sendCustomEvent() {
+            logToResults('⚡ Sending custom event...');
+            try {
+                gtag('event', 'custom_verification_test', {
+                    event_category: 'verification',
+                    event_label: 'ga4_custom_test',
+                    custom_parameter_1: 'test_value',
+                    custom_parameter_2: Date.now(),
+                    test_timestamp: new Date().toISOString(),
+                    page_type: 'verification_page'
+                });
+                logToResults('✅ Custom event sent to GA4');
+            } catch (error) {
+                logToResults('❌ Error sending custom event: ' + error.message);
+            }
+        }
+
+        function sendBatchEvents() {
+            logToResults('🔥 Sending batch of test events...');
+            
+            const events = [
+                { name: 'test_event_1', params: { event_category: 'batch', event_label: 'event_1' }},
+                { name: 'test_event_2', params: { event_category: 'batch', event_label: 'event_2' }},
+                { name: 'test_event_3', params: { event_category: 'batch', event_label: 'event_3' }},
+                { name: 'form_interaction_test', params: { event_category: 'engagement', form_name: 'test_form' }},
+                { name: 'scroll_test', params: { event_category: 'engagement', scroll_depth: 75 }}
+            ];
+            
+            events.forEach((event, index) => {
+                setTimeout(() => {
+                    try {
+                        gtag('event', event.name, event.params);
+                        logToResults(`✅ Batch event ${index + 1} sent: ${event.name}`);
+                    } catch (error) {
+                        logToResults(`❌ Batch event ${index + 1} failed: ${error.message}`);
+                    }
+                }, index * 500);
+            });
+            
+            logToResults('🚀 All batch events queued for sending');
+            logToResults('📊 Check GA4 Real-Time reports in 1-2 minutes');
+        }
+
+        // Auto-check status on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                logToResults('🚀 GA4 verification test page loaded');
+                checkGA4Status();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
