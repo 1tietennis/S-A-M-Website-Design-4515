@@ -1,191 +1,279 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title>
-  <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." />
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title>
+    <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Firebase Analytics -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID",
-      measurementId: "G-CTDQQ8XMKC"
-    };
-
-    try {
-      const app = firebase.initializeApp(firebaseConfig);
-      const analytics = firebase.analytics();
-      window.firebaseAnalytics = analytics;
-      console.log('🔥 Firebase Analytics initialized');
-    } catch (error) {
-      console.log('Firebase initialization error:', error);
-    }
-  </script>
-
-  <!-- CyborgCRM Tracking Code -->
-  <script>
-    (function(c,y,b,o,r,g){
-      c.CyborgCRM = c.CyborgCRM || function(){
-        (c.CyborgCRM.q = c.CyborgCRM.q || []).push(arguments)
-      };
-      c.CyborgCRM.l = 1*new Date();
-      g = y.createElement(b);
-      o = y.getElementsByTagName(b)[0];
-      g.async = 1;
-      g.src = r;
-      o.parentNode.insertBefore(g,o)
-    })(window,document,'script','https://cdn.cyborgcrm.com/tracking.js');
-
-    try {
-      CyborgCRM('init', 'YOUR_WEBSITE_ID');
-      CyborgCRM('track', 'pageview');
-      console.log('🤖 CyborgCRM initialized');
-    } catch (error) {
-      console.log('CyborgCRM initialization error:', error);
-    }
-  </script>
-
-  <!-- PRIMARY SITEBEHAVIOUR TRACKING - UPDATED SCRIPT -->
-  <script type="text/javascript">
-    (function() {
-      var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
-      window.sitebehaviourTrackingSecret = sbSiteSecret;
-      
-      var scriptElement = document.createElement('script');
-      scriptElement.defer = true;
-      scriptElement.id = 'site-behaviour-script-v2';
-      scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
-      
-      // Enhanced connection monitoring
-      scriptElement.onload = function() {
-        console.log('✅ SiteBehaviour PRIMARY script loaded successfully');
-        console.log('🎯 Secret configured:', sbSiteSecret.substring(0,8) + '...');
+    <!-- Firebase Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "G-CTDQQ8XMKC"
+        };
         
-        // Verify connection immediately
-        setTimeout(() => {
-          if (window.sitebehaviourTrackingSecret === sbSiteSecret) {
-            console.log('🔥 SiteBehaviour 100% CONNECTED and ACTIVE');
-            
-            // Initialize enhanced real-time monitoring
-            if (window.initializeSiteBehaviourRealTime) {
-              window.initializeSiteBehaviourRealTime();
-              console.log('📊 Real-time monitoring ACTIVATED');
-            }
-            
-            // Send connection confirmation event
-            document.dispatchEvent(new CustomEvent('sitebehaviour-connected', {
-              detail: {
-                timestamp: Date.now(),
-                secret: sbSiteSecret,
-                status: 'fully_connected'
-              }
-            }));
-          }
-        }, 1500);
-      };
-      
-      scriptElement.onerror = function() {
-        console.error('❌ CRITICAL: SiteBehaviour script failed to load');
-        console.error('❌ Check network connection and CDN availability');
-      };
-      
-      document.head.appendChild(scriptElement);
-      console.log('🚀 SiteBehaviour PRIMARY tracking initiated');
-    })();
-  </script>
-
-  <!-- REAL-TIME CONNECTION MONITOR -->
-  <script>
-    // Enhanced connection verification and monitoring
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('🔍 SITEBEHAVIOUR CONNECTION VERIFICATION');
-      console.log('=====================================');
-      
-      let connectionChecks = 0;
-      const maxChecks = 15; // Check for 15 seconds
-      
-      const verifyConnection = () => {
-        connectionChecks++;
-        const script = document.querySelector('#site-behaviour-script-v2');
-        const secret = window.sitebehaviourTrackingSecret;
-        const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
-        
-        console.log(`🔍 Check ${connectionChecks}/${maxChecks}:`);
-        console.log(`  Script loaded: ${script ? '✅' : '❌'}`);
-        console.log(`  Secret set: ${secret ? '✅' : '❌'}`);
-        console.log(`  Secret correct: ${secret === expectedSecret ? '✅' : '❌'}`);
-        
-        if (script && secret === expectedSecret) {
-          console.log('🎉 SITEBEHAVIOUR 100% CONNECTED!');
-          console.log('📊 Real-time visitor tracking is ACTIVE');
-          console.log('🎯 Dashboard should show live data immediately');
-          
-          // Stop checking - we're connected
-          clearInterval(connectionInterval);
-          
-          // Final activation verification
-          setTimeout(() => {
-            if (window.initializeSiteBehaviourRealTime) {
-              console.log('🔥 Activating enhanced real-time monitoring...');
-              window.initializeSiteBehaviourRealTime();
-            }
-          }, 2000);
-          
-        } else if (connectionChecks >= maxChecks) {
-          console.error('❌ SITEBEHAVIOUR CONNECTION FAILED');
-          console.error('❌ Script or configuration issue detected');
-          clearInterval(connectionInterval);
+        try {
+            const app = firebase.initializeApp(firebaseConfig);
+            const analytics = firebase.analytics();
+            window.firebaseAnalytics = analytics;
+            console.log('🔥 Firebase Analytics initialized');
+        } catch (error) {
+            console.log('Firebase initialization error:', error);
         }
-      };
-      
-      // Check connection every second
-      const connectionInterval = setInterval(verifyConnection, 1000);
-      
-      // Initial check
-      verifyConnection();
-    });
+    </script>
 
-    // Global connection status checker
-    window.checkSiteBehaviourConnection = function() {
-      const script = document.querySelector('#site-behaviour-script-v2');
-      const secret = window.sitebehaviourTrackingSecret;
-      const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
-      
-      console.log('🔍 SITEBEHAVIOUR CONNECTION STATUS');
-      console.log('=================================');
-      console.log('Script Element:', script ? '✅ LOADED' : '❌ MISSING');
-      console.log('Secret Variable:', secret ? '✅ SET' : '❌ MISSING');
-      console.log('Secret Correct:', secret === expectedSecret ? '✅ VALID' : '❌ INVALID');
-      
-      if (script) {
-        console.log('Script Source:', script.src);
-      }
-      if (secret) {
-        console.log('Secret Value:', secret.substring(0,8) + '...');
-      }
-      
-      const isConnected = script && secret === expectedSecret;
-      console.log('Overall Status:', isConnected ? '🎉 100% CONNECTED' : '❌ CONNECTION ISSUES');
-      
-      return isConnected;
-    };
-  </script>
+    <!-- CyborgCRM Tracking Code -->
+    <script>
+        (function(c,y,b,o,r,g) {
+            c.CyborgCRM = c.CyborgCRM || function() {
+                (c.CyborgCRM.q = c.CyborgCRM.q || []).push(arguments)
+            };
+            c.CyborgCRM.l = 1 * new Date();
+            g = y.createElement(b);
+            o = y.getElementsByTagName(b)[0];
+            g.async = 1;
+            g.src = r;
+            o.parentNode.insertBefore(g, o)
+        })(window, document, 'script', 'https://cdn.cyborgcrm.com/tracking.js');
+        
+        try {
+            CyborgCRM('init', 'YOUR_WEBSITE_ID');
+            CyborgCRM('track', 'pageview');
+            console.log('🤖 CyborgCRM initialized');
+        } catch (error) {
+            console.log('CyborgCRM initialization error:', error);
+        }
+    </script>
+
+    <!-- NEW SITEBEHAVIOUR TRACKING - UPDATED VERSION -->
+    <script type="text/javascript">
+        (function() {
+            var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+            window.sitebehaviourTrackingSecret = sbSiteSecret;
+            var scriptElement = document.createElement('script');
+            scriptElement.defer = true;
+            scriptElement.id = 'site-behaviour-script-v2';
+            scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
+            
+            // Enhanced connection monitoring
+            scriptElement.onload = function() {
+                console.log('✅ SiteBehaviour NEW script loaded successfully');
+                console.log('🎯 Secret configured:', sbSiteSecret.substring(0, 8) + '...');
+                
+                // Verify connection immediately
+                setTimeout(() => {
+                    if (window.sitebehaviourTrackingSecret === sbSiteSecret) {
+                        console.log('🔥 SiteBehaviour 100% CONNECTED and ACTIVE with NEW tracking code');
+                        
+                        // Test data transmission immediately
+                        testSiteBehaviourConnection();
+                        
+                        // Initialize enhanced real-time monitoring
+                        if (window.initializeSiteBehaviourRealTime) {
+                            window.initializeSiteBehaviourRealTime();
+                            console.log('📊 Real-time monitoring ACTIVATED');
+                        }
+                        
+                        // Send connection confirmation event
+                        document.dispatchEvent(new CustomEvent('sitebehaviour-connected', {
+                            detail: {
+                                timestamp: Date.now(),
+                                secret: sbSiteSecret,
+                                status: 'fully_connected',
+                                version: 'new_tracking_code'
+                            }
+                        }));
+                    }
+                }, 1500);
+            };
+            
+            scriptElement.onerror = function() {
+                console.error('❌ CRITICAL: SiteBehaviour NEW script failed to load');
+                console.error('❌ Check network connection and CDN availability');
+            };
+            
+            document.head.appendChild(scriptElement);
+            console.log('🚀 SiteBehaviour NEW tracking code initiated');
+        })();
+    </script>
+
+    <!-- SITEBEHAVIOUR DATA TRANSMISSION TEST -->
+    <script>
+        // Function to test SiteBehaviour data transmission
+        function testSiteBehaviourConnection() {
+            console.log('🧪 Testing SiteBehaviour data transmission...');
+            
+            // Test 1: Send page view event
+            try {
+                document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
+                    detail: {
+                        page: window.location.pathname,
+                        title: document.title,
+                        url: window.location.href,
+                        timestamp: Date.now(),
+                        test: true
+                    }
+                }));
+                console.log('📊 Test page view event sent to SiteBehaviour');
+            } catch (error) {
+                console.error('❌ Failed to send page view:', error);
+            }
+            
+            // Test 2: Send user interaction event
+            try {
+                document.dispatchEvent(new CustomEvent('sitebehaviour-user-interaction', {
+                    detail: {
+                        type: 'connection_test',
+                        action: 'script_loaded',
+                        timestamp: Date.now(),
+                        userAgent: navigator.userAgent,
+                        test: true
+                    }
+                }));
+                console.log('👤 Test user interaction event sent to SiteBehaviour');
+            } catch (error) {
+                console.error('❌ Failed to send user interaction:', error);
+            }
+            
+            // Test 3: Send custom analytics event
+            try {
+                document.dispatchEvent(new CustomEvent('sitebehaviour-analytics', {
+                    detail: {
+                        event: 'tracking_verification',
+                        category: 'system_test',
+                        label: 'new_tracking_code',
+                        value: 1,
+                        timestamp: Date.now(),
+                        test: true
+                    }
+                }));
+                console.log('📈 Test analytics event sent to SiteBehaviour');
+            } catch (error) {
+                console.error('❌ Failed to send analytics event:', error);
+            }
+            
+            console.log('✅ SiteBehaviour connection test completed - check dashboard for data');
+        }
+        
+        // Make test function globally available
+        window.testSiteBehaviourConnection = testSiteBehaviourConnection;
+    </script>
+
+    <!-- REAL-TIME CONNECTION MONITOR -->
+    <script>
+        // Enhanced connection verification and monitoring
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 SITEBEHAVIOUR NEW CODE VERIFICATION');
+            console.log('====================================');
+            
+            let connectionChecks = 0;
+            const maxChecks = 15; // Check for 15 seconds
+            
+            const verifyConnection = () => {
+                connectionChecks++;
+                const script = document.querySelector('#site-behaviour-script-v2');
+                const secret = window.sitebehaviourTrackingSecret;
+                const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+                
+                console.log(`🔍 Check ${connectionChecks}/${maxChecks}:`);
+                console.log(`  Script loaded: ${script ? '✅' : '❌'}`);
+                console.log(`  Secret set: ${secret ? '✅' : '❌'}`);
+                console.log(`  Secret correct: ${secret === expectedSecret ? '✅' : '❌'}`);
+                
+                if (script && secret === expectedSecret) {
+                    console.log('🎉 SITEBEHAVIOUR 100% CONNECTED with NEW tracking code!');
+                    console.log('📊 Real-time visitor tracking is ACTIVE');
+                    console.log('🎯 Dashboard should show live data immediately');
+                    
+                    // Stop checking - we're connected
+                    clearInterval(connectionInterval);
+                    
+                    // Send multiple test events to ensure data flow
+                    setTimeout(() => {
+                        console.log('🔄 Sending additional test events...');
+                        
+                        // Send session start event
+                        document.dispatchEvent(new CustomEvent('sitebehaviour-session-start', {
+                            detail: {
+                                sessionId: 'test_session_' + Date.now(),
+                                timestamp: Date.now(),
+                                page: window.location.pathname
+                            }
+                        }));
+                        
+                        // Send engagement event
+                        document.dispatchEvent(new CustomEvent('sitebehaviour-engagement', {
+                            detail: {
+                                type: 'page_load_complete',
+                                duration: Date.now() - performance.timing.navigationStart,
+                                timestamp: Date.now()
+                            }
+                        }));
+                        
+                        console.log('📤 Additional test events sent to verify data transmission');
+                    }, 2000);
+                    
+                } else if (connectionChecks >= maxChecks) {
+                    console.error('❌ SITEBEHAVIOUR CONNECTION FAILED with new tracking code');
+                    console.error('❌ Script or configuration issue detected');
+                    clearInterval(connectionInterval);
+                }
+            };
+            
+            // Check connection every second
+            const connectionInterval = setInterval(verifyConnection, 1000);
+            
+            // Initial check
+            verifyConnection();
+        });
+
+        // Global connection status checker
+        window.checkSiteBehaviourConnection = function() {
+            const script = document.querySelector('#site-behaviour-script-v2');
+            const secret = window.sitebehaviourTrackingSecret;
+            const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+            
+            console.log('🔍 SITEBEHAVIOUR NEW CODE STATUS');
+            console.log('===============================');
+            console.log('Script Element:', script ? '✅ LOADED' : '❌ MISSING');
+            console.log('Secret Variable:', secret ? '✅ SET' : '❌ MISSING');
+            console.log('Secret Correct:', secret === expectedSecret ? '✅ VALID' : '❌ INVALID');
+            
+            if (script) {
+                console.log('Script Source:', script.src);
+            }
+            if (secret) {
+                console.log('Secret Value:', secret.substring(0, 8) + '...');
+            }
+            
+            const isConnected = script && secret === expectedSecret;
+            console.log('Overall Status:', isConnected ? '🎉 100% CONNECTED' : '❌ CONNECTION ISSUES');
+            
+            if (isConnected) {
+                console.log('🧪 Running connection test...');
+                testSiteBehaviourConnection();
+            }
+            
+            return isConnected;
+        };
+    </script>
 </head>
+
 <body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

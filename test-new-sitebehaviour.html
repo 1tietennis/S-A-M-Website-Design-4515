@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 New SiteBehaviour Tracking Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .test-container {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #ED2729;
+        }
+        .test-button {
+            background: #ED2729;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 8px;
+        }
+        .test-button:hover {
+            background: #b91c1c;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #22c55e20;
+            border: 1px solid #22c55e;
+            color: #22c55e;
+        }
+        .error {
+            background: #ef444420;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+        .info {
+            background: #3b82f620;
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+        }
+        .console-output {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 NEW SITEBEHAVIOUR TRACKING TEST</h1>
+    <h2>Verify the updated tracking code is working</h2>
+
+    <!-- NEW SITEBEHAVIOUR TRACKING CODE -->
+    <script type="text/javascript">
+        (function() {
+            var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+            window.sitebehaviourTrackingSecret = sbSiteSecret;
+            var scriptElement = document.createElement('script');
+            scriptElement.defer = true;
+            scriptElement.id = 'site-behaviour-script-v2';
+            scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
+            
+            scriptElement.onload = function() {
+                logToConsole('✅ NEW SiteBehaviour script loaded successfully');
+                logToConsole('🎯 Secret: ' + sbSiteSecret.substring(0, 8) + '...');
+                updateConnectionStatus();
+            };
+            
+            scriptElement.onerror = function() {
+                logToConsole('❌ NEW SiteBehaviour script failed to load');
+                updateConnectionStatus();
+            };
+            
+            document.head.appendChild(scriptElement);
+            logToConsole('🚀 NEW SiteBehaviour tracking code loading...');
+        })();
+    </script>
+
+    <div class="test-container">
+        <h3>🔧 NEW Tracking Code Status</h3>
+        <div id="connection-status">
+            <div class="test-result info">⏳ Testing NEW SiteBehaviour tracking code...</div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h3>🧪 Data Transmission Tests</h3>
+        <button class="test-button" onclick="testPageView()">📊 Test Page View</button>
+        <button class="test-button" onclick="testUserInteraction()">👤 Test User Interaction</button>
+        <button class="test-button" onclick="testCustomEvent()">📈 Test Custom Event</button>
+        <button class="test-button" onclick="testSessionData()">🔄 Test Session Data</button>
+        <button class="test-button" onclick="runAllTests()">🚀 Run All Tests</button>
+        <button class="test-button" onclick="clearConsole()">🧹 Clear Console</button>
+    </div>
+
+    <div class="test-container">
+        <h3>📊 Live Console Output</h3>
+        <div id="console-output" class="console-output">[NEW SiteBehaviour tracking test started...]\n</div>
+    </div>
+
+    <div class="test-container">
+        <h3>📋 Connection Details</h3>
+        <div id="connection-details">
+            <div class="test-result info">Details will appear after connection check...</div>
+        </div>
+    </div>
+
+    <script>
+        // Console logging functions
+        function logToConsole(message) {
+            const consoleOutput = document.getElementById('console-output');
+            const timestamp = new Date().toLocaleTimeString();
+            consoleOutput.innerHTML += `[${timestamp}] ${message}\n`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            console.log(message);
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').innerHTML = '[Console cleared]\n';
+        }
+
+        // Connection status checker
+        function updateConnectionStatus() {
+            const statusDiv = document.getElementById('connection-status');
+            const detailsDiv = document.getElementById('connection-details');
+            const script = document.querySelector('#site-behaviour-script-v2');
+            const secret = window.sitebehaviourTrackingSecret;
+            const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+
+            const tests = {
+                scriptElement: !!script,
+                secretSet: !!secret,
+                secretCorrect: secret === expectedSecret,
+                scriptSrc: script ? script.src : null
+            };
+
+            // Update status
+            statusDiv.innerHTML = '';
+            if (tests.scriptElement && tests.secretSet && tests.secretCorrect) {
+                statusDiv.innerHTML = '<div class="test-result success">🎉 NEW SiteBehaviour tracking FULLY CONNECTED</div>';
+                logToConsole('🎉 NEW tracking code verified successfully');
+            } else {
+                statusDiv.innerHTML = '<div class="test-result error">❌ NEW tracking code connection issues detected</div>';
+                logToConsole('❌ NEW tracking code problems found');
+            }
+
+            // Update details
+            detailsDiv.innerHTML = `
+                <div class="test-result ${tests.scriptElement ? 'success' : 'error'}">
+                    ${tests.scriptElement ? '✅' : '❌'} Script Element: ${tests.scriptElement ? 'LOADED' : 'MISSING'}
+                </div>
+                <div class="test-result ${tests.secretSet ? 'success' : 'error'}">
+                    ${tests.secretSet ? '✅' : '❌'} Secret Variable: ${tests.secretSet ? 'SET' : 'MISSING'}
+                </div>
+                <div class="test-result ${tests.secretCorrect ? 'success' : 'error'}">
+                    ${tests.secretCorrect ? '✅' : '❌'} Secret Correct: ${tests.secretCorrect ? 'VALID' : 'INVALID'}
+                </div>
+                <div class="test-result info">
+                    📍 Script Source: ${tests.scriptSrc || 'Not available'}
+                </div>
+                <div class="test-result info">
+                    🔑 Secret Value: ${secret ? secret.substring(0, 8) + '...' : 'Not set'}
+                </div>
+            `;
+        }
+
+        // Test functions
+        function testPageView() {
+            logToConsole('📊 Testing page view transmission...');
+            try {
+                document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
+                    detail: {
+                        page: window.location.pathname,
+                        title: document.title,
+                        url: window.location.href,
+                        referrer: document.referrer,
+                        timestamp: Date.now(),
+                        test: true,
+                        trackingVersion: 'new_code'
+                    }
+                }));
+                logToConsole('✅ Page view event sent successfully');
+            } catch (error) {
+                logToConsole('❌ Error sending page view: ' + error.message);
+            }
+        }
+
+        function testUserInteraction() {
+            logToConsole('👤 Testing user interaction transmission...');
+            try {
+                document.dispatchEvent(new CustomEvent('sitebehaviour-user-interaction', {
+                    detail: {
+                        type: 'button_click',
+                        element: 'test_button',
+                        action: 'manual_test',
+                        timestamp: Date.now(),
+                        userAgent: navigator.userAgent,
+                        test: true,
+                        trackingVersion: 'new_code'
+                    }
+                }));
+                logToConsole('✅ User interaction event sent successfully');
+            } catch (error) {
+                logToConsole('❌ Error sending user interaction: ' + error.message);
+            }
+        }
+
+        function testCustomEvent() {
+            logToConsole('📈 Testing custom event transmission...');
+            try {
+                document.dispatchEvent(new CustomEvent('sitebehaviour-custom', {
+                    detail: {
+                        event: 'tracking_test',
+                        category: 'manual_testing',
+                        label: 'new_tracking_verification',
+                        value: 1,
+                        timestamp: Date.now(),
+                        test: true,
+                        trackingVersion: 'new_code'
+                    }
+                }));
+                logToConsole('✅ Custom event sent successfully');
+            } catch (error) {
+                logToConsole('❌ Error sending custom event: ' + error.message);
+            }
+        }
+
+        function testSessionData() {
+            logToConsole('🔄 Testing session data transmission...');
+            try {
+                const sessionId = 'test_session_' + Date.now();
+                
+                document.dispatchEvent(new CustomEvent('sitebehaviour-session', {
+                    detail: {
+                        sessionId: sessionId,
+                        action: 'session_start',
+                        timestamp: Date.now(),
+                        page: window.location.pathname,
+                        userAgent: navigator.userAgent,
+                        screenResolution: screen.width + 'x' + screen.height,
+                        test: true,
+                        trackingVersion: 'new_code'
+                    }
+                }));
+                
+                logToConsole('✅ Session data sent successfully');
+                logToConsole('📝 Session ID: ' + sessionId);
+            } catch (error) {
+                logToConsole('❌ Error sending session data: ' + error.message);
+            }
+        }
+
+        async function runAllTests() {
+            logToConsole('🚀 Running comprehensive transmission tests...');
+            logToConsole('==========================================');
+            
+            const tests = [
+                { name: 'Page View', func: testPageView },
+                { name: 'User Interaction', func: testUserInteraction },
+                { name: 'Custom Event', func: testCustomEvent },
+                { name: 'Session Data', func: testSessionData }
+            ];
+            
+            for (let i = 0; i < tests.length; i++) {
+                const test = tests[i];
+                logToConsole(`🧪 Running test ${i + 1}/${tests.length}: ${test.name}`);
+                test.func();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            
+            logToConsole('✅ All transmission tests completed');
+            logToConsole('📊 Check your SiteBehaviour dashboard for incoming data');
+            logToConsole('🎯 Data should appear within 1-2 minutes');
+        }
+
+        // Auto-check connection on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                logToConsole('🔄 Auto-checking NEW tracking code...');
+                updateConnectionStatus();
+                
+                // Auto-run basic test
+                setTimeout(() => {
+                    logToConsole('🤖 Auto-running basic transmission test...');
+                    testPageView();
+                }, 2000);
+            }, 3000);
+        });
+
+        // Monitor script loading
+        const checkInterval = setInterval(() => {
+            if (document.querySelector('#site-behaviour-script-v2')) {
+                updateConnectionStatus();
+                clearInterval(checkInterval);
+            }
+        }, 500);
+    </script>
+</body>
+</html>
