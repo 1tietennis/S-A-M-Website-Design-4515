@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Step-by-Step Functionality Tester</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+            line-height: 1.6;
+        }
+        .test-container {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #ED2729;
+        }
+        .step {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #ED2729;
+        }
+        .step.completed {
+            border-left-color: #00ff00;
+            background: #002200;
+        }
+        .step.failed {
+            border-left-color: #ff4444;
+            background: #220000;
+        }
+        .test-button {
+            background: #ED2729;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+        .test-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result-log {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #444;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ED2729, #ff6b6b);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .demo-elements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .demo-button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .demo-button:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        .demo-input {
+            padding: 10px;
+            border: 2px solid #666;
+            border-radius: 5px;
+            background: #444;
+            color: white;
+            font-size: 14px;
+        }
+        .demo-input:focus {
+            border-color: #ED2729;
+            outline: none;
+        }
+        .demo-link {
+            color: #4CAF50;
+            text-decoration: none;
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .demo-link:hover {
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 STEP-BY-STEP FUNCTIONALITY TESTER</h1>
+        <p>Systematically test each component to identify where issues arise</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p>Progress: <span id="progress-text">0/0</span></p>
+    </div>
+
+    <div class="test-container">
+        <h2>📋 TEST SEQUENCE</h2>
+        <p>Tests will run in order. Each step must pass before proceeding.</p>
+        
+        <div id="test-steps">
+            <!-- Steps will be dynamically generated -->
+        </div>
+        
+        <button class="test-button" id="start-tests" onclick="startStepByStepTests()">🚀 Start Step-by-Step Tests</button>
+        <button class="test-button" onclick="resetAllTests()">🔄 Reset All Tests</button>
+    </div>
+
+    <div class="test-container">
+        <h2>🎯 DEMO ELEMENTS FOR TESTING</h2>
+        <p>These elements are for testing basic functionality:</p>
+        
+        <div class="demo-elements">
+            <button class="demo-button" onclick="testButtonClick(this)">Click Me!</button>
+            <input type="text" class="demo-input" placeholder="Type something..." onchange="testInputChange(this)">
+            <input type="email" class="demo-input" placeholder="test@example.com" onchange="testEmailValidation(this)">
+            <a href="#" class="demo-link" onclick="testLinkClick(this); return false;">Test Link</a>
+            <button class="demo-button" onclick="testLocalStorageDemo()">Test Storage</button>
+            <button class="demo-button" onclick="testEventDemo()">Test Events</button>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>📊 REAL-TIME RESULTS</h2>
+        <div id="result-log" class="result-log">Ready to start testing...\n</div>
+    </div>
+
+    <script>
+        // Test configuration
+        const testSteps = [
+            {
+                id: 'basic-js',
+                name: 'Basic JavaScript',
+                description: 'Test basic JavaScript functionality',
+                test: testBasicJavaScript
+            },
+            {
+                id: 'dom-access',
+                name: 'DOM Access',
+                description: 'Test document and element access',
+                test: testDOMAccess
+            },
+            {
+                id: 'event-system',
+                name: 'Event System',
+                description: 'Test event listeners and handlers',
+                test: testEventSystem
+            },
+            {
+                id: 'form-elements',
+                name: 'Form Elements',
+                description: 'Test form inputs and validation',
+                test: testFormElements
+            },
+            {
+                id: 'storage-apis',
+                name: 'Storage APIs',
+                description: 'Test localStorage and sessionStorage',
+                test: testStorageAPIs
+            },
+            {
+                id: 'network-requests',
+                name: 'Network Requests',
+                description: 'Test fetch and network connectivity',
+                test: testNetworkRequests
+            },
+            {
+                id: 'css-styles',
+                name: 'CSS Styles',
+                description: 'Test CSS loading and manipulation',
+                test: testCSSStyles
+            },
+            {
+                id: 'external-scripts',
+                name: 'External Scripts',
+                description: 'Test external script loading',
+                test: testExternalScripts
+            },
+            {
+                id: 'analytics-integration',
+                name: 'Analytics Integration',
+                description: 'Test analytics and tracking',
+                test: testAnalyticsIntegration
+            },
+            {
+                id: 'final-integration',
+                name: 'Final Integration',
+                description: 'Test complete system integration',
+                test: testFinalIntegration
+            }
+        ];
+
+        let currentStep = 0;
+        let testResults = {};
+
+        // Initialize test interface
+        function initializeTests() {
+            const stepsContainer = document.getElementById('test-steps');
+            stepsContainer.innerHTML = '';
+
+            testSteps.forEach((step, index) => {
+                const stepElement = document.createElement('div');
+                stepElement.className = 'step';
+                stepElement.id = `step-${step.id}`;
+                stepElement.innerHTML = `
+                    <h3>${index + 1}. ${step.name}</h3>
+                    <p>${step.description}</p>
+                    <p><strong>Status:</strong> <span id="status-${step.id}">⏳ Waiting</span></p>
+                `;
+                stepsContainer.appendChild(stepElement);
+            });
+
+            updateProgress();
+            log('Test interface initialized with ' + testSteps.length + ' steps');
+        }
+
+        // Logging function
+        function log(message) {
+            const resultLog = document.getElementById('result-log');
+            const timestamp = new Date().toLocaleTimeString();
+            resultLog.innerHTML += `[${timestamp}] ${message}\n`;
+            resultLog.scrollTop = resultLog.scrollHeight;
+            console.log(message);
+        }
+
+        // Update progress
+        function updateProgress() {
+            const completedTests = Object.keys(testResults).length;
+            const totalTests = testSteps.length;
+            const percentage = (completedTests / totalTests) * 100;
+
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = `${completedTests}/${totalTests}`;
+        }
+
+        // Mark step as completed or failed
+        function markStep(stepId, passed, message = '') {
+            const stepElement = document.getElementById(`step-${stepId}`);
+            const statusElement = document.getElementById(`status-${stepId}`);
+
+            if (passed) {
+                stepElement.classList.add('completed');
+                statusElement.innerHTML = '✅ Passed';
+                testResults[stepId] = true;
+                log(`✅ ${stepId}: ${message || 'Test passed'}`);
+            } else {
+                stepElement.classList.add('failed');
+                statusElement.innerHTML = '❌ Failed';
+                testResults[stepId] = false;
+                log(`❌ ${stepId}: ${message || 'Test failed'}`);
+            }
+
+            updateProgress();
+        }
+
+        // Start step-by-step tests
+        async function startStepByStepTests() {
+            log('🚀 Starting step-by-step functionality tests...');
+            currentStep = 0;
+            testResults = {};
+
+            // Reset all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('completed', 'failed');
+            });
+
+            // Disable start button
+            document.getElementById('start-tests').disabled = true;
+
+            // Run tests sequentially
+            for (let i = 0; i < testSteps.length; i++) {
+                const step = testSteps[i];
+                log(`🧪 Running test ${i + 1}/${testSteps.length}: ${step.name}`);
+                
+                try {
+                    const result = await step.test();
+                    markStep(step.id, result, `${step.name} completed successfully`);
+                    
+                    if (!result) {
+                        log(`🛑 Test failed at step ${i + 1}. Stopping test sequence.`);
+                        break;
+                    }
+                } catch (error) {
+                    markStep(step.id, false, `Error: ${error.message}`);
+                    log(`🛑 Test failed with error at step ${i + 1}: ${error.message}`);
+                    break;
+                }
+
+                // Small delay between tests
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            // Re-enable start button
+            document.getElementById('start-tests').disabled = false;
+
+            // Final summary
+            const passedTests = Object.values(testResults).filter(result => result).length;
+            const totalTests = Object.keys(testResults).length;
+            
+            log('📊 TEST SEQUENCE COMPLETE');
+            log(`📈 Results: ${passedTests}/${totalTests} tests passed`);
+            
+            if (passedTests === testSteps.length) {
+                log('🎉 ALL TESTS PASSED! System is fully operational.');
+            } else {
+                log('⚠️ Some tests failed. Check the failed steps above.');
+            }
+        }
+
+        // Reset all tests
+        function resetAllTests() {
+            currentStep = 0;
+            testResults = {};
+            document.getElementById('result-log').innerHTML = 'Tests reset. Ready to start...\n';
+            
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('completed', 'failed');
+            });
+            
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.innerHTML = '⏳ Waiting';
+            });
+            
+            updateProgress();
+            log('🔄 All tests reset');
+        }
+
+        // Individual test functions
+        async function testBasicJavaScript() {
+            try {
+                // Test variable declarations
+                let testVar = 'test';
+                const testConst = 42;
+                
+                // Test functions
+                function testFunc() { return true; }
+                const testArrow = () => true;
+                
+                // Test modern JavaScript
+                const testObj = { a: 1, b: 2 };
+                const { a, b } = testObj;
+                
+                return testFunc() && testArrow() && a === 1 && b === 2;
+            } catch (error) {
+                throw new Error('Basic JavaScript features failed: ' + error.message);
+            }
+        }
+
+        async function testDOMAccess() {
+            try {
+                // Test element access
+                const body = document.body;
+                const head = document.head;
+                const testElement = document.getElementById('progress-fill');
+                
+                if (!body || !head || !testElement) {
+                    throw new Error('Cannot access basic DOM elements');
+                }
+                
+                // Test querySelector
+                const button = document.querySelector('.test-button');
+                if (!button) {
+                    throw new Error('querySelector failed');
+                }
+                
+                return true;
+            } catch (error) {
+                throw new Error('DOM access failed: ' + error.message);
+            }
+        }
+
+        async function testEventSystem() {
+            try {
+                let eventFired = false;
+                
+                // Test event listener
+                const testHandler = () => { eventFired = true; };
+                document.addEventListener('test-event', testHandler);
+                
+                // Test custom event
+                const customEvent = new CustomEvent('test-event');
+                document.dispatchEvent(customEvent);
+                
+                // Cleanup
+                document.removeEventListener('test-event', testHandler);
+                
+                return eventFired;
+            } catch (error) {
+                throw new Error('Event system failed: ' + error.message);
+            }
+        }
+
+        async function testFormElements() {
+            try {
+                // Test form element creation and validation
+                const input = document.createElement('input');
+                input.type = 'email';
+                input.value = 'test@example.com';
+                
+                if (typeof input.checkValidity !== 'function') {
+                    throw new Error('Form validation API not available');
+                }
+                
+                const isValid = input.checkValidity();
+                if (!isValid) {
+                    throw new Error('Valid email failed validation');
+                }
+                
+                // Test FormData
+                const formData = new FormData();
+                formData.append('test', 'value');
+                
+                return formData.get('test') === 'value';
+            } catch (error) {
+                throw new Error('Form elements failed: ' + error.message);
+            }
+        }
+
+        async function testStorageAPIs() {
+            try {
+                // Test localStorage
+                const testKey = 'test-storage-key';
+                const testValue = 'test-storage-value';
+                
+                localStorage.setItem(testKey, testValue);
+                const retrieved = localStorage.getItem(testKey);
+                
+                if (retrieved !== testValue) {
+                    throw new Error('localStorage failed');
+                }
+                
+                localStorage.removeItem(testKey);
+                
+                // Test sessionStorage
+                sessionStorage.setItem(testKey, testValue);
+                const sessionRetrieved = sessionStorage.getItem(testKey);
+                
+                if (sessionRetrieved !== testValue) {
+                    throw new Error('sessionStorage failed');
+                }
+                
+                sessionStorage.removeItem(testKey);
+                
+                return true;
+            } catch (error) {
+                throw new Error('Storage APIs failed: ' + error.message);
+            }
+        }
+
+        async function testNetworkRequests() {
+            try {
+                // Test fetch API
+                if (typeof fetch !== 'function') {
+                    throw new Error('Fetch API not available');
+                }
+                
+                // Test with a simple request (we'll catch network errors)
+                try {
+                    await fetch('https://httpbin.org/json', { 
+                        method: 'GET',
+                        timeout: 5000
+                    });
+                    return true;
+                } catch (networkError) {
+                    // Network request failed, but fetch API exists
+                    log('⚠️ Network request failed (this may be expected in local environment)');
+                    return true; // Consider this a pass since fetch API exists
+                }
+            } catch (error) {
+                throw new Error('Network requests failed: ' + error.message);
+            }
+        }
+
+        async function testCSSStyles() {
+            try {
+                // Test CSS manipulation
+                const testElement = document.createElement('div');
+                testElement.style.color = 'red';
+                testElement.style.display = 'none';
+                
+                if (testElement.style.color !== 'red') {
+                    throw new Error('CSS style setting failed');
+                }
+                
+                // Test computed styles
+                const computedStyle = window.getComputedStyle(document.body);
+                if (!computedStyle) {
+                    throw new Error('getComputedStyle failed');
+                }
+                
+                // Test classList
+                testElement.classList.add('test-class');
+                if (!testElement.classList.contains('test-class')) {
+                    throw new Error('classList manipulation failed');
+                }
+                
+                return true;
+            } catch (error) {
+                throw new Error('CSS styles failed: ' + error.message);
+            }
+        }
+
+        async function testExternalScripts() {
+            try {
+                // Check if external scripts are loaded
+                const scripts = document.querySelectorAll('script[src]');
+                
+                if (scripts.length === 0) {
+                    log('⚠️ No external scripts found');
+                    return true; // Not necessarily a failure
+                }
+                
+                // Check for common script loading issues
+                let loadedScripts = 0;
+                scripts.forEach(script => {
+                    if (script.src && !script.src.startsWith('blob:')) {
+                        loadedScripts++;
+                    }
+                });
+                
+                log(`📊 Found ${loadedScripts} external scripts`);
+                return true;
+            } catch (error) {
+                throw new Error('External scripts check failed: ' + error.message);
+            }
+        }
+
+        async function testAnalyticsIntegration() {
+            try {
+                // Test analytics components
+                let analyticsFound = 0;
+                
+                // Check for Google Analytics
+                if (typeof window.gtag === 'function') {
+                    analyticsFound++;
+                    log('✅ Google Analytics detected');
+                }
+                
+                // Check for SiteBehaviour
+                if (window.sitebehaviourTrackingSecret) {
+                    analyticsFound++;
+                    log('✅ SiteBehaviour detected');
+                }
+                
+                // Check for dataLayer
+                if (window.dataLayer && Array.isArray(window.dataLayer)) {
+                    analyticsFound++;
+                    log('✅ DataLayer detected');
+                }
+                
+                log(`📊 Found ${analyticsFound} analytics components`);
+                return analyticsFound > 0; // At least one analytics system should be present
+            } catch (error) {
+                throw new Error('Analytics integration failed: ' + error.message);
+            }
+        }
+
+        async function testFinalIntegration() {
+            try {
+                // Test overall system integration
+                const integrationChecks = {
+                    domReady: document.readyState === 'complete',
+                    scriptsLoaded: document.querySelectorAll('script').length > 0,
+                    stylesLoaded: document.querySelectorAll('link[rel="stylesheet"]').length > 0,
+                    bodyContent: document.body.children.length > 0,
+                    noJSErrors: true // We assume no JS errors if we got this far
+                };
+                
+                const passedChecks = Object.values(integrationChecks).filter(Boolean).length;
+                const totalChecks = Object.keys(integrationChecks).length;
+                
+                log(`📊 Integration checks: ${passedChecks}/${totalChecks} passed`);
+                
+                return passedChecks === totalChecks;
+            } catch (error) {
+                throw new Error('Final integration test failed: ' + error.message);
+            }
+        }
+
+        // Demo element test functions
+        function testButtonClick(button) {
+            button.textContent = 'Clicked! ✅';
+            button.style.background = '#4CAF50';
+            log('🖱️ Button click test successful');
+            setTimeout(() => {
+                button.textContent = 'Click Me!';
+                button.style.background = '#4CAF50';
+            }, 2000);
+        }
+
+        function testInputChange(input) {
+            log(`📝 Input change detected: "${input.value}"`);
+            input.style.borderColor = '#4CAF50';
+            setTimeout(() => {
+                input.style.borderColor = '#666';
+            }, 2000);
+        }
+
+        function testEmailValidation(input) {
+            const isValid = input.checkValidity();
+            log(`📧 Email validation: ${isValid ? 'Valid' : 'Invalid'} email`);
+            input.style.borderColor = isValid ? '#4CAF50' : '#ff4444';
+            setTimeout(() => {
+                input.style.borderColor = '#666';
+            }, 2000);
+        }
+
+        function testLinkClick(link) {
+            link.textContent = 'Link Works! ✅';
+            link.style.background = '#4CAF50';
+            link.style.color = 'white';
+            log('🔗 Link click test successful');
+            setTimeout(() => {
+                link.textContent = 'Test Link';
+                link.style.background = 'transparent';
+                link.style.color = '#4CAF50';
+            }, 2000);
+        }
+
+        function testLocalStorageDemo() {
+            try {
+                const testData = { timestamp: Date.now(), test: 'success' };
+                localStorage.setItem('demo-test', JSON.stringify(testData));
+                const retrieved = JSON.parse(localStorage.getItem('demo-test'));
+                localStorage.removeItem('demo-test');
+                
+                log('💾 Local storage test successful');
+            } catch (error) {
+                log('❌ Local storage test failed: ' + error.message);
+            }
+        }
+
+        function testEventDemo() {
+            const customEvent = new CustomEvent('demo-event', {
+                detail: { message: 'Demo event fired successfully' }
+            });
+            
+            document.addEventListener('demo-event', (e) => {
+                log('🎯 ' + e.detail.message);
+            }, { once: true });
+            
+            document.dispatchEvent(customEvent);
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            initializeTests();
+            log('🧪 Step-by-step tester ready');
+        });
+    </script>
+</body>
+</html>

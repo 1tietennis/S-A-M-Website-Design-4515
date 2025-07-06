@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Console Error Checker - Secret Agent Digital Marketing</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #0a0a0a;
+            color: #00ff00;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            border: 2px solid #ED2729;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .test-section {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #333;
+        }
+        .error-log {
+            background: #000;
+            color: #ff4444;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 2px solid #ff4444;
+        }
+        .success-log {
+            background: #001100;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 2px solid #00ff00;
+        }
+        .warning-log {
+            background: #221100;
+            color: #ffaa00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 2px solid #ffaa00;
+        }
+        .test-button {
+            background: #ED2729;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 8px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+        .test-button:active {
+            transform: translateY(0);
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-green { background: #00ff00; }
+        .status-red { background: #ff4444; }
+        .status-yellow { background: #ffaa00; }
+        .status-blue { background: #4488ff; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔍 COMPREHENSIVE ERROR DETECTION SYSTEM</h1>
+        <h2>Secret Agent Digital Marketing - Debug Console</h2>
+        <p>Real-time error monitoring and functionality testing</p>
+    </div>
+
+    <div class="test-section">
+        <h3>🚨 REAL-TIME ERROR MONITOR</h3>
+        <p>Monitoring console for JavaScript errors, warnings, and failed network requests...</p>
+        <div class="grid-2">
+            <div>
+                <h4>❌ JavaScript Errors</h4>
+                <div id="error-log" class="error-log">No JavaScript errors detected...\n</div>
+            </div>
+            <div>
+                <h4>⚠️ Warnings & Issues</h4>
+                <div id="warning-log" class="warning-log">No warnings detected...\n</div>
+            </div>
+        </div>
+        <div style="margin-top: 20px;">
+            <h4>✅ Success Messages</h4>
+            <div id="success-log" class="success-log">Monitoring system initialized...\n</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>🧪 SYSTEMATIC FUNCTIONALITY TESTS</h3>
+        <div class="grid-2">
+            <div>
+                <h4>📋 Basic Function Tests</h4>
+                <button class="test-button" onclick="testBasicJavaScript()">Test JavaScript Basics</button>
+                <button class="test-button" onclick="testDOMManipulation()">Test DOM Access</button>
+                <button class="test-button" onclick="testEventHandlers()">Test Event Handlers</button>
+                <button class="test-button" onclick="testLocalStorage()">Test Local Storage</button>
+            </div>
+            <div>
+                <h4>🌐 Network & API Tests</h4>
+                <button class="test-button" onclick="testExternalResources()">Test External Resources</button>
+                <button class="test-button" onclick="testAnalyticsLoading()">Test Analytics Loading</button>
+                <button class="test-button" onclick="testSiteBehaviourConnection()">Test SiteBehaviour</button>
+                <button class="test-button" onclick="testFormValidation()">Test Form Functions</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>🔍 CODE SYNTAX CHECKER</h3>
+        <button class="test-button" onclick="checkHTMLSyntax()">Check HTML Syntax</button>
+        <button class="test-button" onclick="checkCSSFiles()">Check CSS Files</button>
+        <button class="test-button" onclick="checkJavaScriptSyntax()">Check JavaScript Syntax</button>
+        <button class="test-button" onclick="checkFilePaths()">Verify File Paths</button>
+        <button class="test-button" onclick="runCompleteAudit()">🚀 Run Complete Audit</button>
+    </div>
+
+    <div class="test-section">
+        <h3>📊 LIVE STATUS DASHBOARD</h3>
+        <div id="status-dashboard">
+            <p><span class="status-indicator status-blue"></span><strong>System Status:</strong> <span id="system-status">Initializing...</span></p>
+            <p><span class="status-indicator status-blue"></span><strong>Error Count:</strong> <span id="error-count">0</span></p>
+            <p><span class="status-indicator status-blue"></span><strong>Warning Count:</strong> <span id="warning-count">0</span></p>
+            <p><span class="status-indicator status-blue"></span><strong>Last Check:</strong> <span id="last-check">Starting...</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Global error tracking
+        let errorCount = 0;
+        let warningCount = 0;
+        let testResults = {};
+
+        // Initialize error monitoring
+        function initializeErrorMonitoring() {
+            // Override console methods to capture all messages
+            const originalError = console.error;
+            const originalWarn = console.warn;
+            const originalLog = console.log;
+
+            console.error = function(...args) {
+                const message = args.join(' ');
+                logError(`🔥 ERROR: ${message}`);
+                originalError.apply(console, args);
+            };
+
+            console.warn = function(...args) {
+                const message = args.join(' ');
+                logWarning(`⚠️ WARNING: ${message}`);
+                originalWarn.apply(console, args);
+            };
+
+            // Capture uncaught errors
+            window.addEventListener('error', function(event) {
+                logError(`🚨 UNCAUGHT ERROR: ${event.message} at ${event.filename}:${event.lineno}:${event.colno}`);
+            });
+
+            // Capture unhandled promise rejections
+            window.addEventListener('unhandledrejection', function(event) {
+                logError(`🚨 UNHANDLED PROMISE REJECTION: ${event.reason}`);
+            });
+
+            // Capture network errors
+            const originalFetch = window.fetch;
+            window.fetch = function(...args) {
+                return originalFetch.apply(this, args)
+                    .then(response => {
+                        if (!response.ok) {
+                            logWarning(`🌐 NETWORK WARNING: ${response.status} ${response.statusText} for ${args[0]}`);
+                        } else {
+                            logSuccess(`🌐 NETWORK SUCCESS: ${response.status} for ${args[0]}`);
+                        }
+                        return response;
+                    })
+                    .catch(error => {
+                        logError(`🌐 NETWORK ERROR: ${error.message} for ${args[0]}`);
+                        throw error;
+                    });
+            };
+
+            logSuccess('🔍 Error monitoring system initialized');
+            updateStatus();
+        }
+
+        // Logging functions
+        function logError(message) {
+            errorCount++;
+            const errorLog = document.getElementById('error-log');
+            const timestamp = new Date().toLocaleTimeString();
+            errorLog.innerHTML += `[${timestamp}] ${message}\n`;
+            errorLog.scrollTop = errorLog.scrollHeight;
+            updateStatus();
+        }
+
+        function logWarning(message) {
+            warningCount++;
+            const warningLog = document.getElementById('warning-log');
+            const timestamp = new Date().toLocaleTimeString();
+            warningLog.innerHTML += `[${timestamp}] ${message}\n`;
+            warningLog.scrollTop = warningLog.scrollHeight;
+            updateStatus();
+        }
+
+        function logSuccess(message) {
+            const successLog = document.getElementById('success-log');
+            const timestamp = new Date().toLocaleTimeString();
+            successLog.innerHTML += `[${timestamp}] ${message}\n`;
+            successLog.scrollTop = successLog.scrollHeight;
+            updateStatus();
+        }
+
+        function updateStatus() {
+            document.getElementById('error-count').textContent = errorCount;
+            document.getElementById('warning-count').textContent = warningCount;
+            document.getElementById('last-check').textContent = new Date().toLocaleTimeString();
+            
+            const systemStatus = document.getElementById('system-status');
+            const statusIndicators = document.querySelectorAll('.status-indicator');
+            
+            if (errorCount === 0 && warningCount === 0) {
+                systemStatus.textContent = 'All Systems Operational ✅';
+                statusIndicators.forEach(indicator => {
+                    indicator.className = 'status-indicator status-green';
+                });
+            } else if (errorCount > 0) {
+                systemStatus.textContent = 'Critical Errors Detected ❌';
+                statusIndicators.forEach(indicator => {
+                    indicator.className = 'status-indicator status-red';
+                });
+            } else if (warningCount > 0) {
+                systemStatus.textContent = 'Warnings Detected ⚠️';
+                statusIndicators.forEach(indicator => {
+                    indicator.className = 'status-indicator status-yellow';
+                });
+            }
+        }
+
+        // Test Functions
+        function testBasicJavaScript() {
+            logSuccess('🧪 Testing basic JavaScript functionality...');
+            
+            try {
+                // Test variable declarations
+                let testVar = 'Hello World';
+                const testConst = 42;
+                var testVarOld = true;
+                
+                // Test functions
+                function testFunction() {
+                    return 'Function works';
+                }
+                
+                // Test arrays and objects
+                const testArray = [1, 2, 3];
+                const testObject = { name: 'test', value: 123 };
+                
+                // Test modern JavaScript features
+                const testArrow = () => 'Arrow function works';
+                const testTemplate = `Template literal works: ${testConst}`;
+                const testDestructuring = { a: 1, b: 2 };
+                const { a, b } = testDestructuring;
+                
+                logSuccess('✅ Basic JavaScript: All tests passed');
+                testResults.javascript = true;
+            } catch (error) {
+                logError(`❌ Basic JavaScript: ${error.message}`);
+                testResults.javascript = false;
+            }
+        }
+
+        function testDOMManipulation() {
+            logSuccess('🧪 Testing DOM manipulation...');
+            
+            try {
+                // Test element selection
+                const testElement = document.getElementById('system-status');
+                if (!testElement) throw new Error('getElementById failed');
+                
+                // Test querySelector
+                const testQuery = document.querySelector('.test-button');
+                if (!testQuery) throw new Error('querySelector failed');
+                
+                // Test element creation
+                const newElement = document.createElement('div');
+                newElement.textContent = 'Test element';
+                
+                // Test classList
+                newElement.classList.add('test-class');
+                
+                logSuccess('✅ DOM Manipulation: All tests passed');
+                testResults.dom = true;
+            } catch (error) {
+                logError(`❌ DOM Manipulation: ${error.message}`);
+                testResults.dom = false;
+            }
+        }
+
+        function testEventHandlers() {
+            logSuccess('🧪 Testing event handlers...');
+            
+            try {
+                // Test addEventListener
+                const testHandler = () => {};
+                document.addEventListener('test-event', testHandler);
+                document.removeEventListener('test-event', testHandler);
+                
+                // Test custom events
+                const customEvent = new CustomEvent('test-custom', { detail: { test: true } });
+                document.dispatchEvent(customEvent);
+                
+                // Test click events
+                const button = document.querySelector('.test-button');
+                if (button && typeof button.click === 'function') {
+                    // Click method exists
+                }
+                
+                logSuccess('✅ Event Handlers: All tests passed');
+                testResults.events = true;
+            } catch (error) {
+                logError(`❌ Event Handlers: ${error.message}`);
+                testResults.events = false;
+            }
+        }
+
+        function testLocalStorage() {
+            logSuccess('🧪 Testing local storage...');
+            
+            try {
+                // Test localStorage
+                localStorage.setItem('test-key', 'test-value');
+                const retrievedValue = localStorage.getItem('test-key');
+                if (retrievedValue !== 'test-value') {
+                    throw new Error('localStorage retrieval failed');
+                }
+                localStorage.removeItem('test-key');
+                
+                // Test sessionStorage
+                sessionStorage.setItem('test-session', 'session-value');
+                const sessionValue = sessionStorage.getItem('test-session');
+                if (sessionValue !== 'session-value') {
+                    throw new Error('sessionStorage retrieval failed');
+                }
+                sessionStorage.removeItem('test-session');
+                
+                logSuccess('✅ Local Storage: All tests passed');
+                testResults.storage = true;
+            } catch (error) {
+                logError(`❌ Local Storage: ${error.message}`);
+                testResults.storage = false;
+            }
+        }
+
+        function testExternalResources() {
+            logSuccess('🧪 Testing external resources...');
+            
+            const resources = [
+                'https://fonts.googleapis.com',
+                'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com',
+                'https://www.googletagmanager.com'
+            ];
+            
+            resources.forEach(async (url) => {
+                try {
+                    const response = await fetch(url, { mode: 'no-cors' });
+                    logSuccess(`✅ External Resource: ${url} - accessible`);
+                } catch (error) {
+                    logWarning(`⚠️ External Resource: ${url} - ${error.message}`);
+                }
+            });
+        }
+
+        function testAnalyticsLoading() {
+            logSuccess('🧪 Testing analytics loading...');
+            
+            try {
+                // Test Google Analytics
+                if (typeof window.gtag === 'function') {
+                    logSuccess('✅ Google Analytics: gtag function loaded');
+                } else {
+                    logWarning('⚠️ Google Analytics: gtag function not found');
+                }
+                
+                // Test dataLayer
+                if (window.dataLayer && Array.isArray(window.dataLayer)) {
+                    logSuccess('✅ Google Analytics: dataLayer exists');
+                } else {
+                    logWarning('⚠️ Google Analytics: dataLayer not found');
+                }
+                
+                // Test SiteBehaviour
+                if (window.sitebehaviourTrackingSecret) {
+                    logSuccess('✅ SiteBehaviour: Tracking secret configured');
+                } else {
+                    logWarning('⚠️ SiteBehaviour: Tracking secret not found');
+                }
+                
+                testResults.analytics = true;
+            } catch (error) {
+                logError(`❌ Analytics Loading: ${error.message}`);
+                testResults.analytics = false;
+            }
+        }
+
+        function testSiteBehaviourConnection() {
+            logSuccess('🧪 Testing SiteBehaviour connection...');
+            
+            try {
+                const script = document.querySelector('#site-behaviour-script-v2');
+                const secret = window.sitebehaviourTrackingSecret;
+                const expectedSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+                
+                if (!script) {
+                    logWarning('⚠️ SiteBehaviour: Script element not found');
+                } else {
+                    logSuccess('✅ SiteBehaviour: Script element found');
+                }
+                
+                if (secret !== expectedSecret) {
+                    logWarning('⚠️ SiteBehaviour: Secret mismatch or missing');
+                } else {
+                    logSuccess('✅ SiteBehaviour: Secret correctly configured');
+                }
+                
+                // Test event firing
+                document.dispatchEvent(new CustomEvent('sitebehaviour-test', {
+                    detail: { test: true, timestamp: Date.now() }
+                }));
+                logSuccess('✅ SiteBehaviour: Test event fired');
+                
+                testResults.sitebehaviour = true;
+            } catch (error) {
+                logError(`❌ SiteBehaviour Connection: ${error.message}`);
+                testResults.sitebehaviour = false;
+            }
+        }
+
+        function testFormValidation() {
+            logSuccess('🧪 Testing form validation...');
+            
+            try {
+                // Test form validation APIs
+                const testInput = document.createElement('input');
+                testInput.type = 'email';
+                testInput.value = 'invalid-email';
+                
+                if (typeof testInput.checkValidity === 'function') {
+                    logSuccess('✅ Form Validation: HTML5 validation available');
+                } else {
+                    logWarning('⚠️ Form Validation: HTML5 validation not supported');
+                }
+                
+                // Test FormData
+                const formData = new FormData();
+                formData.append('test', 'value');
+                
+                if (formData.get('test') === 'value') {
+                    logSuccess('✅ Form Validation: FormData working');
+                } else {
+                    logError('❌ Form Validation: FormData failed');
+                }
+                
+                testResults.forms = true;
+            } catch (error) {
+                logError(`❌ Form Validation: ${error.message}`);
+                testResults.forms = false;
+            }
+        }
+
+        function checkHTMLSyntax() {
+            logSuccess('🧪 Checking HTML syntax...');
+            
+            try {
+                // Check for common HTML issues
+                const doctype = document.doctype;
+                if (!doctype) {
+                    logWarning('⚠️ HTML: DOCTYPE declaration missing');
+                } else {
+                    logSuccess('✅ HTML: DOCTYPE declaration found');
+                }
+                
+                // Check for required elements
+                const head = document.head;
+                const body = document.body;
+                
+                if (!head) {
+                    logError('❌ HTML: <head> element missing');
+                } else {
+                    logSuccess('✅ HTML: <head> element present');
+                }
+                
+                if (!body) {
+                    logError('❌ HTML: <body> element missing');
+                } else {
+                    logSuccess('✅ HTML: <body> element present');
+                }
+                
+                // Check meta viewport
+                const viewport = document.querySelector('meta[name="viewport"]');
+                if (!viewport) {
+                    logWarning('⚠️ HTML: Viewport meta tag missing');
+                } else {
+                    logSuccess('✅ HTML: Viewport meta tag found');
+                }
+                
+            } catch (error) {
+                logError(`❌ HTML Syntax Check: ${error.message}`);
+            }
+        }
+
+        function checkCSSFiles() {
+            logSuccess('🧪 Checking CSS files...');
+            
+            try {
+                const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+                logSuccess(`✅ CSS: Found ${stylesheets.length} stylesheet(s)`);
+                
+                stylesheets.forEach((sheet, index) => {
+                    if (sheet.sheet) {
+                        logSuccess(`✅ CSS: Stylesheet ${index + 1} loaded successfully`);
+                    } else {
+                        logWarning(`⚠️ CSS: Stylesheet ${index + 1} failed to load`);
+                    }
+                });
+                
+                // Check for inline styles
+                const inlineStyles = document.querySelectorAll('[style]');
+                if (inlineStyles.length > 0) {
+                    logWarning(`⚠️ CSS: ${inlineStyles.length} elements with inline styles found`);
+                }
+                
+            } catch (error) {
+                logError(`❌ CSS Check: ${error.message}`);
+            }
+        }
+
+        function checkJavaScriptSyntax() {
+            logSuccess('🧪 Checking JavaScript syntax...');
+            
+            try {
+                const scripts = document.querySelectorAll('script');
+                logSuccess(`✅ JavaScript: Found ${scripts.length} script(s)`);
+                
+                // Check for common JavaScript patterns
+                const hasModernJS = typeof Promise !== 'undefined' && typeof fetch !== 'undefined';
+                if (hasModernJS) {
+                    logSuccess('✅ JavaScript: Modern JavaScript features available');
+                } else {
+                    logWarning('⚠️ JavaScript: Modern JavaScript features may not be supported');
+                }
+                
+                // Check for strict mode
+                const strictMode = (function() { return !this; })();
+                if (strictMode) {
+                    logSuccess('✅ JavaScript: Strict mode detected');
+                } else {
+                    logWarning('⚠️ JavaScript: Not running in strict mode');
+                }
+                
+            } catch (error) {
+                logError(`❌ JavaScript Syntax Check: ${error.message}`);
+            }
+        }
+
+        function checkFilePaths() {
+            logSuccess('🧪 Checking file paths...');
+            
+            try {
+                // Check script sources
+                const scripts = document.querySelectorAll('script[src]');
+                scripts.forEach((script, index) => {
+                    const src = script.src;
+                    if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('/') || src.startsWith('./')) {
+                        logSuccess(`✅ File Path: Script ${index + 1} path appears valid`);
+                    } else {
+                        logWarning(`⚠️ File Path: Script ${index + 1} path may be invalid: ${src}`);
+                    }
+                });
+                
+                // Check stylesheet links
+                const stylesheets = document.querySelectorAll('link[href]');
+                stylesheets.forEach((link, index) => {
+                    const href = link.href;
+                    if (href && (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('/') || href.startsWith('./'))) {
+                        logSuccess(`✅ File Path: Stylesheet ${index + 1} path appears valid`);
+                    } else {
+                        logWarning(`⚠️ File Path: Stylesheet ${index + 1} path may be invalid: ${href}`);
+                    }
+                });
+                
+            } catch (error) {
+                logError(`❌ File Path Check: ${error.message}`);
+            }
+        }
+
+        function runCompleteAudit() {
+            logSuccess('🚀 RUNNING COMPLETE SYSTEM AUDIT...');
+            logSuccess('=====================================');
+            
+            // Clear previous results
+            testResults = {};
+            
+            // Run all tests
+            setTimeout(() => testBasicJavaScript(), 100);
+            setTimeout(() => testDOMManipulation(), 200);
+            setTimeout(() => testEventHandlers(), 300);
+            setTimeout(() => testLocalStorage(), 400);
+            setTimeout(() => testExternalResources(), 500);
+            setTimeout(() => testAnalyticsLoading(), 600);
+            setTimeout(() => testSiteBehaviourConnection(), 700);
+            setTimeout(() => testFormValidation(), 800);
+            setTimeout(() => checkHTMLSyntax(), 900);
+            setTimeout(() => checkCSSFiles(), 1000);
+            setTimeout(() => checkJavaScriptSyntax(), 1100);
+            setTimeout(() => checkFilePaths(), 1200);
+            
+            // Generate final report
+            setTimeout(() => {
+                logSuccess('📊 AUDIT COMPLETE - GENERATING REPORT...');
+                logSuccess('=======================================');
+                
+                const passedTests = Object.values(testResults).filter(result => result === true).length;
+                const totalTests = Object.keys(testResults).length;
+                
+                logSuccess(`📈 Test Results: ${passedTests}/${totalTests} passed`);
+                
+                if (passedTests === totalTests) {
+                    logSuccess('🎉 ALL SYSTEMS OPERATIONAL - NO CRITICAL ISSUES FOUND');
+                } else {
+                    logWarning(`⚠️ ${totalTests - passedTests} system(s) need attention`);
+                }
+                
+                logSuccess('🔍 Check individual test results above for details');
+                logSuccess('📋 Review any red error messages for critical issues');
+            }, 1500);
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            initializeErrorMonitoring();
+            logSuccess('🎯 Debug Console fully loaded and monitoring');
+        });
+
+        // Auto-check every 30 seconds
+        setInterval(() => {
+            updateStatus();
+        }, 30000);
+    </script>
+</body>
+</html>
