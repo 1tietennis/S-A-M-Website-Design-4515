@@ -12,21 +12,21 @@ export const initializeMetaPixel = () => {
     // Facebook Pixel Base Code
     !function(f,b,e,v,n,t,s) {
       if(f.fbq) return;
-      n = f.fbq = function() {
+      n=f.fbq=function() {
         n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
       };
-      if(!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = !0;
-      n.version = '2.0';
-      n.queue = [];
-      t = b.createElement(e);
-      t.async = !0;
-      t.src = v;
-      s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s)
-    }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-
+      if(!f._fbq) f._fbq=n;
+      n.push=n;
+      n.loaded=!0;
+      n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);
+      t.async=!0;
+      t.src=v;
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    
     // Initialize the pixel
     window.fbq('init', META_PIXEL_ID);
     
@@ -56,7 +56,7 @@ export const trackMetaPageView = (pageName, pageUrl) => {
         page_url: pageUrl || window.location.href,
         page_name: pageName
       });
-
+      
       // Custom event for page tracking
       window.fbq('trackCustom', 'PageVisit', {
         page_name: pageName,
@@ -64,7 +64,7 @@ export const trackMetaPageView = (pageName, pageUrl) => {
         timestamp: new Date().toISOString(),
         user_agent: navigator.userAgent.substring(0, 100)
       });
-
+      
       console.log('📊 Meta Pixel page view tracked:', pageName);
       return true;
     } catch (error) {
@@ -87,7 +87,7 @@ export const trackMetaLead = (leadData = {}) => {
         currency: 'USD',
         ...leadData
       });
-
+      
       // Custom lead quality event
       window.fbq('trackCustom', 'QualifiedLead', {
         lead_source: leadData.source || 'website',
@@ -96,7 +96,7 @@ export const trackMetaLead = (leadData = {}) => {
         urgency: leadData.urgency || 'standard',
         timestamp: new Date().toISOString()
       });
-
+      
       console.log('🎯 Meta Pixel lead tracked:', leadData);
       return true;
     } catch (error) {
@@ -118,7 +118,7 @@ export const trackMetaContact = (formData = {}) => {
         value: 50.00, // Estimated lead value
         currency: 'USD'
       });
-
+      
       // Custom form submission event
       window.fbq('trackCustom', 'FormSubmission', {
         form_name: formData.formName || 'contact_form',
@@ -127,7 +127,7 @@ export const trackMetaContact = (formData = {}) => {
         submission_time: new Date().toISOString(),
         user_type: formData.userType || 'prospect'
       });
-
+      
       console.log('📝 Meta Pixel contact tracked:', formData);
       return true;
     } catch (error) {
@@ -151,7 +151,7 @@ export const trackMetaPurchase = (purchaseData = {}) => {
         content_name: purchaseData.serviceName || 'Digital Marketing Service',
         num_items: 1
       });
-
+      
       // Custom conversion event
       window.fbq('trackCustom', 'ServicePurchase', {
         service_type: purchaseData.serviceType || 'marketing',
@@ -160,7 +160,7 @@ export const trackMetaPurchase = (purchaseData = {}) => {
         payment_method: purchaseData.paymentMethod || 'not_specified',
         timestamp: new Date().toISOString()
       });
-
+      
       console.log('💰 Meta Pixel purchase tracked:', purchaseData);
       return true;
     } catch (error) {
@@ -180,7 +180,7 @@ export const trackMetaCustomEvent = (eventName, eventData = {}) => {
         timestamp: new Date().toISOString(),
         page_url: window.location.href
       });
-
+      
       console.log(`🎯 Meta Pixel custom event tracked: ${eventName}`, eventData);
       return true;
     } catch (error) {
@@ -204,7 +204,7 @@ export const trackMetaInteraction = (interactionType, elementName, elementData =
         timestamp: new Date().toISOString(),
         ...elementData
       });
-
+      
       // Special tracking for CTA buttons
       if (interactionType === 'button_click' && elementData.isCTA) {
         window.fbq('track', 'InitiateCheckout', {
@@ -214,7 +214,7 @@ export const trackMetaInteraction = (interactionType, elementName, elementData =
           currency: 'USD'
         });
       }
-
+      
       console.log(`🖱️ Meta Pixel interaction tracked: ${interactionType} - ${elementName}`);
       return true;
     } catch (error) {
@@ -237,7 +237,7 @@ export const trackMetaVideoEngagement = (videoData = {}) => {
         video_type: videoData.type || 'promotional',
         timestamp: new Date().toISOString()
       });
-
+      
       // Track significant video milestones
       if (videoData.completionRate >= 75) {
         window.fbq('track', 'ViewContent', {
@@ -247,7 +247,7 @@ export const trackMetaVideoEngagement = (videoData = {}) => {
           currency: 'USD'
         });
       }
-
+      
       console.log('🎥 Meta Pixel video engagement tracked:', videoData);
       return true;
     } catch (error) {
@@ -271,7 +271,7 @@ export const trackMetaAudienceData = (audienceData = {}) => {
         current_tools: audienceData.currentTools || [],
         timestamp: new Date().toISOString()
       });
-
+      
       console.log('👥 Meta Pixel audience data tracked:', audienceData);
       return true;
     } catch (error) {
@@ -294,13 +294,13 @@ export const verifyMetaPixel = () => {
     loadedFlag: window.metaPixelLoaded,
     timestamp: new Date().toISOString()
   };
-
+  
   console.log('📊 Meta Pixel Status:');
   console.log(`${results.pixelLoaded ? '✅' : '❌'} Pixel Loaded: ${results.pixelLoaded ? 'YES' : 'NO'}`);
   console.log(`📍 Pixel ID: ${results.pixelId}`);
   console.log(`🔄 Events Queue: ${results.eventsQueue ? results.eventsQueue.length + ' events' : 'Not available'}`);
   console.log(`🎯 Loaded Flag: ${results.loadedFlag ? 'TRUE' : 'FALSE'}`);
-
+  
   // Test event firing
   if (results.pixelLoaded) {
     try {
@@ -315,17 +315,18 @@ export const verifyMetaPixel = () => {
       results.testEventFired = false;
     }
   }
-
+  
   const allPassed = results.pixelLoaded && results.loadedFlag && results.testEventFired;
+  
   console.log(`\n🎯 Overall Status: ${allPassed ? '✅ FULLY OPERATIONAL' : '⚠️ ISSUES DETECTED'}`);
-
+  
   if (allPassed) {
     console.log('🎉 Meta Pixel is working perfectly!');
     console.log('📊 Data is being sent to Facebook/Meta for advertising optimization');
   } else {
     console.log('⚠️ Meta Pixel needs attention - check implementation');
   }
-
+  
   return results;
 };
 
@@ -333,26 +334,35 @@ export const verifyMetaPixel = () => {
 export const testMetaPixelRealTime = () => {
   console.log('🧪 TESTING META PIXEL REAL-TIME TRACKING');
   console.log('========================================');
-
+  
   if (typeof window.fbq === 'function') {
     const testEvents = [
       {
         type: 'standard',
         name: 'ViewContent',
-        params: { content_type: 'test', value: 1, currency: 'USD' }
+        params: {
+          content_type: 'test',
+          value: 1,
+          currency: 'USD'
+        }
       },
       {
         type: 'custom',
         name: 'TestTracking',
-        params: { test_type: 'real_time_verification' }
+        params: {
+          test_type: 'real_time_verification'
+        }
       },
       {
         type: 'custom',
         name: 'PixelHealthCheck',
-        params: { status: 'testing', timestamp: Date.now() }
+        params: {
+          status: 'testing',
+          timestamp: Date.now()
+        }
       }
     ];
-
+    
     testEvents.forEach((event, index) => {
       setTimeout(() => {
         try {
@@ -367,7 +377,7 @@ export const testMetaPixelRealTime = () => {
         }
       }, index * 1000);
     });
-
+    
     console.log('✅ All test events queued for sending');
     console.log('📈 Check Meta Events Manager for real-time data');
   } else {

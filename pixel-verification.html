@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta Pixel Verification Tool - Secret Agent Digital Marketing</title>
+  
+  <!-- Meta Pixel Base Code -->
+  <script>
+    !function(f,b,e,v,n,t,s) {
+      if(f.fbq) return;
+      n=f.fbq=function() {
+        n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+      };
+      if(!f._fbq) f._fbq=n;
+      n.push=n;
+      n.loaded=!0;
+      n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);
+      t.async=!0;
+      t.src=v;
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    
+    // Initialize with your pixel ID - REPLACE WITH YOUR ACTUAL PIXEL ID
+    fbq('init', '1234567890123456');
+    fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Base Code -->
+  
+  <!-- No Script Version -->
+  <noscript>
+    <img height="1" width="1" style="display:none" 
+      src="https://www.facebook.com/tr?id=1234567890123456&ev=PageView&noscript=1"/>
+  </noscript>
+  
+  <style>
+    /* Basic Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #1a1a1a;
+      color: #fff;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      color: #ED2729;
+      margin-bottom: 10px;
+    }
+    
+    .card {
+      background-color: #333;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #ED2729;
+    }
+    
+    .card h2 {
+      margin-top: 0;
+      border-bottom: 1px solid #555;
+      padding-bottom: 10px;
+    }
+    
+    button {
+      background-color: #ED2729;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 5px;
+    }
+    
+    button:hover {
+      background-color: #b91c1c;
+    }
+    
+    .results {
+      background-color: #000;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 15px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      max-height: 300px;
+      overflow-y: auto;
+      color: #00ff00;
+    }
+    
+    .step {
+      margin-bottom: 30px;
+    }
+    
+    .step h3 {
+      margin-top: 0;
+      color: #ED2729;
+    }
+    
+    .status {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    
+    .status-success {
+      background-color: #22c55e;
+    }
+    
+    .status-error {
+      background-color: #ef4444;
+    }
+    
+    .status-warning {
+      background-color: #f59e0b;
+    }
+    
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+    }
+    
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Meta Pixel Verification Tool</h1>
+      <p>Use this tool to verify your Meta Pixel implementation on secretagentdigitalmarketing.com</p>
+    </header>
+    
+    <div class="card">
+      <h2>Pixel Status</h2>
+      <div id="pixel-status">Checking pixel status...</div>
+      <button onclick="checkPixelStatus()">Refresh Status</button>
+      <div class="results" id="status-results"></div>
+    </div>
+    
+    <div class="card">
+      <h2>Test Events</h2>
+      <p>Send test events to verify your pixel is working correctly:</p>
+      
+      <div class="test-grid">
+        <button onclick="sendTestEvent('PageView')">Test PageView</button>
+        <button onclick="sendTestEvent('ViewContent')">Test ViewContent</button>
+        <button onclick="sendTestEvent('Lead')">Test Lead</button>
+        <button onclick="sendTestEvent('Purchase')">Test Purchase</button>
+        <button onclick="sendTestEvent('Contact')">Test Contact</button>
+        <button onclick="sendCustomEvent('PixelTest')">Custom Event</button>
+      </div>
+      
+      <div class="results" id="event-results">Event results will appear here...</div>
+    </div>
+    
+    <div class="card">
+      <h2>Implementation Guide</h2>
+      
+      <div class="step">
+        <h3>Step 1: Add Base Pixel Code</h3>
+        <p>Add this code to the &lt;head&gt; section of all pages on your website:</p>
+        <div class="results">
+<!-- Meta Pixel Code -->
+&lt;script&gt;
+  !function(f,b,e,v,n,t,s) {
+    if(f.fbq) return;
+    n=f.fbq=function() {
+      n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+    };
+    if(!f._fbq) f._fbq=n;
+    n.push=n;
+    n.loaded=!0;
+    n.version='2.0';
+    n.queue=[];
+    t=b.createElement(e);
+    t.async=!0;
+    t.src=v;
+    s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)
+  }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  
+  fbq('init', '1234567890123456'); // Replace with your actual Pixel ID
+  fbq('track', 'PageView');
+&lt;/script&gt;
+&lt;noscript&gt;
+  &lt;img height="1" width="1" style="display:none" 
+   src="https://www.facebook.com/tr?id=1234567890123456&amp;ev=PageView&amp;noscript=1"/&gt;
+&lt;/noscript&gt;
+<!-- End Meta Pixel Code -->
+        </div>
+      </div>
+      
+      <div class="step">
+        <h3>Step 2: Verify Installation</h3>
+        <p>Use the Facebook Pixel Helper Chrome extension or this verification tool to confirm your pixel is working.</p>
+      </div>
+      
+      <div class="step">
+        <h3>Step 3: Add Event Tracking</h3>
+        <p>Track important user actions with events:</p>
+        <div class="results">
+// Standard events
+fbq('track', 'Purchase', {value: 99.99, currency: 'USD'});
+
+// Custom events
+fbq('trackCustom', 'ServiceInquiry', {service_type: 'marketing'});
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>Troubleshooting</h2>
+      <button onclick="runComprehensiveCheck()">Run Comprehensive Check</button>
+      <div class="results" id="troubleshooting-results">Run a comprehensive check to see detailed troubleshooting information...</div>
+    </div>
+    
+    <footer>
+      <p>Secret Agent Digital Marketing - Analytics Implementation Tool</p>
+    </footer>
+  </div>
+  
+  <script>
+    // Log to results area
+    function logToResults(containerId, message) {
+      const container = document.getElementById(containerId);
+      const timestamp = new Date().toLocaleTimeString();
+      container.innerHTML += `[${timestamp}] ${message}\n`;
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    // Check pixel status
+    function checkPixelStatus() {
+      const statusDiv = document.getElementById('pixel-status');
+      const resultsDiv = document.getElementById('status-results');
+      resultsDiv.innerHTML = '';
+      
+      logToResults('status-results', '🔍 Checking Meta Pixel status...');
+      
+      // Check if fbq function exists
+      const fbqExists = typeof fbq === 'function';
+      logToResults('status-results', `${fbqExists ? '✅' : '❌'} fbq function: ${fbqExists ? 'AVAILABLE' : 'MISSING'}`);
+      
+      // Check if pixel is initialized
+      const pixelInitialized = window._fbq && window._fbq.loaded;
+      logToResults('status-results', `${pixelInitialized ? '✅' : '❌'} Pixel initialized: ${pixelInitialized ? 'YES' : 'NO'}`);
+      
+      // Check if pixel script is loaded
+      const pixelScript = document.querySelector('script[src*="connect.facebook.net/en_US/fbevents.js"]');
+      logToResults('status-results', `${pixelScript ? '✅' : '❌'} Pixel script: ${pixelScript ? 'LOADED' : 'MISSING'}`);
+      
+      // Check if pixel ID is present
+      let pixelId = '';
+      if (window.fbq && window.fbq.queue) {
+        const initCalls = window.fbq.queue.filter(item => 
+          Array.isArray(item) && item[0] === 'init'
+        );
+        
+        if (initCalls.length > 0) {
+          pixelId = initCalls[0][1];
+        }
+      }
+      
+      logToResults('status-results', `📝 Detected Pixel ID: ${pixelId || 'None detected'}`);
+      
+      // Update status summary
+      if (fbqExists && pixelInitialized && pixelScript) {
+        statusDiv.innerHTML = '<span class="status status-success"></span> Meta Pixel is properly installed';
+        logToResults('status-results', '🎉 OVERALL: Meta Pixel appears to be working correctly');
+      } else if (fbqExists || pixelScript) {
+        statusDiv.innerHTML = '<span class="status status-warning"></span> Meta Pixel is partially working';
+        logToResults('status-results', '⚠️ OVERALL: Meta Pixel is partially working but has issues');
+      } else {
+        statusDiv.innerHTML = '<span class="status status-error"></span> Meta Pixel is not properly installed';
+        logToResults('status-results', '❌ OVERALL: Meta Pixel is not properly installed');
+      }
+      
+      // Test a simple event
+      if (fbqExists) {
+        try {
+          fbq('trackCustom', 'PixelStatusCheck', {
+            timestamp: new Date().toISOString()
+          });
+          logToResults('status-results', '✅ Test event sent successfully');
+        } catch (error) {
+          logToResults('status-results', `❌ Error sending test event: ${error.message}`);
+        }
+      }
+    }
+    
+    // Send test event
+    function sendTestEvent(eventType) {
+      const resultsDiv = document.getElementById('event-results');
+      
+      if (typeof fbq !== 'function') {
+        logToResults('event-results', '❌ Cannot send event: fbq function not available');
+        return;
+      }
+      
+      logToResults('event-results', `🧪 Sending ${eventType} event...`);
+      
+      try {
+        // Configure event parameters based on event type
+        let params = {};
+        
+        switch (eventType) {
+          case 'PageView':
+            params = {
+              page_title: document.title,
+              page_location: window.location.href
+            };
+            break;
+          case 'ViewContent':
+            params = {
+              content_name: 'Pixel Verification Tool',
+              content_type: 'tool',
+              value: 1.00,
+              currency: 'USD'
+            };
+            break;
+          case 'Lead':
+            params = {
+              content_name: 'Test Lead',
+              content_category: 'testing',
+              value: 10.00,
+              currency: 'USD'
+            };
+            break;
+          case 'Purchase':
+            params = {
+              content_type: 'product',
+              content_ids: ['test_product_1'],
+              value: 99.99,
+              currency: 'USD',
+              num_items: 1
+            };
+            break;
+          case 'Contact':
+            params = {
+              content_name: 'Test Contact',
+              content_category: 'contact'
+            };
+            break;
+          default:
+            params = {
+              test_param: 'test_value'
+            };
+        }
+        
+        // Add timestamp to all events
+        params.timestamp = new Date().toISOString();
+        params.test_event = true;
+        
+        // Send the event
+        fbq('track', eventType, params);
+        
+        logToResults('event-results', `✅ ${eventType} event sent successfully with parameters:`);
+        logToResults('event-results', JSON.stringify(params, null, 2));
+      } catch (error) {
+        logToResults('event-results', `❌ Error sending ${eventType} event: ${error.message}`);
+      }
+    }
+    
+    // Send custom event
+    function sendCustomEvent(eventName) {
+      const resultsDiv = document.getElementById('event-results');
+      
+      if (typeof fbq !== 'function') {
+        logToResults('event-results', '❌ Cannot send custom event: fbq function not available');
+        return;
+      }
+      
+      logToResults('event-results', `🧪 Sending custom ${eventName} event...`);
+      
+      try {
+        const params = {
+          test_type: 'verification',
+          timestamp: new Date().toISOString(),
+          page: window.location.pathname,
+          user_agent: navigator.userAgent.substring(0, 100)
+        };
+        
+        fbq('trackCustom', eventName, params);
+        
+        logToResults('event-results', `✅ Custom ${eventName} event sent successfully with parameters:`);
+        logToResults('event-results', JSON.stringify(params, null, 2));
+      } catch (error) {
+        logToResults('event-results', `❌ Error sending custom event: ${error.message}`);
+      }
+    }
+    
+    // Run comprehensive check
+    function runComprehensiveCheck() {
+      const resultsDiv = document.getElementById('troubleshooting-results');
+      resultsDiv.innerHTML = '';
+      
+      logToResults('troubleshooting-results', '🔍 RUNNING COMPREHENSIVE PIXEL CHECK');
+      logToResults('troubleshooting-results', '=====================================');
+      
+      // Check DOM for pixel code
+      const pixelScript = document.querySelector('script[src*="connect.facebook.net/en_US/fbevents.js"]');
+      const noscriptPixel = document.querySelector('noscript img[src*="facebook.com/tr"]');
+      
+      logToResults('troubleshooting-results', `${pixelScript ? '✅' : '❌'} Pixel script tag: ${pixelScript ? 'FOUND' : 'MISSING'}`);
+      logToResults('troubleshooting-results', `${noscriptPixel ? '✅' : '❌'} Noscript pixel tag: ${noscriptPixel ? 'FOUND' : 'MISSING'}`);
+      
+      // Check for fbq function
+      const fbqExists = typeof fbq === 'function';
+      logToResults('troubleshooting-results', `${fbqExists ? '✅' : '❌'} fbq function: ${fbqExists ? 'AVAILABLE' : 'MISSING'}`);
+      
+      // Check pixel initialization
+      let pixelId = '';
+      if (window.fbq && window.fbq.queue) {
+        const initCalls = window.fbq.queue.filter(item => 
+          Array.isArray(item) && item[0] === 'init'
+        );
+        
+        if (initCalls.length > 0) {
+          pixelId = initCalls[0][1];
+          logToResults('troubleshooting-results', `✅ Pixel initialized with ID: ${pixelId}`);
+        } else {
+          logToResults('troubleshooting-results', '❌ No pixel initialization found in queue');
+        }
+      } else {
+        logToResults('troubleshooting-results', '❌ Pixel queue not available');
+      }
+      
+      // Check for common implementation issues
+      if (!fbqExists) {
+        logToResults('troubleshooting-results', '\n🔧 TROUBLESHOOTING MISSING FBQ FUNCTION:');
+        logToResults('troubleshooting-results', '1. Make sure the base pixel code is added to the <head> section');
+        logToResults('troubleshooting-results', '2. Check for JavaScript errors that might prevent execution');
+        logToResults('troubleshooting-results', '3. Ensure no content blockers are active in your browser');
+      }
+      
+      if (!pixelScript) {
+        logToResults('troubleshooting-results', '\n🔧 TROUBLESHOOTING MISSING PIXEL SCRIPT:');
+        logToResults('troubleshooting-results', '1. Add the complete Meta Pixel base code to your site');
+        logToResults('troubleshooting-results', '2. Check network connectivity to connect.facebook.net');
+        logToResults('troubleshooting-results', '3. Verify your site\'s Content Security Policy allows Facebook domains');
+      }
+      
+      // Network connectivity check
+      logToResults('troubleshooting-results', '\n🌐 CHECKING NETWORK CONNECTIVITY:');
+      
+      fetch('https://connect.facebook.net/en_US/fbevents.js', { mode: 'no-cors' })
+        .then(() => {
+          logToResults('troubleshooting-results', '✅ Network connectivity to Facebook domains appears to be working');
+        })
+        .catch(error => {
+          logToResults('troubleshooting-results', `❌ Network connectivity issue: ${error.message}`);
+        });
+      
+      // Provide implementation guidelines
+      logToResults('troubleshooting-results', '\n📋 IMPLEMENTATION CHECKLIST:');
+      logToResults('troubleshooting-results', '1. Base pixel code should be in <head> section of all pages');
+      logToResults('troubleshooting-results', '2. Pixel ID should be your actual Meta Pixel ID (not a placeholder)');
+      logToResults('troubleshooting-results', '3. Both script and noscript versions should be implemented');
+      logToResults('troubleshooting-results', '4. Standard events should be added for key user actions');
+      
+      // Final recommendation
+      if (fbqExists && pixelScript) {
+        logToResults('troubleshooting-results', '\n✅ YOUR PIXEL APPEARS TO BE WORKING');
+        logToResults('troubleshooting-results', '📊 Check Meta Events Manager to confirm data is being received');
+      } else {
+        logToResults('troubleshooting-results', '\n❌ YOUR PIXEL IS NOT PROPERLY IMPLEMENTED');
+        logToResults('troubleshooting-results', '🔧 Follow the implementation guide in the section above');
+      }
+    }
+    
+    // Run initial check on page load
+    window.addEventListener('load', () => {
+      setTimeout(checkPixelStatus, 1000);
+    });
+  </script>
+</body>
+</html>
