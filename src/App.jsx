@@ -15,11 +15,7 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import AnalyticsDebugger from './components/AnalyticsDebugger';
 import SiteBehaviourController from './components/SiteBehaviourController';
-import { 
-  initializeEnhancedAnalytics, 
-  trackEnhancedPageView, 
-  verifyEnhancedAnalytics 
-} from './utils/analyticsEnhanced';
+import { initializeEnhancedAnalytics, trackEnhancedPageView, verifyEnhancedAnalytics } from './utils/analyticsEnhanced';
 import { trackPageLoadComplete } from './utils/analyticsVerification';
 import './App.css';
 
@@ -27,7 +23,7 @@ import './App.css';
 function AnalyticsWrapper({ children }) {
   const location = useLocation();
   const [previousPath, setPreviousPath] = React.useState(location.pathname);
-
+  
   useEffect(() => {
     // Track route changes for SPA navigation with enhanced analytics
     if (previousPath !== location.pathname) {
@@ -36,7 +32,7 @@ function AnalyticsWrapper({ children }) {
       setPreviousPath(location.pathname);
     }
   }, [location, previousPath]);
-
+  
   return children;
 }
 
@@ -44,7 +40,7 @@ function App() {
   useEffect(() => {
     // Initialize enhanced analytics with Meta Pixel when app loads
     initializeEnhancedAnalytics();
-
+    
     // Track initial app load across all platforms
     if (typeof window !== 'undefined') {
       // Google Analytics 4
@@ -54,7 +50,7 @@ function App() {
           timestamp: new Date().toISOString()
         });
       }
-
+      
       // Meta Pixel
       if (typeof window.fbq !== 'undefined') {
         window.fbq('trackCustom', 'AppLoaded', {
@@ -63,14 +59,24 @@ function App() {
           user_agent: navigator.userAgent.substring(0, 100)
         });
       }
+      
+      // Initialize Visitor Tracking if available
+      if (typeof window.init_tracer === 'function') {
+        try {
+          window.init_tracer();
+          console.log('✅ Visitor Tracking initialized from App.jsx');
+        } catch (error) {
+          console.error('❌ Error initializing Visitor Tracking:', error);
+        }
+      }
     }
-
+    
     // Run comprehensive analytics verification
     setTimeout(() => {
       verifyEnhancedAnalytics();
       trackPageLoadComplete('App');
     }, 2000);
-
+    
     // Initialize SiteBehaviour systems
     Promise.all([
       import('./utils/siteBehaviourCommands.js'),
@@ -83,19 +89,16 @@ function App() {
     }).catch(error => {
       console.log('SiteBehaviour systems not available:', error.message);
     });
-
+    
     console.log('🚀 Secret Agent Digital Marketing App Loaded with Enhanced Analytics + Meta Pixel');
   }, []);
-
+  
   // Show debugger in development or with debug parameter
-  const showDebugger = process.env.NODE_ENV === 'development' || 
-    (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
-
+  const showDebugger = process.env.NODE_ENV === 'development' || (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
+  
   // Show SiteBehaviour controller with sitebehaviour parameter
-  const showSiteBehaviour = (typeof window !== 'undefined' && 
-    window.location.search.includes('sitebehaviour=true')) || 
-    process.env.NODE_ENV === 'development';
-
+  const showSiteBehaviour = (typeof window !== 'undefined' && window.location.search.includes('sitebehaviour=true')) || process.env.NODE_ENV === 'development';
+  
   return (
     <AuthProvider>
       <Router>
@@ -114,66 +117,59 @@ function App() {
               } />
               
               {/* Main Site Routes */}
-              <Route path="/" element={
-                <>
-                  <Header />
-                  <main>
-                    <Home />
-                  </main>
-                  <Footer />
-                </>
-              } />
-              <Route path="/services" element={
-                <>
-                  <Header />
-                  <main>
-                    <Services />
-                  </main>
-                  <Footer />
-                </>
-              } />
-              <Route path="/video-marketing" element={
-                <>
-                  <Header />
-                  <main>
-                    <VideoMarketing />
-                  </main>
-                  <Footer />
-                </>
-              } />
-              <Route path="/about" element={
-                <>
-                  <Header />
-                  <main>
-                    <About />
-                  </main>
-                  <Footer />
-                </>
-              } />
-              <Route path="/case-studies" element={
-                <>
-                  <Header />
-                  <main>
-                    <CaseStudies />
-                  </main>
-                  <Footer />
-                </>
-              } />
-              <Route path="/contact" element={
-                <>
-                  <Header />
-                  <main>
-                    <Contact />
-                  </main>
-                  <Footer />
-                </>
-              } />
+              <Route path="/" element={<>
+                <Header />
+                <main>
+                  <Home />
+                </main>
+                <Footer />
+              </>} />
+              
+              <Route path="/services" element={<>
+                <Header />
+                <main>
+                  <Services />
+                </main>
+                <Footer />
+              </>} />
+              
+              <Route path="/video-marketing" element={<>
+                <Header />
+                <main>
+                  <VideoMarketing />
+                </main>
+                <Footer />
+              </>} />
+              
+              <Route path="/about" element={<>
+                <Header />
+                <main>
+                  <About />
+                </main>
+                <Footer />
+              </>} />
+              
+              <Route path="/case-studies" element={<>
+                <Header />
+                <main>
+                  <CaseStudies />
+                </main>
+                <Footer />
+              </>} />
+              
+              <Route path="/contact" element={<>
+                <Header />
+                <main>
+                  <Contact />
+                </main>
+                <Footer />
+              </>} />
             </Routes>
           </AnalyticsWrapper>
-
+          
           {/* Analytics Debugger - shows when debug=true in URL or in development */}
           <AnalyticsDebugger showDebugger={showDebugger} />
-
+          
           {/* SiteBehaviour Controller - shows when sitebehaviour=true in URL or in development */}
           <SiteBehaviourController showController={showSiteBehaviour} />
         </div>

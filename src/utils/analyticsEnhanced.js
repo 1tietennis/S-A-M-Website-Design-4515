@@ -1,13 +1,5 @@
 // Enhanced Analytics with Meta Pixel Integration
-import { 
-  initializeMetaPixel,
-  trackMetaPageView,
-  trackMetaLead,
-  trackMetaContact,
-  trackMetaPurchase,
-  trackMetaCustomEvent,
-  trackMetaInteraction
-} from './metaPixel';
+import {initializeMetaPixel, trackMetaPageView, trackMetaLead, trackMetaContact, trackMetaPurchase, trackMetaCustomEvent, trackMetaInteraction} from './metaPixel';
 
 // Initialize all analytics platforms including Meta Pixel
 export const initializeEnhancedAnalytics = () => {
@@ -28,6 +20,16 @@ export const initializeEnhancedAnalytics = () => {
     // Initialize SiteBehaviour (if available)
     if (window.sitebehaviourTrackingSecret) {
       console.log('✅ SiteBehaviour tracking active');
+    }
+    
+    // Initialize Visitor Tracking (if available)
+    if (typeof window.init_tracer === 'function') {
+      try {
+        window.init_tracer();
+        console.log('✅ Visitor Tracking initialized');
+      } catch (error) {
+        console.error('❌ Error initializing Visitor Tracking:', error);
+      }
     }
     
     console.log('🎯 All analytics platforms initialized');
@@ -62,6 +64,16 @@ export const trackEnhancedPageView = (pagePath, pageTitle) => {
         timestamp: new Date().toISOString()
       }
     }));
+    
+    // Visitor Tracking
+    if (typeof window.Tracer !== 'undefined' && typeof window.init_tracer === 'function') {
+      try {
+        // Make sure tracer is initialized
+        window.init_tracer();
+      } catch (error) {
+        console.warn('⚠️ Visitor Tracking error:', error.message);
+      }
+    }
     
     // DataLayer for GTM
     if (window.dataLayer && Array.isArray(window.dataLayer)) {
@@ -112,6 +124,18 @@ export const trackEnhancedEvent = (eventName, parameters = {}) => {
         timestamp: new Date().toISOString()
       }
     }));
+    
+    // Visitor Tracking
+    if (typeof window.Tracer !== 'undefined') {
+      try {
+        // Assuming Tracer has a trackEvent method or similar
+        if (typeof window.tracer !== 'undefined' && typeof window.tracer.trackEvent === 'function') {
+          window.tracer.trackEvent(eventName, parameters);
+        }
+      } catch (error) {
+        console.warn('⚠️ Visitor Tracking event error:', error.message);
+      }
+    }
     
     // DataLayer
     if (window.dataLayer && Array.isArray(window.dataLayer)) {
@@ -241,6 +265,7 @@ export const verifyEnhancedAnalytics = () => {
     metaPixel: !!window.fbq,
     siteBehaviour: !!window.sitebehaviourTrackingSecret,
     dataLayer: window.dataLayer && Array.isArray(window.dataLayer),
+    visitorTracking: typeof window.Tracer !== 'undefined' || typeof window.init_tracer === 'function',
     timestamp: new Date().toISOString()
   };
   
@@ -249,9 +274,10 @@ export const verifyEnhancedAnalytics = () => {
   console.log(`${results.metaPixel ? '✅' : '❌'} Meta Pixel: ${results.metaPixel ? 'ACTIVE' : 'INACTIVE'}`);
   console.log(`${results.siteBehaviour ? '✅' : '❌'} SiteBehaviour: ${results.siteBehaviour ? 'ACTIVE' : 'INACTIVE'}`);
   console.log(`${results.dataLayer ? '✅' : '❌'} DataLayer: ${results.dataLayer ? 'ACTIVE' : 'INACTIVE'}`);
+  console.log(`${results.visitorTracking ? '✅' : '❌'} Visitor Tracking: ${results.visitorTracking ? 'ACTIVE' : 'INACTIVE'}`);
   
   const activeCount = Object.values(results).filter(val => val === true).length;
-  const totalPlatforms = 4;
+  const totalPlatforms = 5; // Count of tracking platforms we're checking
   
   console.log(`\n📈 Analytics Score: ${activeCount}/${totalPlatforms} platforms active`);
   

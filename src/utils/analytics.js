@@ -24,6 +24,16 @@ export const initializeAnalytics = () => {
     } else {
       console.error('❌ gtag function not available - check Google Analytics implementation');
     }
+    
+    // Initialize Visitor Tracking if available
+    if (typeof window.init_tracer === 'function') {
+      try {
+        window.init_tracer();
+        console.log('✅ Visitor Tracking initialized from analytics.js');
+      } catch (error) {
+        console.error('❌ Error initializing Visitor Tracking:', error);
+      }
+    }
   }
 };
 
@@ -81,6 +91,17 @@ export const trackPageView = (pagePath, pageTitle) => {
       }
     }));
     
+    // Track with Visitor Tracking if available
+    if (typeof window.Tracer !== 'undefined' && typeof window.init_tracer === 'function') {
+      try {
+        // Make sure tracer is initialized
+        window.init_tracer();
+        console.log('✅ Visitor Tracking page view tracked:', pagePath);
+      } catch (error) {
+        console.warn('⚠️ Visitor Tracking error:', error.message);
+      }
+    }
+    
     // Track with DataLayer for GTM compatibility
     if (window.dataLayer && Array.isArray(window.dataLayer)) {
       window.dataLayer.push({
@@ -108,7 +129,6 @@ export const trackEvent = (eventName, parameters = {}) => {
       };
       
       gtag('event', eventName, enhancedParams);
-      
       console.log('📊 VERIFIED GA4 Event tracked:', eventName, parameters);
     } else {
       console.warn('⚠️ gtag function not available for event tracking');
@@ -121,6 +141,18 @@ export const trackEvent = (eventName, parameters = {}) => {
         timestamp: new Date().toISOString()
       }
     }));
+    
+    // Track with Visitor Tracking if available
+    if (typeof window.Tracer !== 'undefined') {
+      try {
+        // Assuming Tracer has a trackEvent method or similar
+        if (typeof window.tracer !== 'undefined' && typeof window.tracer.trackEvent === 'function') {
+          window.tracer.trackEvent(eventName, parameters);
+        }
+      } catch (error) {
+        console.warn('⚠️ Visitor Tracking event error:', error.message);
+      }
+    }
     
     // Track with DataLayer for GTM compatibility
     if (window.dataLayer && Array.isArray(window.dataLayer)) {
@@ -165,7 +197,6 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
       
       // Also send as custom conversion event
       gtag('event', 'conversion', conversionData);
-      
       console.log('💰 VERIFIED GA4 Conversion tracked:', conversionType, value);
     }
     
@@ -225,7 +256,6 @@ export const trackButtonClick = (buttonName, location = '', additionalData = {})
   };
   
   trackEvent('button_click', eventData);
-  
   console.log('🖱️ Button click tracked:', buttonName, 'at', location);
 };
 
@@ -282,9 +312,28 @@ export const testGA4RealTimeTracking = () => {
   
   if (typeof window.gtag === 'function') {
     const testEvents = [
-      { name: 'test_tracking_verification', params: { event_category: 'testing', test_type: 'real_time' }},
-      { name: 'test_page_interaction', params: { event_category: 'testing', interaction_type: 'manual_test' }},
-      { name: 'test_conversion_simulation', params: { event_category: 'conversion', value: 1, currency: 'USD' }}
+      {
+        name: 'test_tracking_verification',
+        params: {
+          event_category: 'testing',
+          test_type: 'real_time'
+        }
+      },
+      {
+        name: 'test_page_interaction',
+        params: {
+          event_category: 'testing',
+          interaction_type: 'manual_test'
+        }
+      },
+      {
+        name: 'test_conversion_simulation',
+        params: {
+          event_category: 'conversion',
+          value: 1,
+          currency: 'USD'
+        }
+      }
     ];
     
     testEvents.forEach((event, index) => {
