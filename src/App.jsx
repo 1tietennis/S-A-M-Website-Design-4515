@@ -17,6 +17,7 @@ import AnalyticsDebugger from './components/AnalyticsDebugger';
 import SiteBehaviourController from './components/SiteBehaviourController';
 import { initializeEnhancedAnalytics, trackEnhancedPageView, verifyEnhancedAnalytics } from './utils/analyticsEnhanced';
 import { trackPageLoadComplete } from './utils/analyticsVerification';
+import TrackingTroubleshooter from './utils/trackingTroubleshooter';
 import './App.css';
 
 // Component to handle route changes and enhanced analytics
@@ -40,6 +41,9 @@ function App() {
   useEffect(() => {
     // Initialize enhanced analytics with Meta Pixel when app loads
     initializeEnhancedAnalytics();
+    
+    // Initialize tracking troubleshooter
+    TrackingTroubleshooter.initialize();
     
     // Track initial app load across all platforms
     if (typeof window !== 'undefined') {
@@ -71,10 +75,23 @@ function App() {
       }
     }
     
-    // Run comprehensive analytics verification
+    // Run comprehensive analytics verification and troubleshooting
     setTimeout(() => {
       verifyEnhancedAnalytics();
       trackPageLoadComplete('App');
+      
+      // Run initial tracking diagnostic
+      console.log('🔧 Running initial tracking diagnostic...');
+      TrackingTroubleshooter.quickCheck();
+      
+      // Auto-run full diagnostic if issues detected
+      setTimeout(() => {
+        const healthStatus = TrackingTroubleshooter.getTrackingHealthStatus();
+        if (healthStatus.score < 75) {
+          console.warn('⚠️ Tracking issues detected - running full diagnostic...');
+          TrackingTroubleshooter.runDiagnostic();
+        }
+      }, 5000);
     }, 2000);
     
     // Initialize SiteBehaviour systems
@@ -90,7 +107,7 @@ function App() {
       console.log('SiteBehaviour systems not available:', error.message);
     });
     
-    console.log('🚀 Secret Agent Digital Marketing App Loaded with Enhanced Analytics + Meta Pixel');
+    console.log('🚀 Secret Agent Digital Marketing App Loaded with Enhanced Analytics + Troubleshooting');
   }, []);
   
   // Show debugger in development or with debug parameter

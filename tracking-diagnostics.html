@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔧 Tracking Diagnostics Tool - Secret Agent Digital Marketing</title>
+  
+  <!-- EXACT SAME TRACKING CODE AS MAIN SITE -->
+  <!-- META PIXEL (FACEBOOK PIXEL) -->
+  <script>
+    !function(f,b,e,v,n,t,s) {
+      if(f.fbq) return;
+      n=f.fbq=function() {
+        n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+      };
+      if(!f._fbq) f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+      t=b.createElement(e);t.async=!0;t.src=v;
+      s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
+    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    
+    fbq('init','1234567890123456');
+    fbq('track','PageView');
+    fbq('dataProcessingOptions',[]);
+    console.log('✅ Meta Pixel loaded on diagnostics page');
+    window.metaPixelLoaded = true;
+  </script>
+
+  <!-- GOOGLE ANALYTICS 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CTDQQ8XMKC', {
+      page_title: 'Tracking Diagnostics Tool',
+      page_location: window.location.href,
+      send_page_view: true
+    });
+    console.log('✅ Google Analytics 4 loaded on diagnostics page');
+    window.gtagLoaded = true;
+  </script>
+
+  <!-- SITEBEHAVIOUR TRACKING -->
+  <script type="text/javascript">
+    (function() {
+      var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+      window.sitebehaviourTrackingSecret = sbSiteSecret;
+      var scriptElement = document.createElement('script');
+      scriptElement.defer = true;
+      scriptElement.id = 'site-behaviour-script-v2';
+      scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
+      scriptElement.onload = function() {
+        console.log('✅ SiteBehaviour script loaded on diagnostics page');
+        logResult('✅ SiteBehaviour script loaded successfully');
+      };
+      scriptElement.onerror = function() {
+        console.error('❌ SiteBehaviour script failed to load');
+        logResult('❌ SiteBehaviour script failed to load');
+      };
+      document.head.appendChild(scriptElement);
+      console.log('🚀 SiteBehaviour loading initiated on diagnostics page');
+    })();
+  </script>
+
+  <!-- VISITOR TRACKING CODE -->
+  <script async defer src='https://app.visitortracking.com/assets/js/tracer.js'></script>
+  <script>
+    function init_tracer() { 
+      var tracer = new Tracer({  
+        websiteId : "37c78787-2c3e-4fe6-a988-b1887ae40fd8",  
+        async : true, 
+        debug : false 
+      }); 
+      console.log('✅ Visitor Tracking initialized on diagnostics page');
+      logResult('✅ Visitor Tracking initialized successfully');
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #0a0a0a;
+      color: #00ff00;
+      line-height: 1.6;
+    }
+    .header {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #1a1a1a, #333);
+      border: 2px solid #ED2729;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .diagnostic-section {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      border: 1px solid #333;
+    }
+    .test-button {
+      background: #ED2729;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 8px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+    .test-button:hover {
+      background: #b91c1c;
+      transform: translateY(-2px);
+    }
+    .test-button:active {
+      transform: translateY(0);
+    }
+    .results-log {
+      background: #000;
+      color: #00ff00;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      border: 2px solid #00ff00;
+      margin: 15px 0;
+    }
+    .error-log {
+      background: #000;
+      color: #ff4444;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      border: 2px solid #ff4444;
+    }
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    .status-green { background: #00ff00; }
+    .status-red { background: #ff4444; }
+    .status-yellow { background: #ffaa00; }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .checklist-item {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border-left: 4px solid #ED2729;
+    }
+    .checklist-pass {
+      background: #001100;
+      border-left-color: #00ff00;
+    }
+    .checklist-fail {
+      background: #110000;
+      border-left-color: #ff4444;
+    }
+    .checklist-warning {
+      background: #111100;
+      border-left-color: #ffaa00;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🔧 COMPREHENSIVE TRACKING DIAGNOSTICS</h1>
+    <h2>Secret Agent Digital Marketing - Troubleshooting Tool</h2>
+    <p>Real-time tracking verification and issue detection</p>
+  </div>
+
+  <div class="diagnostic-section">
+    <h3>🚨 REAL-TIME TRACKING STATUS</h3>
+    <p>Live monitoring of all tracking platforms...</p>
+    <div id="live-status">
+      <p><span class="status-indicator status-yellow"></span><strong>System Status:</strong> <span id="system-status">Initializing...</span></p>
+      <p><span class="status-indicator status-yellow"></span><strong>Google Analytics 4:</strong> <span id="ga4-status">Checking...</span></p>
+      <p><span class="status-indicator status-yellow"></span><strong>Meta Pixel:</strong> <span id="meta-status">Checking...</span></p>
+      <p><span class="status-indicator status-yellow"></span><strong>SiteBehaviour:</strong> <span id="sitebehaviour-status">Checking...</span></p>
+      <p><span class="status-indicator status-yellow"></span><strong>Visitor Tracking:</strong> <span id="visitor-status">Checking...</span></p>
+    </div>
+  </div>
+
+  <div class="diagnostic-section">
+    <h3>🧪 SYSTEMATIC DIAGNOSTIC TESTS</h3>
+    <div class="grid-2">
+      <div>
+        <h4>📋 Basic Checks</h4>
+        <button class="test-button" onclick="runBasicChecks()">Run Basic Checks</button>
+        <button class="test-button" onclick="checkNetworkConnectivity()">Test Network Access</button>
+        <button class="test-button" onclick="detectAdBlockers()">Detect Ad Blockers</button>
+        <button class="test-button" onclick="checkBrowserCompatibility()">Browser Compatibility</button>
+      </div>
+      <div>
+        <h4>🎯 Advanced Tests</h4>
+        <button class="test-button" onclick="testAllTrackingPlatforms()">Test All Platforms</button>
+        <button class="test-button" onclick="simulateUserJourney()">Simulate User Journey</button>
+        <button class="test-button" onclick="testCrossDomainTracking()">Cross-Domain Test</button>
+        <button class="test-button" onclick="runComprehensiveDiagnostic()">🚀 Full Diagnostic</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagnostic-section">
+    <h3>📊 DIAGNOSTIC RESULTS</h3>
+    <button class="test-button" onclick="clearResults()" style="background: #666;">🧹 Clear Results</button>
+    <div id="results-log" class="results-log">
+[Tracking Diagnostics Tool initialized...]
+Waiting for diagnostic tests to run...
+    </div>
+  </div>
+
+  <div class="diagnostic-section">
+    <h3>🔍 ISSUE DETECTION & SOLUTIONS</h3>
+    <div id="issues-detected">
+      <div class="checklist-item">
+        <strong>Waiting for diagnostics to run...</strong>
+        <p>Click "Full Diagnostic" above to begin comprehensive analysis</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagnostic-section">
+    <h3>⚠️ POTENTIAL BLOCKING FACTORS</h3>
+    <div id="blocking-factors">
+      <h4>Common Issues That Prevent Tracking:</h4>
+      <ul>
+        <li><strong>Ad Blockers:</strong> uBlock Origin, Adblock Plus, Privacy Badger</li>
+        <li><strong>Browser Extensions:</strong> Ghostery, DuckDuckGo Privacy Essentials</li>
+        <li><strong>Browser Settings:</strong> Strict tracking protection, disabled JavaScript</li>
+        <li><strong>Network Issues:</strong> Corporate firewalls, DNS blocking</li>
+        <li><strong>Code Issues:</strong> Script loading errors, incorrect implementation</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Global error tracking
+    let errorCount = 0;
+    let diagnosticResults = {};
+
+    // Initialize error monitoring
+    function initializeErrorMonitoring() {
+      const originalError = console.error;
+      const originalWarn = console.warn;
+
+      console.error = function(...args) {
+        const message = args.join(' ');
+        logResult(`🔥 ERROR: ${message}`);
+        errorCount++;
+        originalError.apply(console, args);
+      };
+
+      console.warn = function(...args) {
+        const message = args.join(' ');
+        logResult(`⚠️ WARNING: ${message}`);
+        originalWarn.apply(console, args);
+      };
+
+      // Capture uncaught errors
+      window.addEventListener('error', function(event) {
+        logResult(`🚨 UNCAUGHT ERROR: ${event.message} at ${event.filename}:${event.lineno}`);
+        errorCount++;
+      });
+
+      // Capture unhandled promise rejections
+      window.addEventListener('unhandledrejection', function(event) {
+        logResult(`🚨 UNHANDLED PROMISE: ${event.reason}`);
+        errorCount++;
+      });
+
+      logResult('🔍 Error monitoring system initialized');
+    }
+
+    // Logging function
+    function logResult(message) {
+      const resultsLog = document.getElementById('results-log');
+      const timestamp = new Date().toLocaleTimeString();
+      resultsLog.innerHTML += `[${timestamp}] ${message}\n`;
+      resultsLog.scrollTop = resultsLog.scrollHeight;
+      console.log(message);
+    }
+
+    function clearResults() {
+      document.getElementById('results-log').innerHTML = '[Results cleared]\n';
+      errorCount = 0;
+      diagnosticResults = {};
+    }
+
+    // Update live status indicators
+    function updateLiveStatus() {
+      const ga4Working = typeof window.gtag === 'function';
+      const metaWorking = typeof window.fbq === 'function';
+      const siteBehaviourWorking = !!window.sitebehaviourTrackingSecret && !!document.querySelector('#site-behaviour-script-v2');
+      const visitorWorking = typeof window.Tracer !== 'undefined' || typeof init_tracer === 'function';
+
+      document.getElementById('ga4-status').textContent = ga4Working ? '✅ Active' : '❌ Inactive';
+      document.getElementById('meta-status').textContent = metaWorking ? '✅ Active' : '❌ Inactive';
+      document.getElementById('sitebehaviour-status').textContent = siteBehaviourWorking ? '✅ Active' : '❌ Inactive';
+      document.getElementById('visitor-status').textContent = visitorWorking ? '✅ Active' : '❌ Inactive';
+
+      const workingCount = [ga4Working, metaWorking, siteBehaviourWorking, visitorWorking].filter(Boolean).length;
+      const systemStatus = document.getElementById('system-status');
+      
+      if (workingCount === 4) {
+        systemStatus.textContent = '🎉 All Systems Operational';
+        systemStatus.parentElement.querySelector('.status-indicator').className = 'status-indicator status-green';
+      } else if (workingCount >= 2) {
+        systemStatus.textContent = `⚠️ ${workingCount}/4 Systems Working`;
+        systemStatus.parentElement.querySelector('.status-indicator').className = 'status-indicator status-yellow';
+      } else {
+        systemStatus.textContent = '❌ Critical Issues Detected';
+        systemStatus.parentElement.querySelector('.status-indicator').className = 'status-indicator status-red';
+      }
+    }
+
+    // Basic checks
+    function runBasicChecks() {
+      logResult('🔍 RUNNING BASIC TRACKING CHECKS');
+      logResult('================================');
+
+      const checks = {
+        'JavaScript Enabled': typeof window !== 'undefined',
+        'Console Available': typeof console !== 'undefined',
+        'Local Storage': typeof localStorage !== 'undefined',
+        'Session Storage': typeof sessionStorage !== 'undefined',
+        'Fetch API': typeof fetch !== 'undefined',
+        'Promises': typeof Promise !== 'undefined',
+        'Custom Events': typeof CustomEvent !== 'undefined'
+      };
+
+      Object.entries(checks).forEach(([check, passed]) => {
+        logResult(`${passed ? '✅' : '❌'} ${check}: ${passed ? 'WORKING' : 'FAILED'}`);
+      });
+
+      const passedChecks = Object.values(checks).filter(Boolean).length;
+      logResult(`📊 Basic Checks: ${passedChecks}/${Object.keys(checks).length} passed`);
+      
+      diagnosticResults.basicChecks = passedChecks === Object.keys(checks).length;
+      updateIssuesDisplay();
+    }
+
+    // Network connectivity test
+    async function checkNetworkConnectivity() {
+      logResult('🌐 TESTING NETWORK CONNECTIVITY');
+      logResult('==============================');
+
+      const testUrls = [
+        { name: 'Google Analytics', url: 'https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC' },
+        { name: 'Meta Pixel', url: 'https://connect.facebook.net/en_US/fbevents.js' },
+        { name: 'SiteBehaviour CDN', url: 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/' },
+        { name: 'Visitor Tracking', url: 'https://app.visitortracking.com/assets/js/tracer.js' }
+      ];
+
+      let connectivityIssues = 0;
+
+      for (const test of testUrls) {
+        try {
+          const response = await fetch(test.url, { method: 'HEAD', mode: 'no-cors' });
+          logResult(`✅ ${test.name}: Network accessible`);
+        } catch (error) {
+          logResult(`❌ ${test.name}: Network blocked - ${error.message}`);
+          connectivityIssues++;
+        }
+      }
+
+      logResult(`📊 Network Test: ${testUrls.length - connectivityIssues}/${testUrls.length} services accessible`);
+      diagnosticResults.networkConnectivity = connectivityIssues === 0;
+      updateIssuesDisplay();
+    }
+
+    // Ad blocker detection
+    function detectAdBlockers() {
+      logResult('🚫 DETECTING AD BLOCKERS & PRIVACY TOOLS');
+      logResult('=========================================');
+
+      const adBlockerTests = {
+        'uBlock Origin': () => {
+          return document.querySelector('script[src*="googletagmanager"]') === null ||
+                 document.querySelector('script[src*="facebook.net"]') === null;
+        },
+        'Generic Ad Blocker': () => {
+          // Test if tracking pixels are blocked
+          const testPixel = document.createElement('img');
+          testPixel.src = 'https://www.facebook.com/tr?id=test&ev=PageView&noscript=1';
+          testPixel.style.display = 'none';
+          document.body.appendChild(testPixel);
+          return testPixel.complete && testPixel.naturalHeight === 0;
+        },
+        'JavaScript Blocking': () => {
+          return typeof window.gtag === 'undefined' && typeof window.fbq === 'undefined';
+        }
+      };
+
+      let blockersDetected = 0;
+      Object.entries(adBlockerTests).forEach(([blocker, test]) => {
+        try {
+          const isBlocked = test();
+          if (isBlocked) {
+            logResult(`🚫 ${blocker}: DETECTED - May be blocking tracking`);
+            blockersDetected++;
+          } else {
+            logResult(`✅ ${blocker}: Not detected`);
+          }
+        } catch (error) {
+          logResult(`⚠️ ${blocker}: Test failed - ${error.message}`);
+        }
+      });
+
+      logResult(`📊 Ad Blocker Detection: ${blockersDetected} potential blockers found`);
+      diagnosticResults.adBlockers = blockersDetected === 0;
+      updateIssuesDisplay();
+    }
+
+    // Browser compatibility check
+    function checkBrowserCompatibility() {
+      logResult('🌐 CHECKING BROWSER COMPATIBILITY');
+      logResult('=================================');
+
+      const browserInfo = {
+        'User Agent': navigator.userAgent,
+        'Browser Language': navigator.language,
+        'Cookies Enabled': navigator.cookieEnabled,
+        'Do Not Track': navigator.doNotTrack || 'Not set',
+        'Online Status': navigator.onLine,
+        'Screen Resolution': `${screen.width}x${screen.height}`,
+        'Viewport Size': `${window.innerWidth}x${window.innerHeight}`
+      };
+
+      Object.entries(browserInfo).forEach(([key, value]) => {
+        logResult(`📋 ${key}: ${value}`);
+      });
+
+      // Check for privacy features that might block tracking
+      const privacyFeatures = {
+        'Third-party Cookies': document.cookie.length > 0,
+        'Local Storage Access': (() => {
+          try {
+            localStorage.setItem('test', 'test');
+            localStorage.removeItem('test');
+            return true;
+          } catch (e) {
+            return false;
+          }
+        })(),
+        'Referrer Policy': document.referrerPolicy || 'Default'
+      };
+
+      Object.entries(privacyFeatures).forEach(([feature, status]) => {
+        logResult(`${status ? '✅' : '❌'} ${feature}: ${status ? 'Allowed' : 'Blocked'}`);
+      });
+
+      diagnosticResults.browserCompatibility = Object.values(privacyFeatures).every(Boolean);
+      updateIssuesDisplay();
+    }
+
+    // Test all tracking platforms
+    function testAllTrackingPlatforms() {
+      logResult('🎯 TESTING ALL TRACKING PLATFORMS');
+      logResult('=================================');
+
+      const platforms = {
+        'Google Analytics 4': () => {
+          if (typeof window.gtag === 'function') {
+            gtag('event', 'diagnostic_test', {
+              event_category: 'testing',
+              event_label: 'platform_test',
+              test_timestamp: Date.now()
+            });
+            return true;
+          }
+          return false;
+        },
+        'Meta Pixel': () => {
+          if (typeof window.fbq === 'function') {
+            fbq('trackCustom', 'DiagnosticTest', {
+              test_type: 'platform_verification',
+              timestamp: Date.now()
+            });
+            return true;
+          }
+          return false;
+        },
+        'SiteBehaviour': () => {
+          if (window.sitebehaviourTrackingSecret) {
+            document.dispatchEvent(new CustomEvent('sitebehaviour-diagnostic-test', {
+              detail: {
+                test: 'platform_verification',
+                timestamp: Date.now()
+              }
+            }));
+            return true;
+          }
+          return false;
+        },
+        'Visitor Tracking': () => {
+          if (typeof init_tracer === 'function') {
+            try {
+              init_tracer();
+              return true;
+            } catch (error) {
+              logResult(`⚠️ Visitor Tracking error: ${error.message}`);
+              return false;
+            }
+          }
+          return false;
+        }
+      };
+
+      let workingPlatforms = 0;
+      Object.entries(platforms).forEach(([platform, test]) => {
+        try {
+          const isWorking = test();
+          logResult(`${isWorking ? '✅' : '❌'} ${platform}: ${isWorking ? 'WORKING' : 'FAILED'}`);
+          if (isWorking) workingPlatforms++;
+        } catch (error) {
+          logResult(`❌ ${platform}: ERROR - ${error.message}`);
+        }
+      });
+
+      logResult(`📊 Platform Test: ${workingPlatforms}/${Object.keys(platforms).length} platforms working`);
+      diagnosticResults.platformTests = workingPlatforms === Object.keys(platforms).length;
+      updateIssuesDisplay();
+    }
+
+    // Simulate user journey
+    function simulateUserJourney() {
+      logResult('👤 SIMULATING USER JOURNEY');
+      logResult('==========================');
+
+      const journeySteps = [
+        { action: 'Page View', test: () => testPageView() },
+        { action: 'Button Click', test: () => testButtonClick() },
+        { action: 'Form Interaction', test: () => testFormInteraction() },
+        { action: 'Scroll Event', test: () => testScrollEvent() },
+        { action: 'Time on Page', test: () => testTimeOnPage() }
+      ];
+
+      journeySteps.forEach((step, index) => {
+        setTimeout(() => {
+          logResult(`🎬 Step ${index + 1}: ${step.action}`);
+          try {
+            step.test();
+            logResult(`✅ ${step.action}: Event sent successfully`);
+          } catch (error) {
+            logResult(`❌ ${step.action}: Failed - ${error.message}`);
+          }
+        }, index * 1000);
+      });
+
+      logResult('🎭 User journey simulation started...');
+    }
+
+    // Helper functions for user journey simulation
+    function testPageView() {
+      if (window.gtag) gtag('event', 'page_view', { page_title: 'Diagnostic Test' });
+      if (window.fbq) fbq('track', 'ViewContent', { content_name: 'Diagnostic Page' });
+    }
+
+    function testButtonClick() {
+      if (window.gtag) gtag('event', 'click', { event_label: 'diagnostic_button' });
+      if (window.fbq) fbq('trackCustom', 'ButtonClick', { button_name: 'diagnostic_test' });
+    }
+
+    function testFormInteraction() {
+      if (window.gtag) gtag('event', 'form_start', { form_name: 'diagnostic_form' });
+      if (window.fbq) fbq('track', 'Lead', { content_name: 'Diagnostic Form' });
+    }
+
+    function testScrollEvent() {
+      if (window.gtag) gtag('event', 'scroll', { scroll_depth: 75 });
+      if (window.fbq) fbq('trackCustom', 'ScrollDepth', { depth: 75 });
+    }
+
+    function testTimeOnPage() {
+      if (window.gtag) gtag('event', 'timing_complete', { name: 'page_view', value: 30000 });
+    }
+
+    // Cross-domain tracking test
+    function testCrossDomainTracking() {
+      logResult('🌐 TESTING CROSS-DOMAIN TRACKING');
+      logResult('=================================');
+
+      const currentDomain = window.location.hostname;
+      logResult(`📍 Current Domain: ${currentDomain}`);
+
+      // Test cookie access
+      try {
+        document.cookie = 'test_tracking=1; path=/';
+        const cookieSet = document.cookie.includes('test_tracking=1');
+        logResult(`${cookieSet ? '✅' : '❌'} Cookie Setting: ${cookieSet ? 'WORKING' : 'BLOCKED'}`);
+      } catch (error) {
+        logResult(`❌ Cookie Setting: BLOCKED - ${error.message}`);
+      }
+
+      // Test localStorage access
+      try {
+        localStorage.setItem('test_tracking', '1');
+        const storageSet = localStorage.getItem('test_tracking') === '1';
+        localStorage.removeItem('test_tracking');
+        logResult(`${storageSet ? '✅' : '❌'} Local Storage: ${storageSet ? 'WORKING' : 'BLOCKED'}`);
+      } catch (error) {
+        logResult(`❌ Local Storage: BLOCKED - ${error.message}`);
+      }
+
+      logResult('🔄 Cross-domain tracking test completed');
+    }
+
+    // Update issues display
+    function updateIssuesDisplay() {
+      const issuesDiv = document.getElementById('issues-detected');
+      const issues = [];
+
+      if (diagnosticResults.basicChecks === false) {
+        issues.push({
+          type: 'fail',
+          title: 'Basic Functionality Issues',
+          description: 'Core browser features required for tracking are not working properly.',
+          solution: 'Check if JavaScript is enabled and browser supports modern features.'
+        });
+      }
+
+      if (diagnosticResults.networkConnectivity === false) {
+        issues.push({
+          type: 'fail',
+          title: 'Network Connectivity Issues',
+          description: 'Cannot reach one or more tracking services.',
+          solution: 'Check firewall settings, DNS configuration, or try a different network.'
+        });
+      }
+
+      if (diagnosticResults.adBlockers === false) {
+        issues.push({
+          type: 'warning',
+          title: 'Ad Blockers Detected',
+          description: 'Privacy tools or ad blockers may be preventing tracking.',
+          solution: 'Temporarily disable ad blockers to test tracking functionality.'
+        });
+      }
+
+      if (diagnosticResults.browserCompatibility === false) {
+        issues.push({
+          type: 'warning',
+          title: 'Privacy Settings Active',
+          description: 'Browser privacy settings may be blocking tracking features.',
+          solution: 'Check browser settings for tracking protection and cookie policies.'
+        });
+      }
+
+      if (diagnosticResults.platformTests === false) {
+        issues.push({
+          type: 'fail',
+          title: 'Platform Integration Issues',
+          description: 'One or more tracking platforms are not responding correctly.',
+          solution: 'Check tracking code implementation and script loading order.'
+        });
+      }
+
+      if (issues.length === 0) {
+        issuesDiv.innerHTML = `
+          <div class="checklist-item checklist-pass">
+            <strong>🎉 No Issues Detected!</strong>
+            <p>All tracking systems appear to be working correctly.</p>
+          </div>
+        `;
+      } else {
+        issuesDiv.innerHTML = issues.map(issue => `
+          <div class="checklist-item checklist-${issue.type}">
+            <strong>${issue.type === 'fail' ? '❌' : '⚠️'} ${issue.title}</strong>
+            <p><strong>Issue:</strong> ${issue.description}</p>
+            <p><strong>Solution:</strong> ${issue.solution}</p>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Run comprehensive diagnostic
+    async function runComprehensiveDiagnostic() {
+      logResult('🚀 RUNNING COMPREHENSIVE DIAGNOSTIC');
+      logResult('===================================');
+      
+      clearResults();
+      diagnosticResults = {};
+
+      logResult('🔄 Running all diagnostic tests...');
+      
+      // Run tests in sequence
+      await new Promise(resolve => {
+        runBasicChecks();
+        setTimeout(resolve, 1000);
+      });
+
+      await new Promise(resolve => {
+        checkNetworkConnectivity();
+        setTimeout(resolve, 2000);
+      });
+
+      await new Promise(resolve => {
+        detectAdBlockers();
+        setTimeout(resolve, 1000);
+      });
+
+      await new Promise(resolve => {
+        checkBrowserCompatibility();
+        setTimeout(resolve, 1000);
+      });
+
+      await new Promise(resolve => {
+        testAllTrackingPlatforms();
+        setTimeout(resolve, 1000);
+      });
+
+      // Final summary
+      const totalTests = Object.keys(diagnosticResults).length;
+      const passedTests = Object.values(diagnosticResults).filter(Boolean).length;
+      
+      logResult('');
+      logResult('📊 COMPREHENSIVE DIAGNOSTIC COMPLETE');
+      logResult('====================================');
+      logResult(`🎯 Overall Score: ${passedTests}/${totalTests} tests passed`);
+      logResult(`⚠️ Errors Detected: ${errorCount}`);
+      
+      if (passedTests === totalTests && errorCount === 0) {
+        logResult('🎉 ALL SYSTEMS OPERATIONAL - No issues detected');
+      } else {
+        logResult('⚠️ Issues detected - Check solutions below');
+      }
+
+      updateLiveStatus();
+      updateIssuesDisplay();
+    }
+
+    // Initialize when page loads
+    window.addEventListener('load', () => {
+      initializeErrorMonitoring();
+      logResult('🔧 Tracking Diagnostics Tool ready');
+      logResult('📊 Click "Full Diagnostic" to begin comprehensive analysis');
+      
+      // Auto-update live status every 5 seconds
+      setInterval(updateLiveStatus, 5000);
+      
+      // Initial status check
+      setTimeout(updateLiveStatus, 3000);
+      
+      // Initialize visitor tracking if available
+      if (typeof init_tracer === 'function') {
+        try {
+          init_tracer();
+          logResult('✅ Visitor Tracking auto-initialized');
+        } catch (error) {
+          logResult('❌ Visitor Tracking auto-init failed: ' + error.message);
+        }
+      }
+    });
+  </script>
+
+  <!-- No Script versions for comprehensive testing -->
+  <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1234567890123456&ev=PageView&noscript=1" />
+  </noscript>
+</body>
+</html>
