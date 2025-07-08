@@ -19,14 +19,15 @@ export default [
         document: true,
         gtag: true,
         firebase: true,
-        CyborgCRM: true
+        CyborgCRM: true,
+        fbq: true
       },
       parserOptions: {
         ecmaFeatures: {
-          jsx: true
+          jsx: true,
         },
-        sourceType: 'module'
-      }
+        sourceType: 'module',
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -40,5 +41,5 @@ export default [
       'no-unused-vars': 'off',
       'no-case-declarations': 'off',
     },
-  }
+  },
 ];

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -8,22 +9,30 @@ import About from './pages/About';
 import CaseStudies from './pages/CaseStudies';
 import Contact from './pages/Contact';
 import VideoMarketing from './pages/VideoMarketing';
+import Login from './pages/Login';
+import Onboarding from './pages/Onboarding';
+import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 import AnalyticsDebugger from './components/AnalyticsDebugger';
 import SiteBehaviourController from './components/SiteBehaviourController';
-import { initializePageTracking, trackSPANavigation } from './utils/analytics';
+import { 
+  initializeEnhancedAnalytics, 
+  trackEnhancedPageView, 
+  verifyEnhancedAnalytics 
+} from './utils/analyticsEnhanced';
 import { trackPageLoadComplete } from './utils/analyticsVerification';
 import './App.css';
 
-// Component to handle route changes and analytics
+// Component to handle route changes and enhanced analytics
 function AnalyticsWrapper({ children }) {
   const location = useLocation();
   const [previousPath, setPreviousPath] = React.useState(location.pathname);
 
   useEffect(() => {
-    // Track route changes for SPA navigation
+    // Track route changes for SPA navigation with enhanced analytics
     if (previousPath !== location.pathname) {
       const pageTitle = document.title;
-      trackSPANavigation(previousPath, location.pathname, pageTitle);
+      trackEnhancedPageView(location.pathname, pageTitle);
       setPreviousPath(location.pathname);
     }
   }, [location, previousPath]);
@@ -33,28 +42,41 @@ function AnalyticsWrapper({ children }) {
 
 function App() {
   useEffect(() => {
-    // Initialize page tracking when app loads
-    initializePageTracking();
+    // Initialize enhanced analytics with Meta Pixel when app loads
+    initializeEnhancedAnalytics();
 
-    // Track initial app load
-    if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-      window.gtag('event', 'app_loaded', {
-        event_category: 'app_lifecycle',
-        timestamp: new Date().toISOString()
-      });
+    // Track initial app load across all platforms
+    if (typeof window !== 'undefined') {
+      // Google Analytics 4
+      if (typeof window.gtag !== 'undefined') {
+        window.gtag('event', 'app_loaded', {
+          event_category: 'app_lifecycle',
+          timestamp: new Date().toISOString()
+        });
+      }
+
+      // Meta Pixel
+      if (typeof window.fbq !== 'undefined') {
+        window.fbq('trackCustom', 'AppLoaded', {
+          app_name: 'Secret Agent Digital Marketing',
+          load_time: Date.now(),
+          user_agent: navigator.userAgent.substring(0, 100)
+        });
+      }
     }
 
     // Run comprehensive analytics verification
-    trackPageLoadComplete('App');
+    setTimeout(() => {
+      verifyEnhancedAnalytics();
+      trackPageLoadComplete('App');
+    }, 2000);
 
-    // Initialize SiteBehaviour commands and real-time monitoring
+    // Initialize SiteBehaviour systems
     Promise.all([
       import('./utils/siteBehaviourCommands.js'),
       import('./utils/siteBehaviourRealTimeMonitor.js')
     ]).then(([commands, monitor]) => {
       console.log('🎯 SiteBehaviour systems loaded');
-      
-      // Auto-start real-time monitoring if available
       if (monitor.default && monitor.default.initializeRealTimeMonitoring) {
         monitor.default.initializeRealTimeMonitoring();
       }
@@ -62,42 +84,101 @@ function App() {
       console.log('SiteBehaviour systems not available:', error.message);
     });
 
-    console.log('🚀 Secret Agent Digital Marketing App Loaded with Real-Time Analytics');
+    console.log('🚀 Secret Agent Digital Marketing App Loaded with Enhanced Analytics + Meta Pixel');
   }, []);
 
   // Show debugger in development or with debug parameter
   const showDebugger = process.env.NODE_ENV === 'development' || 
-                      (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
+    (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
 
   // Show SiteBehaviour controller with sitebehaviour parameter
-  const showSiteBehaviour = (typeof window !== 'undefined' && window.location.search.includes('sitebehaviour=true')) || 
-                           process.env.NODE_ENV === 'development';
+  const showSiteBehaviour = (typeof window !== 'undefined' && 
+    window.location.search.includes('sitebehaviour=true')) || 
+    process.env.NODE_ENV === 'development';
 
   return (
-    <Router>
-      <div className="min-h-screen bg-jet-black text-white">
-        <AnalyticsWrapper>
-          <Header />
-          <main>
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen bg-jet-black text-white">
+          <AnalyticsWrapper>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/video-marketing" element={<VideoMarketing />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/case-studies" element={<CaseStudies />} />
-              <Route path="/contact" element={<Contact />} />
+              {/* Public Routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/onboarding" element={<Onboarding />} />
+              
+              {/* Protected Routes */}
+              <Route path="/dashboard" element={
+                <ProtectedRoute requireOnboarding={true}>
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
+              
+              {/* Main Site Routes */}
+              <Route path="/" element={
+                <>
+                  <Header />
+                  <main>
+                    <Home />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/services" element={
+                <>
+                  <Header />
+                  <main>
+                    <Services />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/video-marketing" element={
+                <>
+                  <Header />
+                  <main>
+                    <VideoMarketing />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/about" element={
+                <>
+                  <Header />
+                  <main>
+                    <About />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/case-studies" element={
+                <>
+                  <Header />
+                  <main>
+                    <CaseStudies />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/contact" element={
+                <>
+                  <Header />
+                  <main>
+                    <Contact />
+                  </main>
+                  <Footer />
+                </>
+              } />
             </Routes>
-          </main>
-          <Footer />
-        </AnalyticsWrapper>
+          </AnalyticsWrapper>
 
-        {/* Analytics Debugger - shows when debug=true in URL or in development */}
-        <AnalyticsDebugger showDebugger={showDebugger} />
+          {/* Analytics Debugger - shows when debug=true in URL or in development */}
+          <AnalyticsDebugger showDebugger={showDebugger} />
 
-        {/* SiteBehaviour Controller - shows when sitebehaviour=true in URL or in development */}
-        <SiteBehaviourController showController={showSiteBehaviour} />
-      </div>
-    </Router>
+          {/* SiteBehaviour Controller - shows when sitebehaviour=true in URL or in development */}
+          <SiteBehaviourController showController={showSiteBehaviour} />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

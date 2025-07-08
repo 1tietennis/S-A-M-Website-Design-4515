@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 Meta Pixel Real-Time Test - Secret Agent Digital Marketing</title>
+  
+  <!-- META PIXEL IMPLEMENTATION - EXACT SAME AS MAIN SITE -->
+  <script>
+    !function(f,b,e,v,n,t,s) {
+      if(f.fbq) return;
+      n = f.fbq = function() {
+        n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+      };
+      if(!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    
+    // Initialize Meta Pixel - REPLACE WITH YOUR ACTUAL PIXEL ID
+    fbq('init', '1234567890123456');
+    fbq('track', 'PageView');
+    fbq('dataProcessingOptions', []);
+    
+    console.log('✅ Meta Pixel Test Page - Facebook Pixel loaded');
+    console.log('📊 Pixel ID: 1234567890123456');
+    window.metaPixelLoaded = true;
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #1a1a1a;
+      color: white;
+    }
+    .test-container {
+      background: #333;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      border: 2px solid #ED2729;
+    }
+    .test-button {
+      background: #ED2729;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px;
+      font-size: 16px;
+    }
+    .test-button:hover {
+      background: #b91c1c;
+    }
+    .results {
+      background: #000;
+      color: #00ff00;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      margin: 10px 0;
+    }
+    .status {
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .success {
+      background: #22c55e20;
+      border: 1px solid #22c55e;
+      color: #22c55e;
+    }
+    .error {
+      background: #ef444420;
+      border: 1px solid #ef4444;
+      color: #ef4444;
+    }
+    .warning {
+      background: #f59e0b20;
+      border: 1px solid #f59e0b;
+      color: #f59e0b;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 Meta Pixel Real-Time Test</h1>
+  <h2>Secret Agent Digital Marketing</h2>
+
+  <div class="test-container">
+    <h3>📊 Meta Pixel Status Check</h3>
+    <div id="status-display">
+      <div class="status warning">⏳ Checking Meta Pixel status...</div>
+    </div>
+    <button class="test-button" onclick="checkMetaPixelStatus()">🔍 Check Meta Pixel Status</button>
+  </div>
+
+  <div class="test-container">
+    <h3>🚀 Real-Time Event Testing</h3>
+    <p>These events will appear in Meta Events Manager within 1-2 minutes:</p>
+    
+    <button class="test-button" onclick="sendPageViewEvent()">📄 Send Page View</button>
+    <button class="test-button" onclick="sendLeadEvent()">🎯 Send Lead Event</button>
+    <button class="test-button" onclick="sendPurchaseEvent()">💰 Send Purchase Event</button>
+    <button class="test-button" onclick="sendContactEvent()">📞 Send Contact Event</button>
+    <button class="test-button" onclick="sendCustomEvent()">⚡ Send Custom Event</button>
+    <button class="test-button" onclick="sendBatchEvents()">🔥 Send Batch Events</button>
+  </div>
+
+  <div class="test-container">
+    <h3>📋 Real-Time Results Log</h3>
+    <button class="test-button" onclick="clearResults()" style="background: #666;">🧹 Clear Log</button>
+    <div id="results-log" class="results">
+      [Meta Pixel Real-Time Test Page initialized...]\n
+    </div>
+  </div>
+
+  <div class="test-container">
+    <h3>📈 How to Verify in Meta Events Manager</h3>
+    <ol style="color: #ccc;">
+      <li>Open <a href="https://business.facebook.com/events_manager" target="_blank" style="color: #ED2729;">Meta Events Manager</a></li>
+      <li>Select your Pixel ID: <strong>1234567890123456</strong></li>
+      <li>Go to <strong>Test Events</strong> tab</li>
+      <li>Click the test buttons above</li>
+      <li>Watch for events appearing in real-time (1-2 minutes delay)</li>
+      <li>Check <strong>Overview</strong> tab for aggregated data</li>
+    </ol>
+  </div>
+
+  <script>
+    function logToResults(message) {
+      const resultsLog = document.getElementById('results-log');
+      const timestamp = new Date().toLocaleTimeString();
+      resultsLog.innerHTML += `[${timestamp}] ${message}\n`;
+      resultsLog.scrollTop = resultsLog.scrollHeight;
+      console.log(message);
+    }
+
+    function clearResults() {
+      document.getElementById('results-log').innerHTML = '[Results cleared]\n';
+    }
+
+    function updateStatus(message, type = 'warning') {
+      const statusDisplay = document.getElementById('status-display');
+      statusDisplay.innerHTML = `<div class="status ${type}">${message}</div>`;
+    }
+
+    function checkMetaPixelStatus() {
+      logToResults('🔍 Checking Meta Pixel implementation status...');
+      
+      const checks = {
+        'fbq function': typeof window.fbq === 'function',
+        'Meta Pixel loaded flag': window.metaPixelLoaded === true,
+        'Facebook script': !!document.querySelector('script[src*="fbevents.js"]'),
+        'Event queue': window.fbq && window.fbq.queue ? window.fbq.queue.length >= 0 : false
+      };
+
+      let allPassed = true;
+      Object.entries(checks).forEach(([check, passed]) => {
+        logToResults(`${passed ? '✅' : '❌'} ${check}: ${passed ? 'OK' : 'FAILED'}`);
+        if (!passed) allPassed = false;
+      });
+
+      if (allPassed) {
+        updateStatus('✅ Meta Pixel is fully operational and ready for testing', 'success');
+        logToResults('🎉 Meta Pixel is fully operational!');
+      } else {
+        updateStatus('❌ Meta Pixel has configuration issues', 'error');
+        logToResults('⚠️ Meta Pixel configuration issues detected');
+      }
+    }
+
+    function sendPageViewEvent() {
+      logToResults('📄 Sending page view event...');
+      try {
+        fbq('track', 'PageView', {
+          page_title: 'Meta Pixel Test Page',
+          page_url: window.location.href,
+          content_type: 'test_page'
+        });
+        logToResults('✅ Page view event sent to Meta Pixel');
+      } catch (error) {
+        logToResults('❌ Error sending page view: ' + error.message);
+      }
+    }
+
+    function sendLeadEvent() {
+      logToResults('🎯 Sending lead event...');
+      try {
+        fbq('track', 'Lead', {
+          content_name: 'Digital Marketing Lead',
+          content_category: 'lead_generation',
+          value: 99.99,
+          currency: 'USD',
+          predicted_ltv: 2500.00
+        });
+        logToResults('✅ Lead event sent to Meta Pixel');
+      } catch (error) {
+        logToResults('❌ Error sending lead: ' + error.message);
+      }
+    }
+
+    function sendPurchaseEvent() {
+      logToResults('💰 Sending purchase event...');
+      try {
+        fbq('track', 'Purchase', {
+          value: 1497.00,
+          currency: 'USD',
+          content_type: 'service',
+          content_ids: ['digital_marketing_package'],
+          content_name: 'Digital Marketing Package',
+          num_items: 1
+        });
+        logToResults('✅ Purchase event sent to Meta Pixel');
+      } catch (error) {
+        logToResults('❌ Error sending purchase: ' + error.message);
+      }
+    }
+
+    function sendContactEvent() {
+      logToResults('📞 Sending contact event...');
+      try {
+        fbq('track', 'Contact', {
+          content_name: 'Contact Form Submission',
+          content_category: 'contact',
+          value: 50.00,
+          currency: 'USD'
+        });
+        logToResults('✅ Contact event sent to Meta Pixel');
+      } catch (error) {
+        logToResults('❌ Error sending contact: ' + error.message);
+      }
+    }
+
+    function sendCustomEvent() {
+      logToResults('⚡ Sending custom event...');
+      try {
+        fbq('trackCustom', 'MetaPixelVerification', {
+          test_type: 'manual_verification',
+          test_timestamp: new Date().toISOString(),
+          user_agent: navigator.userAgent.substring(0, 100),
+          page_url: window.location.href,
+          pixel_health: 'excellent'
+        });
+        logToResults('✅ Custom event sent to Meta Pixel');
+      } catch (error) {
+        logToResults('❌ Error sending custom event: ' + error.message);
+      }
+    }
+
+    function sendBatchEvents() {
+      logToResults('🔥 Sending batch of test events...');
+      
+      const events = [
+        {
+          type: 'standard',
+          name: 'ViewContent',
+          params: { content_type: 'service', value: 25, currency: 'USD' }
+        },
+        {
+          type: 'standard', 
+          name: 'InitiateCheckout',
+          params: { content_type: 'service', value: 99, currency: 'USD' }
+        },
+        {
+          type: 'custom',
+          name: 'ServiceInterest',
+          params: { service_type: 'digital_marketing', interest_level: 'high' }
+        },
+        {
+          type: 'custom',
+          name: 'BudgetIndication',
+          params: { budget_range: '$2500-5000', urgency: 'high' }
+        }
+      ];
+
+      events.forEach((event, index) => {
+        setTimeout(() => {
+          try {
+            if (event.type === 'standard') {
+              fbq('track', event.name, event.params);
+            } else {
+              fbq('trackCustom', event.name, event.params);
+            }
+            logToResults(`✅ Batch event ${index + 1} sent: ${event.name}`);
+          } catch (error) {
+            logToResults(`❌ Batch event ${index + 1} failed: ${error.message}`);
+          }
+        }, index * 500);
+      });
+
+      logToResults('🚀 All batch events queued for sending');
+      logToResults('📊 Check Meta Events Manager for real-time data');
+    }
+
+    // Auto-check status on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        logToResults('🚀 Meta Pixel verification test page loaded');
+        checkMetaPixelStatus();
+      }, 1000);
+    });
+  </script>
+
+  <!-- Meta Pixel (noscript) -->
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1234567890123456&ev=PageView&noscript=1" /></noscript>
+</body>
+</html>

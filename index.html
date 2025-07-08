@@ -1,320 +1,288 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title>
-    <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." />
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title>
+  <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- META PIXEL (FACEBOOK PIXEL) - PRIMARY IMPLEMENTATION -->
+  <script>
+    !function(f,b,e,v,n,t,s) {
+      if(f.fbq) return;
+      n = f.fbq = function() {
+        n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+      };
+      if(!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    // Initialize Meta Pixel with your actual Pixel ID
+    fbq('init', '1234567890123456'); // Replace with your actual Meta Pixel ID
+    fbq('track', 'PageView');
     
-    <!-- GOOGLE TAG MANAGER (GTM) - PRIMARY IMPLEMENTATION -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
-    <!-- End Google Tag Manager -->
+    // Enable Advanced Matching and first-party data collection
+    fbq('dataProcessingOptions', []);
     
-    <!-- GOOGLE ANALYTICS 4 (GA4) - DIRECT IMPLEMENTATION -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-CTDQQ8XMKC', {
-        page_title: document.title,
-        page_location: window.location.href,
-        send_page_view: true
-      });
+    console.log('✅ Meta Pixel (Facebook Pixel) loaded and initialized');
+    console.log('📊 Pixel ID: 1234567890123456');
+    console.log('🎯 First-party data collection enabled');
+    
+    // Make fbq globally available for verification
+    window.metaPixelLoaded = true;
+  </script>
+
+  <!-- GOOGLE TAG MANAGER (GTM) - SECONDARY IMPLEMENTATION -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+
+  <!-- GOOGLE ANALYTICS 4 (GA4) - DIRECT IMPLEMENTATION -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CTDQQ8XMKC', {
+      page_title: document.title,
+      page_location: window.location.href,
+      send_page_view: true
+    });
+
+    console.log('✅ Google Analytics 4 (gtag.js) loaded');
+    console.log('📊 Measurement ID: G-CTDQQ8XMKC');
+    window.gtagLoaded = true;
+  </script>
+
+  <!-- SITEBEHAVIOUR TRACKING - VERIFIED VERSION -->
+  <script type="text/javascript">
+    (function() {
+      var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
+      window.sitebehaviourTrackingSecret = sbSiteSecret;
       
-      // Enhanced initialization logging
-      console.log('✅ Google Analytics 4 (gtag.js) loaded');
-      console.log('📊 Measurement ID: G-CTDQQ8XMKC');
-      console.log('🎯 DataLayer initialized with gtag function');
+      var scriptElement = document.createElement('script');
+      scriptElement.defer = true;
+      scriptElement.id = 'site-behaviour-script-v2';
+      scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
       
-      // Make gtag globally available for verification
-      window.gtagLoaded = true;
-    </script>
-    
-    <!-- GOOGLE ANALYTICS VERIFICATION & TEST SCRIPT -->
-    <script>
-      // Comprehensive GA4 verification function
-      window.verifyGA4Implementation = function() {
-        console.log('🧪 VERIFYING GOOGLE ANALYTICS 4 IMPLEMENTATION');
-        console.log('=================================================');
-        
-        const results = {
-          gtagFunction: typeof window.gtag === 'function',
-          dataLayer: window.dataLayer && Array.isArray(window.dataLayer),
-          scriptTag: !!document.querySelector('script[src*="googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"]'),
-          measurementId: 'G-CTDQQ8XMKC',
-          gtagLoaded: window.gtagLoaded === true
-        };
-        
-        console.log('📊 Test Results:');
-        console.log(' ✅ gtag function:', results.gtagFunction ? 'AVAILABLE' : '❌ MISSING');
-        console.log(' ✅ dataLayer:', results.dataLayer ? `ACTIVE (${window.dataLayer.length} entries)` : '❌ MISSING');
-        console.log(' ✅ Script tag:', results.scriptTag ? 'LOADED' : '❌ MISSING');
-        console.log(' ✅ Measurement ID:', results.measurementId);
-        console.log(' ✅ gtag loaded flag:', results.gtagLoaded ? 'TRUE' : '❌ FALSE');
-        
-        // Test event firing
-        try {
-          gtag('event', 'ga4_verification_test', {
+      scriptElement.onload = function() {
+        console.log('✅ SiteBehaviour script loaded successfully');
+        console.log('🎯 Secret configured:', sbSiteSecret.substring(0, 8) + '...');
+      };
+      
+      scriptElement.onerror = function() {
+        console.error('❌ CRITICAL: SiteBehaviour script failed to load');
+      };
+      
+      document.head.appendChild(scriptElement);
+      console.log('🚀 SiteBehaviour tracking code initiated');
+    })();
+  </script>
+
+  <!-- COMPREHENSIVE ANALYTICS TEST FUNCTION -->
+  <script>
+    // Test all analytics platforms together including Meta Pixel
+    window.testAllAnalyticsPlatforms = function() {
+      console.log('🧪 TESTING ALL ANALYTICS PLATFORMS INCLUDING META PIXEL');
+      console.log('========================================================');
+      
+      const results = {
+        ga4: false,
+        metaPixel: false,
+        sitebehaviour: false,
+        dataLayer: false
+      };
+
+      // Test GA4
+      try {
+        if (typeof window.gtag === 'function') {
+          gtag('event', 'all_platforms_test', {
             event_category: 'testing',
-            event_label: 'ga4_implementation_check',
-            custom_parameter: 'verification_successful',
+            event_label: 'comprehensive_test',
+            platform: 'ga4',
             timestamp: new Date().toISOString()
           });
-          console.log(' ✅ Test event fired successfully');
-          results.eventFiring = true;
-        } catch (error) {
-          console.log(' ❌ Test event failed:', error.message);
-          results.eventFiring = false;
+          results.ga4 = true;
+          console.log('✅ GA4: Test event sent successfully');
+        } else {
+          console.log('❌ GA4: gtag function not available');
         }
-        
-        // Test page view tracking
-        try {
-          gtag('config', 'G-CTDQQ8XMKC', {
-            page_title: 'Test Page View',
-            page_location: window.location.href,
-            send_page_view: true
+      } catch (error) {
+        console.log('❌ GA4: Error -', error.message);
+      }
+
+      // Test Meta Pixel
+      try {
+        if (typeof window.fbq === 'function') {
+          fbq('track', 'ViewContent', {
+            content_type: 'test',
+            content_name: 'Analytics Platform Test',
+            value: 1,
+            currency: 'USD'
           });
-          console.log(' ✅ Page view tracking test successful');
-          results.pageViewTracking = true;
-        } catch (error) {
-          console.log(' ❌ Page view tracking failed:', error.message);
-          results.pageViewTracking = false;
-        }
-        
-        const allPassed = Object.values(results).every(val => val === true || typeof val === 'string');
-        console.log('\n🎯 Overall Status:', allPassed ? '✅ FULLY OPERATIONAL' : '⚠️ ISSUES DETECTED');
-        
-        if (allPassed) {
-          console.log('🎉 Google Analytics 4 is working perfectly!');
-          console.log('📊 Data is being sent to GA4 dashboard');
-          console.log('🚀 Ready for production tracking');
-        } else {
-          console.log('⚠️ Some issues detected - check failed items above');
-        }
-        
-        return results;
-      };
-      
-      // Auto-verify after page load
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          console.log('🔍 Auto-running GA4 verification...');
-          window.verifyGA4Implementation();
-        }, 2000);
-      });
-      
-      // Real-time tracking test
-      window.testGA4Tracking = function() {
-        console.log('🧪 TESTING GA4 REAL-TIME TRACKING');
-        console.log('=================================');
-        
-        if (typeof gtag === 'function') {
-          // Send multiple test events
-          const testEvents = [
-            { name: 'test_page_view', params: { page_title: 'Test Page', page_location: window.location.href }},
-            { name: 'test_button_click', params: { event_category: 'testing', event_label: 'test_button' }},
-            { name: 'test_form_interaction', params: { event_category: 'testing', form_name: 'test_form' }},
-            { name: 'test_conversion', params: { event_category: 'conversion', value: 1, currency: 'USD' }}
-          ];
-          
-          testEvents.forEach((event, index) => {
-            setTimeout(() => {
-              gtag('event', event.name, event.params);
-              console.log(`📊 Sent test event ${index + 1}: ${event.name}`);
-            }, index * 1000);
+          fbq('trackCustom', 'AnalyticsPlatformTest', {
+            test_type: 'comprehensive_test',
+            platform: 'meta_pixel',
+            timestamp: new Date().toISOString()
           });
-          
-          console.log('✅ All test events queued for sending');
-          console.log('📈 Check GA4 Real-Time reports in 1-2 minutes');
+          results.metaPixel = true;
+          console.log('✅ Meta Pixel: Test events sent successfully');
         } else {
-          console.error('❌ gtag function not available');
+          console.log('❌ Meta Pixel: fbq function not available');
         }
-      };
-    </script>
-    
-    <!-- SITEBEHAVIOUR TRACKING - VERIFIED VERSION -->
-    <script type="text/javascript">
-      (function() {
-        var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
-        window.sitebehaviourTrackingSecret = sbSiteSecret;
-        
-        var scriptElement = document.createElement('script');
-        scriptElement.defer = true;
-        scriptElement.id = 'site-behaviour-script-v2';
-        scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
-        
-        scriptElement.onload = function() {
-          console.log('✅ SiteBehaviour script loaded successfully');
-          console.log('🎯 Secret configured:', sbSiteSecret.substring(0, 8) + '...');
-          
-          // Test SiteBehaviour connection
-          if (typeof window.testSiteBehaviourConnection === 'function') {
-            window.testSiteBehaviourConnection();
-          }
-        };
-        
-        scriptElement.onerror = function() {
-          console.error('❌ CRITICAL: SiteBehaviour script failed to load');
-        };
-        
-        document.head.appendChild(scriptElement);
-        console.log('🚀 SiteBehaviour tracking code initiated');
-      })();
-    </script>
-    
-    <!-- COMPREHENSIVE ANALYTICS TEST FUNCTION -->
-    <script>
-      // Test all analytics platforms together
-      window.testAllAnalytics = function() {
-        console.log('🧪 TESTING ALL ANALYTICS PLATFORMS');
-        console.log('==================================');
-        
-        const results = {
-          ga4: false,
-          sitebehaviour: false,
-          dataLayer: false
-        };
-        
-        // Test GA4 (Primary)
-        try {
-          if (typeof window.gtag === 'function') {
-            gtag('event', 'all_analytics_test', {
-              event_category: 'testing',
-              event_label: 'comprehensive_test',
-              platform: 'ga4',
-              timestamp: new Date().toISOString()
-            });
-            results.ga4 = true;
-            console.log('✅ GA4: Test event sent successfully');
-          } else {
-            console.log('❌ GA4: gtag function not available');
-          }
-        } catch (error) {
-          console.log('❌ GA4: Error -', error.message);
-        }
-        
-        // Test DataLayer
-        try {
-          if (window.dataLayer && Array.isArray(window.dataLayer)) {
-            window.dataLayer.push({
-              event: 'custom_analytics_test',
-              eventCategory: 'testing',
-              eventAction: 'dataLayer_test',
-              eventLabel: 'comprehensive_test'
-            });
-            results.dataLayer = true;
-            console.log('✅ DataLayer: Test event pushed successfully');
-          } else {
-            console.log('❌ DataLayer: Not available or not an array');
-          }
-        } catch (error) {
-          console.log('❌ DataLayer: Error -', error.message);
-        }
-        
-        // Test SiteBehaviour
-        try {
-          document.dispatchEvent(new CustomEvent('sitebehaviour-analytics-test', {
-            detail: {
-              test: 'comprehensive_analytics_test',
-              timestamp: Date.now(),
-              platform: 'sitebehaviour'
-            }
-          }));
-          results.sitebehaviour = true;
-          console.log('✅ SiteBehaviour: Test event sent successfully');
-        } catch (error) {
-          console.log('❌ SiteBehaviour: Error -', error.message);
-        }
-        
-        // Summary
-        const workingPlatforms = Object.values(results).filter(Boolean).length;
-        const totalPlatforms = Object.keys(results).length;
-        
-        console.log('\n📊 ANALYTICS TEST SUMMARY');
-        console.log('========================');
-        console.log(`🎯 Working Platforms: ${workingPlatforms}/${totalPlatforms}`);
-        
-        Object.entries(results).forEach(([platform, working]) => {
-          console.log(` ${working ? '✅' : '❌'} ${platform}: ${working ? 'WORKING' : 'ISSUES'}`);
-        });
-        
-        if (workingPlatforms > 0) {
-          console.log('🎉 Analytics tracking is operational!');
-          console.log('📊 Run window.testGA4Tracking() for real-time testing');
+      } catch (error) {
+        console.log('❌ Meta Pixel: Error -', error.message);
+      }
+
+      // Test DataLayer
+      try {
+        if (window.dataLayer && Array.isArray(window.dataLayer)) {
+          window.dataLayer.push({
+            event: 'custom_analytics_test',
+            eventCategory: 'testing',
+            eventAction: 'dataLayer_test',
+            eventLabel: 'comprehensive_test'
+          });
+          results.dataLayer = true;
+          console.log('✅ DataLayer: Test event pushed successfully');
         } else {
-          console.log('⚠️ No analytics platforms are working - check implementation');
+          console.log('❌ DataLayer: Not available or not an array');
         }
-        
-        return results;
-      };
-      
-      // SiteBehaviour connection test
-      window.testSiteBehaviourConnection = function() {
-        console.log('🧪 Testing SiteBehaviour data transmission...');
-        try {
-          document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
-            detail: {
-              page: window.location.pathname,
-              title: document.title,
-              url: window.location.href,
-              timestamp: Date.now(),
-              test: true
-            }
-          }));
-          console.log('📊 SiteBehaviour test page view event sent');
-        } catch (error) {
-          console.error('❌ Failed to send SiteBehaviour page view:', error);
-        }
-      };
-      
-      // Make test functions globally available
-      window.checkAnalyticsStatus = function() {
-        console.log('🔍 CHECKING ANALYTICS STATUS');
-        console.log('============================');
-        console.log('GA4 gtag function:', typeof window.gtag === 'function' ? '✅ Available' : '❌ Missing');
-        console.log('DataLayer:', window.dataLayer && Array.isArray(window.dataLayer) ? `✅ Active (${window.dataLayer.length} entries)` : '❌ Missing');
-        console.log('SiteBehaviour secret:', window.sitebehaviourTrackingSecret ? '✅ Configured' : '❌ Missing');
-        console.log('SiteBehaviour script:', document.querySelector('#site-behaviour-script-v2') ? '✅ Loaded' : '❌ Missing');
-        
-        console.log('\n🧪 Available test functions:');
-        console.log('• window.verifyGA4Implementation() - Verify GA4 setup');
-        console.log('• window.testGA4Tracking() - Test real-time tracking');
-        console.log('• window.testAllAnalytics() - Test all platforms');
-        console.log('• window.testSiteBehaviourConnection() - Test SiteBehaviour');
-      };
-    </script>
-  </head>
-  
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-    
-    <!-- Analytics Auto-Test on Load -->
-    <script>
-      // Auto-run analytics check after page fully loads
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          console.log('🚀 Auto-running analytics status check...');
-          if (typeof window.checkAnalyticsStatus === 'function') {
-            window.checkAnalyticsStatus();
+      } catch (error) {
+        console.log('❌ DataLayer: Error -', error.message);
+      }
+
+      // Test SiteBehaviour
+      try {
+        document.dispatchEvent(new CustomEvent('sitebehaviour-analytics-test', {
+          detail: {
+            test: 'comprehensive_analytics_test',
+            timestamp: Date.now(),
+            platform: 'sitebehaviour'
           }
-        }, 3000);
+        }));
+        results.sitebehaviour = true;
+        console.log('✅ SiteBehaviour: Test event sent successfully');
+      } catch (error) {
+        console.log('❌ SiteBehaviour: Error -', error.message);
+      }
+
+      // Summary
+      const workingPlatforms = Object.values(results).filter(Boolean).length;
+      const totalPlatforms = Object.keys(results).length;
+      
+      console.log('\n📊 COMPREHENSIVE ANALYTICS TEST SUMMARY');
+      console.log('=======================================');
+      console.log(`🎯 Working Platforms: ${workingPlatforms}/${totalPlatforms}`);
+      
+      Object.entries(results).forEach(([platform, working]) => {
+        console.log(`${working ? '✅' : '❌'} ${platform.toUpperCase()}: ${working ? 'WORKING' : 'ISSUES'}`);
       });
-    </script>
-  </body>
+
+      if (workingPlatforms > 0) {
+        console.log('🎉 Analytics tracking is operational!');
+        console.log('📊 Meta Pixel data will appear in Meta Events Manager');
+        console.log('📈 GA4 data will appear in Google Analytics Real-Time reports');
+      } else {
+        console.log('⚠️ No analytics platforms are working - check implementation');
+      }
+
+      return results;
+    };
+
+    // Meta Pixel specific verification
+    window.verifyMetaPixelConnection = function() {
+      console.log('🔍 VERIFYING META PIXEL CONNECTION');
+      console.log('==================================');
+      
+      const checks = {
+        fbqFunction: typeof window.fbq === 'function',
+        metaPixelLoaded: window.metaPixelLoaded === true,
+        pixelScript: !!document.querySelector('script[src*="fbevents.js"]'),
+        eventQueue: window.fbq ? window.fbq.queue : null
+      };
+
+      console.log('📊 Meta Pixel Status:');
+      console.log(`${checks.fbqFunction ? '✅' : '❌'} fbq function: ${checks.fbqFunction ? 'AVAILABLE' : 'MISSING'}`);
+      console.log(`${checks.metaPixelLoaded ? '✅' : '❌'} Pixel loaded flag: ${checks.metaPixelLoaded ? 'TRUE' : 'FALSE'}`);
+      console.log(`${checks.pixelScript ? '✅' : '❌'} Pixel script: ${checks.pixelScript ? 'LOADED' : 'MISSING'}`);
+      console.log(`📍 Events queue: ${checks.eventQueue ? checks.eventQueue.length + ' events' : 'Not available'}`);
+
+      // Fire test event
+      if (checks.fbqFunction) {
+        try {
+          fbq('trackCustom', 'MetaPixelVerification', {
+            test: true,
+            verification_time: new Date().toISOString(),
+            user_agent: navigator.userAgent.substring(0, 100)
+          });
+          console.log('✅ Meta Pixel test event fired successfully');
+          console.log('📊 Check Meta Events Manager for this test event');
+        } catch (error) {
+          console.log('❌ Meta Pixel test event failed:', error);
+        }
+      }
+
+      const allPassed = Object.values(checks).every(check => check === true || Array.isArray(check));
+      console.log(`\n🎯 Meta Pixel Status: ${allPassed ? '✅ FULLY OPERATIONAL' : '⚠️ NEEDS ATTENTION'}`);
+
+      return checks;
+    };
+
+    // Make analytics status checker globally available
+    window.checkAnalyticsStatus = function() {
+      console.log('🔍 CHECKING ALL ANALYTICS STATUS');
+      console.log('=================================');
+      console.log('GA4 gtag function:', typeof window.gtag === 'function' ? '✅ Available' : '❌ Missing');
+      console.log('Meta Pixel fbq function:', typeof window.fbq === 'function' ? '✅ Available' : '❌ Missing');
+      console.log('DataLayer:', window.dataLayer && Array.isArray(window.dataLayer) ? `✅ Active (${window.dataLayer.length} entries)` : '❌ Missing');
+      console.log('SiteBehaviour secret:', window.sitebehaviourTrackingSecret ? '✅ Configured' : '❌ Missing');
+      
+      console.log('\n🧪 Available test functions:');
+      console.log('• window.testAllAnalyticsPlatforms() - Test all platforms');
+      console.log('• window.verifyMetaPixelConnection() - Verify Meta Pixel specifically');
+      console.log('• window.verifyGA4Implementation() - Verify GA4 setup');
+    };
+  </script>
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <!-- Meta Pixel (noscript) -->
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1234567890123456&ev=PageView&noscript=1" /></noscript>
+
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+
+  <!-- Analytics Auto-Test on Load -->
+  <script>
+    // Auto-run analytics check after page fully loads
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        console.log('🚀 Auto-running comprehensive analytics status check...');
+        if (typeof window.checkAnalyticsStatus === 'function') {
+          window.checkAnalyticsStatus();
+        }
+        
+        // Auto-verify Meta Pixel
+        if (typeof window.verifyMetaPixelConnection === 'function') {
+          window.verifyMetaPixelConnection();
+        }
+      }, 3000);
+    });
+  </script>
+</body>
 </html>

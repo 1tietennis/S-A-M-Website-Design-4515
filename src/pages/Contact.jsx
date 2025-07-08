@@ -3,14 +3,18 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import { trackEvent, trackFormSubmission, trackConversion, trackPageView } from '../utils/analytics';
+import { 
+  trackEnhancedPageView, 
+  trackEnhancedEvent, 
+  trackEnhancedFormSubmission,
+  trackEnhancedConversion 
+} from '../utils/analyticsEnhanced';
 
 const { FiMail, FiPhone, FiMapPin, FiSend, FiCheck, FiClock, FiTarget } = FiIcons;
 
 const Contact = () => {
   const [heroRef, heroInView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [formRef, formInView] = useInView({ threshold: 0.1, triggerOnce: true });
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,14 +25,24 @@ const Contact = () => {
     message: '',
     urgency: 'standard'
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // SiteBehaviour Page Tracking
+  // Enhanced page tracking with Meta Pixel
   useEffect(() => {
-    trackPageView('/contact', 'Contact - Secret Agent Digital Marketing');
-    trackEvent('page_engagement', {
+    trackEnhancedPageView('/contact', 'Contact - Secret Agent Digital Marketing');
+    
+    // Meta Pixel specific tracking for contact page
+    if (typeof window.fbq !== 'undefined') {
+      window.fbq('track', 'ViewContent', {
+        content_type: 'contact_page',
+        content_name: 'Contact Form Page',
+        value: 50.00,
+        currency: 'USD'
+      });
+    }
+
+    trackEnhancedEvent('page_engagement', {
       action: 'page_load',
       page: '/contact'
     });
@@ -37,15 +51,33 @@ const Contact = () => {
   // Track conversion when form is submitted
   useEffect(() => {
     if (isSubmitted) {
-      trackConversion('contact_form_submission', 99.99, 'USD');
-      trackFormSubmission('contact_form', {
-        name: formData.name,
-        email: formData.email,
-        company: formData.company,
-        service: formData.service,
-        budget: formData.budget,
-        urgency: formData.urgency
+      // Enhanced conversion tracking across all platforms
+      trackEnhancedConversion('contact_form_submission', 99.99, 'USD', {
+        service_interest: formData.service,
+        budget_range: formData.budget,
+        urgency_level: formData.urgency,
+        lead_quality: 'high'
       });
+
+      // Meta Pixel lead tracking
+      if (typeof window.fbq !== 'undefined') {
+        window.fbq('track', 'Lead', {
+          content_name: formData.service || 'Digital Marketing Service',
+          content_category: 'lead_generation',
+          value: 99.99,
+          currency: 'USD',
+          predicted_ltv: 2500.00
+        });
+
+        window.fbq('trackCustom', 'QualifiedLead', {
+          lead_source: 'contact_form',
+          service_interest: formData.service,
+          budget_range: formData.budget,
+          urgency: formData.urgency,
+          company_name: formData.company,
+          form_completion_time: Date.now()
+        });
+      }
     }
   }, [isSubmitted, formData]);
 
@@ -53,32 +85,77 @@ const Contact = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Track form field interactions
-    trackEvent('form_interaction', {
+    // Enhanced form field tracking
+    trackEnhancedEvent('form_interaction', {
       field: name,
       value: name === 'email' ? 'email_entered' : (value ? 'filled' : 'cleared'),
-      page: '/contact'
+      page: '/contact',
+      form_name: 'contact_form'
     });
+
+    // Meta Pixel form interaction tracking
+    if (typeof window.fbq !== 'undefined') {
+      window.fbq('trackCustom', 'FormFieldInteraction', {
+        field_name: name,
+        field_type: e.target.type,
+        has_value: !!value,
+        form_name: 'contact_form',
+        page_url: window.location.href
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Track form submission attempt
-    trackEvent('form_submit_attempt', {
+    // Track form submission attempt with enhanced analytics
+    trackEnhancedEvent('form_submit_attempt', {
       form: 'contact',
       page: '/contact',
       urgency: formData.urgency,
       service: formData.service,
-      budget: formData.budget
+      budget: formData.budget,
+      fields_completed: Object.values(formData).filter(val => val.trim() !== '').length
     });
+
+    // Meta Pixel form submission tracking
+    if (typeof window.fbq !== 'undefined') {
+      window.fbq('track', 'InitiateCheckout', {
+        content_type: 'service',
+        content_name: formData.service || 'Digital Marketing Consultation',
+        value: 99.99,
+        currency: 'USD'
+      });
+    }
 
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));
 
+    // Enhanced form submission tracking
+    trackEnhancedFormSubmission('contact_form', {
+      service: formData.service,
+      budget: formData.budget,
+      urgency: formData.urgency,
+      company: formData.company,
+      lead_score: calculateLeadScore(),
+      estimated_value: 2500.00
+    });
+
     setIsSubmitting(false);
     setIsSubmitted(true);
+  };
+
+  const calculateLeadScore = () => {
+    let score = 50; // Base score
+    
+    if (formData.budget && formData.budget !== 'Under $1,000/month') score += 20;
+    if (formData.urgency === 'emergency') score += 30;
+    if (formData.urgency === 'priority') score += 15;
+    if (formData.company) score += 10;
+    if (formData.service) score += 10;
+    
+    return Math.min(100, score);
   };
 
   const services = [
@@ -112,15 +189,12 @@ const Contact = () => {
           <div className="w-20 h-20 bg-tactical-red/20 rounded-full flex items-center justify-center mb-6 mx-auto">
             <SafeIcon icon={FiCheck} className="text-tactical-red text-4xl" />
           </div>
-
           <h1 className="text-4xl font-display font-bold mb-6">
             Mission <span className="text-tactical-red">Received</span>
           </h1>
-
           <p className="text-xl text-gray-300 mb-8">
             Your strategy briefing has been received. One of our operatives will contact you within 24 hours to discuss your marketing objectives and develop your custom battle plan.
           </p>
-
           <div className="bg-dark-gray p-6 rounded-lg tactical-border">
             <h3 className="text-lg font-semibold mb-4 text-tactical-red">What Happens Next:</h3>
             <div className="space-y-3 text-left">
@@ -179,7 +253,6 @@ const Contact = () => {
                 <h2 className="text-3xl font-display font-bold mb-8">
                   Strategy <span className="text-tactical-red">Briefing Form</span>
                 </h2>
-
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -391,7 +464,8 @@ const Contact = () => {
                     <h3 className="text-xl font-bold text-tactical-red">Mission Guarantee</h3>
                   </div>
                   <p className="text-sm text-gray-300">
-                    We're so confident in our strategies that we offer a 90-day performance guarantee. If we don't deliver measurable improvements, we'll work for free until we do.
+                    We're so confident in our strategies that we offer a 90-day performance guarantee. 
+                    If we don't deliver measurable improvements, we'll work for free until we do.
                   </p>
                 </div>
               </motion.div>
