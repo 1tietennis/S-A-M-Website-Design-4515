@@ -51,18 +51,27 @@ const Contact = () => {
       fields_completed: Object.values(formData).filter(val => val.trim() !== '').length
     });
 
-    // Track with CyborgCRM
+    // Track with CyborgCRM Advanced
     if (typeof window.CyborgCRM === 'function') {
-      window.CyborgCRM('track', 'conversion', {
-        event: 'form_submission',
+      // Use the new advanced tracking functions
+      window.trackConversion({
         value: 99.99,
         currency: 'USD',
+        category: 'form_submission',
+        label: 'contact_form'
+      });
+
+      // Track detailed form data
+      CyborgCRM('track', 'form_submission', {
         form_type: 'contact',
         service_interest: formData.service,
         budget_range: formData.budget,
-        urgency: formData.urgency
+        urgency: formData.urgency,
+        lead_score: calculateLeadScore(),
+        timestamp: new Date().toISOString()
       });
-      console.log('✅ CyborgCRM form submission tracked');
+
+      console.log('✅ CyborgCRM Advanced form submission tracked');
     }
 
     // Meta Pixel form submission tracking
@@ -90,6 +99,11 @@ const Contact = () => {
 
     setIsSubmitting(false);
     setIsSubmitted(true);
+
+    // Redirect to thank you page after successful submission
+    setTimeout(() => {
+      window.location.href = '#/thank-you';
+    }, 1000);
   };
 
   const handleInputChange = (e) => {
@@ -109,8 +123,9 @@ const Contact = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="text-center">
-          <h2 className="text-3xl font-bold mb-4">Message Sent Successfully!</h2>
-          <p>We'll be in touch with you shortly.</p>
+          <SafeIcon icon={FiTarget} className="text-tactical-red text-6xl mb-4 mx-auto" />
+          <h2 className="text-3xl font-bold mb-4">Mission Received!</h2>
+          <p className="text-gray-300">We'll be in touch with you shortly.</p>
         </div>
       </motion.div>
     );
