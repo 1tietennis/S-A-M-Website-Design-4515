@@ -23,7 +23,7 @@
     })(window,document,'script','https://cdn.cyborgcrm.com/analytics.js');
 
     // Initialize tracking with your site ID
-    CyborgCRM('init', 'SITE_1752384531272', {
+    CyborgCRM('init', 'SITE_1752390971051', {
       // Tracking configuration
       trackPageViews: true,
       trackClicks: true,
@@ -249,7 +249,8 @@
           CyborgCRM('track', 'test_event', {
             test_type: 'comprehensive_test',
             platform: 'cyborgcrm_advanced',
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            site_id: 'SITE_1752390971051'
           });
           
           // Test conversion tracking
@@ -346,7 +347,7 @@
       console.log(`${checks.trackConversionFunction ? '✅' : '❌'} trackConversion function: ${checks.trackConversionFunction ? 'AVAILABLE' : 'MISSING'}`);
       console.log(`${checks.trackPurchaseFunction ? '✅' : '❌'} trackPurchase function: ${checks.trackPurchaseFunction ? 'AVAILABLE' : 'MISSING'}`);
       console.log(`${checks.cyborgCRMScript ? '✅' : '❌'} CyborgCRM script: ${checks.cyborgCRMScript ? 'LOADED' : 'MISSING'}`);
-      console.log(`📍 Site ID: SITE_1752384531272`);
+      console.log(`📍 Site ID: SITE_1752390971051`);
 
       // Fire comprehensive test events
       if (checks.cyborgCRMFunction) {
@@ -355,7 +356,8 @@
           CyborgCRM('track', 'verification_test', {
             test: true,
             verification_time: new Date().toISOString(),
-            tracking_type: 'advanced'
+            tracking_type: 'advanced',
+            site_id: 'SITE_1752390971051'
           });
 
           // Test conversion tracking
@@ -372,7 +374,8 @@
           if (checks.trackEventFunction) {
             window.trackEvent('advanced_verification_complete', {
               platform: 'cyborgcrm_advanced',
-              timestamp: new Date().toISOString()
+              timestamp: new Date().toISOString(),
+              site_id: 'SITE_1752390971051'
             });
           }
 
