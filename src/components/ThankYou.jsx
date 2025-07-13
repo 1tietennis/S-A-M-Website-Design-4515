@@ -7,32 +7,61 @@ import SafeIcon from '../common/SafeIcon';
 const { FiCheck, FiArrowRight, FiTarget } = FiIcons;
 
 const ThankYou = () => {
-  // CyborgCRM Conversion Tracking
+  // Track conversion with all analytics platforms
   useEffect(() => {
-    // Add CyborgCRM tracking script to head if not already present
-    if (!window.CyborgCRM && !document.querySelector('script[src*="cyborgcrm"]')) {
-      const script = document.createElement('script');
-      script.innerHTML = `
-        window.CyborgCRM = window.CyborgCRM || function() {
-          (CyborgCRM.q = CyborgCRM.q || []).push(arguments);
-        };
-      `;
-      document.head.appendChild(script);
-    }
-
-    // Track conversion
-    if (window.CyborgCRM) {
+    // CyborgCRM Conversion Tracking
+    if (typeof window.CyborgCRM === 'function') {
       window.CyborgCRM('track', 'conversion', {
         event: 'purchase',
         value: 99.99,
-        currency: 'USD'
+        currency: 'USD',
+        timestamp: new Date().toISOString()
       });
+      console.log('✅ CyborgCRM conversion tracked');
     }
+
+    // Google Analytics 4 Conversion
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'purchase', {
+        transaction_id: `TRANS_${Date.now()}`,
+        value: 99.99,
+        currency: 'USD',
+        items: [{
+          item_id: 'marketing_service',
+          item_name: 'Marketing Service Package',
+          price: 99.99,
+          quantity: 1
+        }]
+      });
+      console.log('✅ GA4 conversion tracked');
+    }
+
+    // Meta Pixel Conversion
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'Purchase', {
+        value: 99.99,
+        currency: 'USD',
+        content_type: 'product',
+        content_ids: ['marketing_service']
+      });
+      console.log('✅ Meta Pixel conversion tracked');
+    }
+
+    // SiteBehaviour Conversion
+    document.dispatchEvent(new CustomEvent('sitebehaviour-conversion', {
+      detail: {
+        type: 'purchase',
+        value: 99.99,
+        currency: 'USD',
+        timestamp: new Date().toISOString()
+      }
+    }));
+    console.log('✅ SiteBehaviour conversion tracked');
   }, []);
 
   return (
     <div className="min-h-screen pt-20 flex items-center justify-center bg-jet-black">
-      <motion.div
+      <motion.div 
         className="text-center max-w-3xl mx-auto px-4"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -41,13 +70,13 @@ const ThankYou = () => {
         <div className="w-24 h-24 bg-tactical-red/20 rounded-full flex items-center justify-center mb-8 mx-auto">
           <SafeIcon icon={FiCheck} className="text-tactical-red text-5xl" />
         </div>
-        
+
         <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
           Mission <span className="text-tactical-red">Accomplished</span>
         </h1>
-        
+
         <p className="text-xl md:text-2xl text-gray-300 mb-8">
-          Your strategy briefing has been successfully transmitted to our command center. 
+          Your strategy briefing has been successfully transmitted to our command center.
           One of our elite operatives will contact you within 24 hours to begin your marketing mission.
         </p>
 
@@ -63,6 +92,7 @@ const ThankYou = () => {
                 <div className="text-gray-400 text-sm">Within 24 hours - Strategy discussion & goal alignment</div>
               </div>
             </div>
+
             <div className="flex items-center space-x-4">
               <div className="w-8 h-8 bg-tactical-red rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-white text-sm font-bold">2</span>
@@ -72,6 +102,7 @@ const ThankYou = () => {
                 <div className="text-gray-400 text-sm">2-3 business days - Custom strategy creation & proposal</div>
               </div>
             </div>
+
             <div className="flex items-center space-x-4">
               <div className="w-8 h-8 bg-tactical-red rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-white text-sm font-bold">3</span>
@@ -90,11 +121,13 @@ const ThankYou = () => {
             <h4 className="font-bold mb-2">90-Day Guarantee</h4>
             <p className="text-gray-400 text-sm">Results or we work for free</p>
           </div>
+
           <div className="bg-medium-gray p-6 rounded-lg tactical-border">
             <SafeIcon icon={FiCheck} className="text-tactical-red text-3xl mb-3 mx-auto" />
             <h4 className="font-bold mb-2">Elite Team Assigned</h4>
             <p className="text-gray-400 text-sm">Dedicated marketing operatives</p>
           </div>
+
           <div className="bg-medium-gray p-6 rounded-lg tactical-border">
             <SafeIcon icon={FiArrowRight} className="text-tactical-red text-3xl mb-3 mx-auto" />
             <h4 className="font-bold mb-2">Fast Response</h4>
@@ -103,36 +136,21 @@ const ThankYou = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            to="/"
+          <Link 
+            to="/" 
             className="px-8 py-4 btn-primary rounded-lg font-semibold text-lg flex items-center justify-center space-x-2"
           >
             <span>Return to Base</span>
             <SafeIcon icon={FiArrowRight} />
           </Link>
-          <Link
-            to="/case-studies"
+
+          <Link 
+            to="/case-studies" 
             className="px-8 py-4 border-2 border-tactical-red text-tactical-red rounded-lg font-semibold text-lg hover:bg-tactical-red hover:text-white transition-all duration-300"
           >
             View Success Stories
           </Link>
         </div>
-
-        {/* CyborgCRM Conversion Pixel */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              <!-- CyborgCRM Conversion Pixel -->
-              if (typeof CyborgCRM !== 'undefined') {
-                CyborgCRM('track', 'conversion', {
-                  event: 'purchase',
-                  value: 99.99,
-                  currency: 'USD'
-                });
-              }
-            `
-          }}
-        />
       </motion.div>
     </div>
   );

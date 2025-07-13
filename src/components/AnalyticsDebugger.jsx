@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React,{useEffect,useState} from 'react';
+import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiCheck, FiX, FiActivity, FiCode, FiEye, FiTarget } = FiIcons;
+const {FiCheck,FiX,FiActivity,FiCode,FiEye,FiTarget}=FiIcons;
 
-const AnalyticsDebugger = ({ showDebugger = false }) => {
-  const [analyticsStatus, setAnalyticsStatus] = useState({
+const AnalyticsDebugger=({showDebugger=false})=> {
+  const [analyticsStatus,setAnalyticsStatus]=useState({
     siteBehaviour: false,
     siteBehaviourSecret: false,
     siteBehaviourScript: false,
@@ -14,57 +14,59 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
     cyborgCRM: false,
     events: 0
   });
+  const [debugLogs,setDebugLogs]=useState([]);
 
-  const [debugLogs, setDebugLogs] = useState([]);
-
-  useEffect(() => {
+  useEffect(()=> {
     if (!showDebugger) return;
 
-    const checkAnalytics = () => {
-      const status = {
-        siteBehaviour: typeof window.siteBehaviour !== 'undefined',
-        siteBehaviourSecret: window.sitebehaviourTrackingSecret === '507f5743-d0f0-49db-a5f0-0d702b989128',
+    const checkAnalytics=()=> {
+      const status={
+        siteBehaviour: typeof window.siteBehaviour !=='undefined',
+        siteBehaviourSecret: window.sitebehaviourTrackingSecret==='507f5743-d0f0-49db-a5f0-0d702b989128',
         siteBehaviourScript: !!document.querySelector('#site-behaviour-script-v2'),
         firebaseAnalytics: !!window.firebaseAnalytics,
-        cyborgCRM: typeof window.CyborgCRM === 'function',
+        cyborgCRM: typeof window.CyborgCRM==='function',
         events: window.siteBehaviour ? 1 : 0
       };
 
       setAnalyticsStatus(status);
 
       // Log status
-      const siteBehaviourOperational = status.siteBehaviour && status.siteBehaviourSecret && status.siteBehaviourScript;
-      const log = `[${new Date().toLocaleTimeString()}] SiteBehaviour: ${siteBehaviourOperational ? 'FULLY OPERATIONAL' : 'ISSUES DETECTED'}`;
-      setDebugLogs(prev => [...prev.slice(-4), log]);
+      const siteBehaviourOperational=status.siteBehaviour && status.siteBehaviourSecret && status.siteBehaviourScript;
+      const log=`[${new Date().toLocaleTimeString()}] SiteBehaviour: ${siteBehaviourOperational ? 'FULLY OPERATIONAL' : 'ISSUES DETECTED'}`;
+      setDebugLogs(prev=> [...prev.slice(-4),log]);
     };
 
     // Initial check
     checkAnalytics();
 
     // Check every 5 seconds
-    const interval = setInterval(checkAnalytics, 5000);
+    const interval=setInterval(checkAnalytics,5000);
 
     // Override console.log to catch SiteBehaviour logs
-    const originalLog = console.log;
-    console.log = (...args) => {
-      originalLog.apply(console, args);
-      const message = args.join(' ');
-      
-      if (message.includes('SiteBehaviour') || message.includes('sitebehaviour') || message.includes('507f5743')) {
-        const log = `[${new Date().toLocaleTimeString()}] ${message}`;
-        setDebugLogs(prev => [...prev.slice(-9), log]);
+    const originalLog=console.log;
+    console.log=(...args)=> {
+      originalLog.apply(console,args);
+      const message=args.join(' ');
+      if (message.includes('SiteBehaviour') || 
+          message.includes('sitebehaviour') || 
+          message.includes('507f5743') ||
+          message.includes('CyborgCRM') ||
+          message.includes('cyborgcrm')) {
+        const log=`[${new Date().toLocaleTimeString()}] ${message}`;
+        setDebugLogs(prev=> [...prev.slice(-9),log]);
       }
     };
 
-    return () => {
+    return ()=> {
       clearInterval(interval);
-      console.log = originalLog;
+      console.log=originalLog;
     };
-  }, [showDebugger]);
+  },[showDebugger]);
 
-  const fireTestEvent = () => {
+  const fireTestEvent=()=> {
     // Fire SiteBehaviour test event
-    document.dispatchEvent(new CustomEvent('sitebehaviour-debug-test', {
+    document.dispatchEvent(new CustomEvent('sitebehaviour-debug-test',{
       detail: {
         test: 'manual_debug_test',
         timestamp: new Date().toISOString(),
@@ -72,37 +74,64 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
       }
     }));
 
-    const log = `[${new Date().toLocaleTimeString()}] SiteBehaviour test event fired`;
-    setDebugLogs(prev => [...prev.slice(-9), log]);
+    // Fire CyborgCRM test event
+    if (typeof window.CyborgCRM === 'function') {
+      window.CyborgCRM('track', 'debug_test', {
+        test: 'manual_debug_test',
+        timestamp: new Date().toISOString(),
+        value: 1
+      });
+    }
+
+    const log=`[${new Date().toLocaleTimeString()}] Test events fired to SiteBehaviour and CyborgCRM`;
+    setDebugLogs(prev=> [...prev.slice(-9),log]);
   };
 
-  const runFullTest = () => {
+  const runFullTest=()=> {
     if (window.logAnalyticsStatus) {
       window.logAnalyticsStatus();
-      const log = `[${new Date().toLocaleTimeString()}] Full SiteBehaviour test completed`;
-      setDebugLogs(prev => [...prev.slice(-9), log]);
+      const log=`[${new Date().toLocaleTimeString()}] Full SiteBehaviour test completed`;
+      setDebugLogs(prev=> [...prev.slice(-9),log]);
+    }
+
+    // Test CyborgCRM
+    if (typeof window.CyborgCRM === 'function') {
+      window.CyborgCRM('track', 'full_test', {
+        timestamp: new Date().toISOString()
+      });
+      const log=`[${new Date().toLocaleTimeString()}] Full CyborgCRM test completed`;
+      setDebugLogs(prev=> [...prev.slice(-9),log]);
     }
   };
 
-  const checkConnection = () => {
+  const checkConnection=()=> {
     if (window.checkSiteBehaviourConnection) {
-      const isConnected = window.checkSiteBehaviourConnection();
-      const log = `[${new Date().toLocaleTimeString()}] Connection check: ${isConnected ? 'CONNECTED' : 'ISSUES'}`;
-      setDebugLogs(prev => [...prev.slice(-9), log]);
+      const isConnected=window.checkSiteBehaviourConnection();
+      const log=`[${new Date().toLocaleTimeString()}] Connection check: ${isConnected ? 'CONNECTED' : 'ISSUES'}`;
+      setDebugLogs(prev=> [...prev.slice(-9),log]);
+    }
+
+    // Check CyborgCRM connection
+    if (typeof window.CyborgCRM === 'function') {
+      const log=`[${new Date().toLocaleTimeString()}] CyborgCRM connection: CONNECTED`;
+      setDebugLogs(prev=> [...prev.slice(-9),log]);
+    } else {
+      const log=`[${new Date().toLocaleTimeString()}] CyborgCRM connection: ISSUES`;
+      setDebugLogs(prev=> [...prev.slice(-9),log]);
     }
   };
 
   if (!showDebugger) return null;
 
   return (
-    <motion.div
+    <motion.div 
       className="fixed bottom-4 right-4 bg-dark-gray border border-tactical-red rounded-lg p-4 max-w-sm z-50 shadow-lg"
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={{opacity: 0,x: 100}}
+      animate={{opacity: 1,x: 0}}
+      transition={{duration: 0.3}}
     >
       <div className="flex items-center justify-between mb-3">
-        <h4 className="text-tactical-red font-bold text-sm">SiteBehaviour Debug Panel</h4>
+        <h4 className="text-tactical-red font-bold text-sm">Analytics Debug Panel</h4>
         <SafeIcon icon={FiActivity} className="text-tactical-red" />
       </div>
 
@@ -145,20 +174,20 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
       </div>
 
       <div className="space-y-2 mb-3">
-        <button
+        <button 
           onClick={fireTestEvent}
           className="w-full px-3 py-1 bg-tactical-red text-white rounded text-xs hover:bg-red-700 transition-colors"
         >
-          Fire SiteBehaviour Test
+          Fire Test Events
         </button>
         <div className="grid grid-cols-2 gap-1">
-          <button
+          <button 
             onClick={runFullTest}
             className="px-2 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700 transition-colors"
           >
             Full Test
           </button>
-          <button
+          <button 
             onClick={checkConnection}
             className="px-2 py-1 bg-green-600 text-white rounded text-xs hover:bg-green-700 transition-colors"
           >
@@ -170,7 +199,7 @@ const AnalyticsDebugger = ({ showDebugger = false }) => {
       <div className="border-t border-gray-600 pt-2">
         <div className="text-xs text-gray-400 mb-1">Recent Logs:</div>
         <div className="space-y-1 max-h-20 overflow-y-auto">
-          {debugLogs.map((log, index) => (
+          {debugLogs.map((log,index)=> (
             <div key={index} className="text-xs text-gray-300 font-mono break-words">
               {log}
             </div>
