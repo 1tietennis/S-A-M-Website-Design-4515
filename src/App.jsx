@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import React, {useEffect} from 'react';
+import {HashRouter as Router, Routes, Route, useLocation} from 'react-router-dom';
+import {AuthProvider} from './context/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -12,17 +12,18 @@ import VideoMarketing from './pages/VideoMarketing';
 import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
+import ContactManager from './pages/ContactManager';
 import ThankYou from './components/ThankYou';
 import ProtectedRoute from './components/ProtectedRoute';
 import AnalyticsDebugger from './components/AnalyticsDebugger';
 import SiteBehaviourController from './components/SiteBehaviourController';
-import { trackEnhancedEvent } from './utils/analyticsEnhanced';
-import { trackPageLoadComplete } from './utils/analyticsVerification';
+import {trackEnhancedEvent} from './utils/analyticsEnhanced';
+import {trackPageLoadComplete} from './utils/analyticsVerification';
 import TrackingTroubleshooter from './utils/trackingTroubleshooter';
 import './App.css';
 
 // Component to handle route changes and enhanced analytics
-function AnalyticsWrapper({ children }) {
+function AnalyticsWrapper({children}) {
   const location = useLocation();
   const [previousPath, setPreviousPath] = React.useState(location.pathname);
 
@@ -30,7 +31,7 @@ function AnalyticsWrapper({ children }) {
     // Track route changes for SPA navigation with enhanced analytics
     if (previousPath !== location.pathname) {
       const pageTitle = document.title;
-      
+
       // Track with CyborgCRM Advanced
       if (typeof window.CyborgCRM === 'function') {
         CyborgCRM('track', 'pageview', {
@@ -105,11 +106,9 @@ function App() {
     // Run comprehensive analytics verification
     setTimeout(() => {
       trackPageLoadComplete('App');
-      
       // Run initial tracking diagnostic
       console.log('🔧 Running initial tracking diagnostic...');
       TrackingTroubleshooter.testAllPlatforms();
-
       // Test CyborgCRM Advanced specifically
       if (typeof window.verifyCyborgCRMAdvanced === 'function') {
         window.verifyCyborgCRMAdvanced();
@@ -120,12 +119,10 @@ function App() {
   }, []);
 
   // Show debugger in development or with debug parameter
-  const showDebugger = process.env.NODE_ENV === 'development' || 
-    (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
+  const showDebugger = process.env.NODE_ENV === 'development' || (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
 
   // Show SiteBehaviour controller with sitebehaviour parameter
-  const showSiteBehaviour = (typeof window !== 'undefined' && window.location.search.includes('sitebehaviour=true')) || 
-    process.env.NODE_ENV === 'development';
+  const showSiteBehaviour = (typeof window !== 'undefined' && window.location.search.includes('sitebehaviour=true')) || process.env.NODE_ENV === 'development';
 
   return (
     <AuthProvider>
@@ -142,6 +139,12 @@ function App() {
               <Route path="/dashboard" element={
                 <ProtectedRoute requireOnboarding={true}>
                   <Dashboard />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/contact-manager" element={
+                <ProtectedRoute requireOnboarding={true}>
+                  <ContactManager />
                 </ProtectedRoute>
               } />
 

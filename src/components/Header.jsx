@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import { trackPageView, trackButtonClick } from '../utils/analytics';
+import { useAuth } from '../context/AuthContext';
 
-const { FiMenu, FiX, FiTarget } = FiIcons;
+const { FiMenu, FiX, FiTarget, FiUsers } = FiIcons;
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +39,12 @@ const Header = () => {
     { name: 'Contact', path: '/contact' },
   ];
 
+  // Admin navigation items
+  const adminItems = [
+    { name: 'Dashboard', path: '/dashboard' },
+    { name: 'Contact Manager', path: '/contact-manager' },
+  ];
+
   const handleNavClick = (itemName, path) => {
     trackButtonClick(`Navigation: ${itemName}`, 'Header');
   };
@@ -45,11 +54,9 @@ const Header = () => {
   };
 
   return (
-    <motion.header
+    <motion.header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20' 
-          : 'bg-transparent'
+        isScrolled ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20' : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -74,33 +81,56 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={`relative py-2 transition-colors duration-300 ${
-                  location.pathname === item.path
-                    ? 'text-tactical-red'
-                    : 'text-white hover:text-tactical-red'
+                  location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
                 }`}
                 onClick={() => handleNavClick(item.name, item.path)}
               >
                 {item.name}
                 {location.pathname === item.path && (
-                  <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-tactical-red"
-                    layoutId="activeNav"
+                  <motion.div 
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-tactical-red" 
+                    layoutId="activeNav" 
+                  />
+                )}
+              </Link>
+            ))}
+            
+            {/* Show admin nav items if authenticated */}
+            {isAuthenticated && adminItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`relative py-2 transition-colors duration-300 ${
+                  location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
+                }`}
+                onClick={() => handleNavClick(item.name, item.path)}
+              >
+                {item.name === 'Contact Manager' ? (
+                  <div className="flex items-center">
+                    <SafeIcon icon={FiUsers} className="mr-1" />
+                    <span>Contacts</span>
+                  </div>
+                ) : item.name}
+                {location.pathname === item.path && (
+                  <motion.div 
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-tactical-red" 
+                    layoutId="activeNavAdmin" 
                   />
                 )}
               </Link>
             ))}
           </nav>
 
-          <Link
-            to="/contact"
+          <Link 
+            to="/contact" 
             className="hidden md:block px-6 py-2 btn-primary rounded-lg font-semibold"
             onClick={handleCtaClick}
           >
             Start Your Mission
           </Link>
 
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)} 
             className="md:hidden text-white"
           >
             <SafeIcon icon={isMenuOpen ? FiX : FiMenu} className="text-2xl" />
@@ -108,7 +138,7 @@ const Header = () => {
         </div>
 
         {isMenuOpen && (
-          <motion.div
+          <motion.div 
             className="md:hidden mt-4 py-4 border-t border-tactical-red/20"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
@@ -119,9 +149,7 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={`block py-2 transition-colors duration-300 ${
-                  location.pathname === item.path
-                    ? 'text-tactical-red'
-                    : 'text-white hover:text-tactical-red'
+                  location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
                 }`}
                 onClick={() => {
                   handleNavClick(item.name, item.path);
@@ -131,8 +159,36 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-            <Link
-              to="/contact"
+            
+            {/* Show admin nav items in mobile menu if authenticated */}
+            {isAuthenticated && (
+              <>
+                <div className="border-t border-gray-700 my-2"></div>
+                {adminItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`block py-2 transition-colors duration-300 ${
+                      location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
+                    }`}
+                    onClick={() => {
+                      handleNavClick(item.name, item.path);
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    {item.name === 'Contact Manager' ? (
+                      <div className="flex items-center">
+                        <SafeIcon icon={FiUsers} className="mr-1" />
+                        <span>Contacts</span>
+                      </div>
+                    ) : item.name}
+                  </Link>
+                ))}
+              </>
+            )}
+
+            <Link 
+              to="/contact" 
               className="block mt-4 px-6 py-2 btn-primary rounded-lg font-semibold text-center"
               onClick={() => {
                 handleCtaClick();
