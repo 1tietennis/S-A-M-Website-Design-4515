@@ -6,7 +6,6 @@ import SafeIcon from '../common/SafeIcon';
 import { trackEnhancedEvent, trackEnhancedFormSubmission } from '../utils/analyticsEnhanced';
 import { sendToCyborgCRM, calculateLeadScore } from '../utils/cyborgCRM';
 import { sendNotification, createToast, requestNotificationPermission } from '../utils/notifications';
-import supabase from '../lib/supabase';
 
 const { FiSend, FiClock, FiDollarSign, FiTarget, FiAlertCircle, FiCheckCircle } = FiIcons;
 
@@ -42,23 +41,36 @@ const Contact = () => {
     });
 
     try {
-      // Calculate lead score
+      // Calculate lead score for analytics
       const leadScore = calculateLeadScore(formData);
 
-      // Send to CyborgCRM
-      const cyborgResult = sendToCyborgCRM(formData);
+      // Send to CyborgCRM for tracking
+      sendToCyborgCRM(formData);
 
-      // Store in Supabase database
-      const { data, error } = await supabase
-        .from('contacts_x7p29ak4m3')
-        .insert([{
-          ...formData,
-          lead_score: leadScore,
-          status: 'new'
-        }]);
+      // Prepare form data for Netlify
+      const netlifyFormData = new FormData();
+      netlifyFormData.append('form-name', 'contact');
+      netlifyFormData.append('name', formData.name);
+      netlifyFormData.append('email', formData.email);
+      
+      // Handle multiple role selections
+      if (formData.role.length > 0) {
+        formData.role.forEach(role => {
+          netlifyFormData.append('role[]', role);
+        });
+      }
+      
+      netlifyFormData.append('message', formData.message);
 
-      if (error) {
-        throw new Error('Database error: ' + error.message);
+      // Submit to Netlify
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(netlifyFormData).toString()
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
 
       // Track successful submission
@@ -76,9 +88,6 @@ const Contact = () => {
         type: "success"
       });
 
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-
       // Meta Pixel tracking
       if (typeof window.fbq !== 'undefined') {
         window.fbq('track', 'Lead', {
@@ -89,6 +98,18 @@ const Contact = () => {
         });
       }
 
+      // Google Analytics tracking
+      if (typeof window.gtag !== 'undefined') {
+        window.gtag('event', 'form_submit', {
+          event_category: 'engagement',
+          event_label: 'contact_form',
+          value: 1
+        });
+      }
+
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+
       // Redirect to thank you page
       setTimeout(() => {
         navigate('/thank-you');
@@ -96,7 +117,7 @@ const Contact = () => {
 
     } catch (error) {
       console.error('Error submitting form:', error);
-      setFormError(error.message || 'There was an error submitting your form. Please try again.');
+      setFormError('There was an error submitting your form. Please try again.');
       setIsSubmitting(false);
 
       // Send error notification
@@ -169,75 +190,95 @@ const Contact = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Netlify Form */}
+          <form 
+            name="contact" 
+            method="POST" 
+            netlify="true"
+            onSubmit={handleSubmit}
+            className="space-y-6"
+          >
+            {/* Hidden field for Netlify */}
+            <input type="hidden" name="form-name" value="contact" />
+
             <div>
-              <label className="block text-sm font-medium mb-2">Your Name</label>
-              <input
-                type="text"
-                name="name"
-                required
-                className="w-full bg-dark-gray border border-gray-600 rounded-lg p-3 focus:border-tactical-red focus:outline-none"
-                value={formData.name}
-                onChange={handleInputChange}
-              />
+              <label className="block text-sm font-medium mb-2">
+                Your Name:
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  className="w-full mt-1 bg-dark-gray border border-gray-600 rounded-lg p-3 focus:border-tactical-red focus:outline-none"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                />
+              </label>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Your Email</label>
-              <input
-                type="email"
-                name="email"
-                required
-                className="w-full bg-dark-gray border border-gray-600 rounded-lg p-3 focus:border-tactical-red focus:outline-none"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
+              <label className="block text-sm font-medium mb-2">
+                Your Email:
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className="w-full mt-1 bg-dark-gray border border-gray-600 rounded-lg p-3 focus:border-tactical-red focus:outline-none"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
+              </label>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Your Role</label>
-              <select
-                name="role"
-                multiple
-                className="w-full bg-dark-gray border border-gray-600 rounded-lg p-3 focus:border-tactical-red focus:outline-none"
-                value={formData.role}
-                onChange={handleInputChange}
-              >
-                <option value="leader">Leader</option>
-                <option value="follower">Follower</option>
-              </select>
+              <label className="block text-sm font-medium mb-2">
+                Your Role:
+                <select
+                  name="role"
+                  multiple
+                  className="w-full mt-1 bg-dark-gray border border-gray-600 rounded-lg p-3 focus:border-tactical-red focus:outline-none"
+                  value={formData.role}
+                  onChange={handleInputChange}
+                >
+                  <option value="leader">Leader</option>
+                  <option value="follower">Follower</option>
+                </select>
+              </label>
               <p className="text-sm text-gray-400 mt-1">Hold Ctrl/Cmd to select multiple roles</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Message</label>
-              <textarea
-                name="message"
-                required
-                rows="4"
-                className="w-full bg-dark-gray border border-gray-600 rounded-lg p-3 focus:border-tactical-red focus:outline-none"
-                value={formData.message}
-                onChange={handleInputChange}
-              ></textarea>
+              <label className="block text-sm font-medium mb-2">
+                Message:
+                <textarea
+                  name="message"
+                  required
+                  rows="4"
+                  className="w-full mt-1 bg-dark-gray border border-gray-600 rounded-lg p-3 focus:border-tactical-red focus:outline-none resize-vertical"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                ></textarea>
+              </label>
             </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full btn-primary rounded-lg py-4 font-semibold text-lg flex items-center justify-center space-x-2 disabled:opacity-50"
-            >
-              {isSubmitting ? (
-                <>
-                  <span>Sending...</span>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                </>
-              ) : (
-                <>
-                  <span>Send Message</span>
-                  <SafeIcon icon={FiSend} />
-                </>
-              )}
-            </button>
+            <div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full btn-primary rounded-lg py-4 font-semibold text-lg flex items-center justify-center space-x-2 disabled:opacity-50 transition-all duration-300"
+              >
+                {isSubmitting ? (
+                  <>
+                    <span>Sending...</span>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  </>
+                ) : (
+                  <>
+                    <span>Send</span>
+                    <SafeIcon icon={FiSend} />
+                  </>
+                )}
+              </button>
+            </div>
           </form>
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
