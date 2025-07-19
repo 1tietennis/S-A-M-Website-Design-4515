@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {HashRouter as Router, Routes, Route, useLocation} from 'react-router-dom';
-import {AuthProvider} from './context/AuthContext';
+import React, { useEffect } from 'react';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -17,13 +17,14 @@ import ThankYou from './components/ThankYou';
 import ProtectedRoute from './components/ProtectedRoute';
 import AnalyticsDebugger from './components/AnalyticsDebugger';
 import SiteBehaviourController from './components/SiteBehaviourController';
-import {trackEnhancedEvent} from './utils/analyticsEnhanced';
-import {trackPageLoadComplete} from './utils/analyticsVerification';
+import NetlifyFormTest from './components/NetlifyFormTest';
+import { trackEnhancedEvent } from './utils/analyticsEnhanced';
+import { trackPageLoadComplete } from './utils/analyticsVerification';
 import TrackingTroubleshooter from './utils/trackingTroubleshooter';
 import './App.css';
 
 // Component to handle route changes and enhanced analytics
-function AnalyticsWrapper({children}) {
+function AnalyticsWrapper({ children }) {
   const location = useLocation();
   const [previousPath, setPreviousPath] = React.useState(location.pathname);
 
@@ -106,9 +107,11 @@ function App() {
     // Run comprehensive analytics verification
     setTimeout(() => {
       trackPageLoadComplete('App');
+
       // Run initial tracking diagnostic
       console.log('🔧 Running initial tracking diagnostic...');
       TrackingTroubleshooter.testAllPlatforms();
+
       // Test CyborgCRM Advanced specifically
       if (typeof window.verifyCyborgCRMAdvanced === 'function') {
         window.verifyCyborgCRMAdvanced();
@@ -119,10 +122,17 @@ function App() {
   }, []);
 
   // Show debugger in development or with debug parameter
-  const showDebugger = process.env.NODE_ENV === 'development' || (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
+  const showDebugger = process.env.NODE_ENV === 'development' || 
+    (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
 
   // Show SiteBehaviour controller with sitebehaviour parameter
-  const showSiteBehaviour = (typeof window !== 'undefined' && window.location.search.includes('sitebehaviour=true')) || process.env.NODE_ENV === 'development';
+  const showSiteBehaviour = (typeof window !== 'undefined' && 
+    window.location.search.includes('sitebehaviour=true')) || 
+    process.env.NODE_ENV === 'development';
+
+  // Show Netlify form tester in development or with form-test parameter
+  const showFormTester = process.env.NODE_ENV === 'development' || 
+    (typeof window !== 'undefined' && window.location.search.includes('form-test=true'));
 
   return (
     <AuthProvider>
@@ -141,7 +151,6 @@ function App() {
                   <Dashboard />
                 </ProtectedRoute>
               } />
-              
               <Route path="/contact-manager" element={
                 <ProtectedRoute requireOnboarding={true}>
                   <ContactManager />
@@ -149,65 +158,36 @@ function App() {
               } />
 
               {/* Main Site Routes */}
-              <Route path="/" element={
-                <>
-                  <Header />
-                  <main>
-                    <Home />
-                  </main>
-                  <Footer />
-                </>
-              } />
-
-              <Route path="/services" element={
-                <>
-                  <Header />
-                  <main>
-                    <Services />
-                  </main>
-                  <Footer />
-                </>
-              } />
-
-              <Route path="/video-marketing" element={
-                <>
-                  <Header />
-                  <main>
-                    <VideoMarketing />
-                  </main>
-                  <Footer />
-                </>
-              } />
-
-              <Route path="/about" element={
-                <>
-                  <Header />
-                  <main>
-                    <About />
-                  </main>
-                  <Footer />
-                </>
-              } />
-
-              <Route path="/case-studies" element={
-                <>
-                  <Header />
-                  <main>
-                    <CaseStudies />
-                  </main>
-                  <Footer />
-                </>
-              } />
-
-              <Route path="/contact" element={
-                <>
-                  <Header />
-                  <main>
-                    <Contact />
-                  </main>
-                  <Footer />
-                </>
-              } />
+              <Route path="/" element={<>
+                <Header />
+                <main><Home /></main>
+                <Footer />
+              </>} />
+              <Route path="/services" element={<>
+                <Header />
+                <main><Services /></main>
+                <Footer />
+              </>} />
+              <Route path="/video-marketing" element={<>
+                <Header />
+                <main><VideoMarketing /></main>
+                <Footer />
+              </>} />
+              <Route path="/about" element={<>
+                <Header />
+                <main><About /></main>
+                <Footer />
+              </>} />
+              <Route path="/case-studies" element={<>
+                <Header />
+                <main><CaseStudies /></main>
+                <Footer />
+              </>} />
+              <Route path="/contact" element={<>
+                <Header />
+                <main><Contact /></main>
+                <Footer />
+              </>} />
             </Routes>
           </AnalyticsWrapper>
 
@@ -216,6 +196,9 @@ function App() {
 
           {/* SiteBehaviour Controller - shows when sitebehaviour=true in URL or in development */}
           <SiteBehaviourController showController={showSiteBehaviour} />
+
+          {/* Netlify Form Tester - shows when form-test=true in URL or in development */}
+          {showFormTester && <NetlifyFormTest />}
         </div>
       </Router>
     </AuthProvider>
