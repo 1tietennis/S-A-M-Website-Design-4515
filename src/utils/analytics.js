@@ -1,15 +1,16 @@
-// Enhanced Analytics with VERIFIED Google Tag (gtag.js) Implementation 
+// Enhanced Analytics with VERIFIED Google Tag (gtag.js) Implementation
+
 // Initialize analytics tracking
-export const initializeAnalytics=()=> {
-  if (typeof window !=='undefined') {
+export const initializeAnalytics = () => {
+  if (typeof window !== 'undefined') {
     console.log('📈 Initializing VERIFIED Google Analytics 4 (gtag.js)...');
-
+    
     // Verify gtag is loaded
-    if (typeof window.gtag==='function') {
+    if (typeof window.gtag === 'function') {
       console.log('✅ gtag function is available');
-
+      
       // Send initial page view with enhanced data
-      gtag('config','G-CTDQQ8XMKC',{
+      gtag('config', 'G-CTDQQ8XMKC', {
         page_title: document.title,
         page_location: window.location.href,
         send_page_view: true,
@@ -31,27 +32,27 @@ export const initializeAnalytics=()=> {
         console.error('❌ Error initializing CyborgCRM:', error);
       }
     }
-    
+
     // Initialize Visitor Tracking if available
-    if (typeof window.init_tracer==='function') {
+    if (typeof window.init_tracer === 'function') {
       try {
         window.init_tracer();
         console.log('✅ Visitor Tracking initialized from analytics.js');
       } catch (error) {
-        console.error('❌ Error initializing Visitor Tracking:',error);
+        console.error('❌ Error initializing Visitor Tracking:', error);
       }
     }
   }
 };
 
 // Initialize page tracking (alias for initializeAnalytics)
-export const initializePageTracking=()=> {
+export const initializePageTracking = () => {
   initializeAnalytics();
   console.log('📄 Page tracking initialized');
-
+  
   // Send initialization event
-  if (typeof window !=='undefined' && typeof window.gtag==='function') {
-    gtag('event','analytics_initialized',{
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    gtag('event', 'analytics_initialized', {
       event_category: 'system',
       event_label: 'page_tracking_init',
       timestamp: new Date().toISOString()
@@ -60,28 +61,28 @@ export const initializePageTracking=()=> {
 };
 
 // Enhanced page view tracking with VERIFIED gtag
-export const trackPageView=(pagePath,pageTitle)=> {
-  if (typeof window !=='undefined') {
+export const trackPageView = (pagePath, pageTitle) => {
+  if (typeof window !== 'undefined') {
     // Primary tracking with VERIFIED Google Analytics 4
-    if (typeof window.gtag==='function') {
+    if (typeof window.gtag === 'function') {
       // Send both config and event for comprehensive tracking
-      gtag('config','G-CTDQQ8XMKC',{
+      gtag('config', 'G-CTDQQ8XMKC', {
         page_path: pagePath,
         page_title: pageTitle,
         page_location: window.location.href,
         send_page_view: true
       });
-
+      
       // Also send as custom event for better tracking
-      gtag('event','page_view',{
+      gtag('event', 'page_view', {
         page_path: pagePath,
         page_title: pageTitle,
         page_location: window.location.href,
         referrer: document.referrer,
         timestamp: new Date().toISOString(),
-        user_agent: navigator.userAgent.substring(0,100) // Truncated for privacy
+        user_agent: navigator.userAgent.substring(0, 100) // Truncated for privacy
       });
-      console.log('📄 VERIFIED GA4 Page view tracked:',pagePath,pageTitle);
+      console.log('📄 VERIFIED GA4 Page view tracked:', pagePath, pageTitle);
     } else {
       console.warn('⚠️ gtag function not available for page view tracking');
     }
@@ -100,9 +101,9 @@ export const trackPageView=(pagePath,pageTitle)=> {
         console.warn('⚠️ CyborgCRM tracking error:', error.message);
       }
     }
-    
+
     // Track with SiteBehaviour
-    document.dispatchEvent(new CustomEvent('sitebehaviour-pageview',{
+    document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
       detail: {
         page_path: pagePath,
         page_title: pageTitle,
@@ -113,13 +114,13 @@ export const trackPageView=(pagePath,pageTitle)=> {
     }));
 
     // Track with Visitor Tracking if available
-    if (typeof window.Tracer !=='undefined' && typeof window.init_tracer==='function') {
+    if (typeof window.Tracer !== 'undefined' && typeof window.init_tracer === 'function') {
       try {
         // Make sure tracer is initialized
         window.init_tracer();
-        console.log('✅ Visitor Tracking page view tracked:',pagePath);
+        console.log('✅ Visitor Tracking page view tracked:', pagePath);
       } catch (error) {
-        console.warn('⚠️ Visitor Tracking error:',error.message);
+        console.warn('⚠️ Visitor Tracking error:', error.message);
       }
     }
 
@@ -137,19 +138,19 @@ export const trackPageView=(pagePath,pageTitle)=> {
 };
 
 // Enhanced event tracking with VERIFIED gtag
-export const trackEvent=(eventName,parameters={})=> {
-  if (typeof window !=='undefined') {
+export const trackEvent = (eventName, parameters = {}) => {
+  if (typeof window !== 'undefined') {
     // Primary tracking with VERIFIED Google Analytics 4
-    if (typeof window.gtag==='function') {
-      const enhancedParams={
+    if (typeof window.gtag === 'function') {
+      const enhancedParams = {
         ...parameters,
         timestamp: new Date().toISOString(),
         measurement_id: 'G-CTDQQ8XMKC',
         page_path: window.location.pathname,
         page_title: document.title
       };
-      gtag('event',eventName,enhancedParams);
-      console.log('📊 VERIFIED GA4 Event tracked:',eventName,parameters);
+      gtag('event', eventName, enhancedParams);
+      console.log('📊 VERIFIED GA4 Event tracked:', eventName, parameters);
     } else {
       console.warn('⚠️ gtag function not available for event tracking');
     }
@@ -166,9 +167,9 @@ export const trackEvent=(eventName,parameters={})=> {
         console.warn('⚠️ CyborgCRM tracking error:', error.message);
       }
     }
-    
+
     // Track with SiteBehaviour
-    document.dispatchEvent(new CustomEvent(`sitebehaviour-${eventName}`,{
+    document.dispatchEvent(new CustomEvent(`sitebehaviour-${eventName}`, {
       detail: {
         ...parameters,
         timestamp: new Date().toISOString()
@@ -176,14 +177,14 @@ export const trackEvent=(eventName,parameters={})=> {
     }));
 
     // Track with Visitor Tracking if available
-    if (typeof window.Tracer !=='undefined') {
+    if (typeof window.Tracer !== 'undefined') {
       try {
         // Assuming Tracer has a trackEvent method or similar
-        if (typeof window.tracer !=='undefined' && typeof window.tracer.trackEvent==='function') {
-          window.tracer.trackEvent(eventName,parameters);
+        if (typeof window.tracer !== 'undefined' && typeof window.tracer.trackEvent === 'function') {
+          window.tracer.trackEvent(eventName, parameters);
         }
       } catch (error) {
-        console.warn('⚠️ Visitor Tracking event error:',error.message);
+        console.warn('⚠️ Visitor Tracking event error:', error.message);
       }
     }
 
@@ -202,8 +203,8 @@ export const trackEvent=(eventName,parameters={})=> {
 };
 
 // Enhanced conversion tracking with VERIFIED gtag
-export const trackConversion=(conversionType,value=0,currency='USD')=> {
-  const conversionData={
+export const trackConversion = (conversionType, value = 0, currency = 'USD') => {
+  const conversionData = {
     event_category: 'conversion',
     event_label: conversionType,
     value: value,
@@ -211,11 +212,11 @@ export const trackConversion=(conversionType,value=0,currency='USD')=> {
     transaction_id: `${conversionType}_${Date.now()}`
   };
 
-  if (typeof window !=='undefined') {
+  if (typeof window !== 'undefined') {
     // Track with VERIFIED Google Analytics 4
-    if (typeof window.gtag==='function') {
+    if (typeof window.gtag === 'function') {
       // Send as purchase event for e-commerce tracking
-      gtag('event','purchase',{
+      gtag('event', 'purchase', {
         transaction_id: conversionData.transaction_id,
         value: value,
         currency: currency,
@@ -229,10 +230,10 @@ export const trackConversion=(conversionType,value=0,currency='USD')=> {
           }
         ]
       });
-
+      
       // Also send as custom conversion event
-      gtag('event','conversion',conversionData);
-      console.log('💰 VERIFIED GA4 Conversion tracked:',conversionType,value);
+      gtag('event', 'conversion', conversionData);
+      console.log('💰 VERIFIED GA4 Conversion tracked:', conversionType, value);
     }
 
     // Track with CyborgCRM
@@ -250,9 +251,9 @@ export const trackConversion=(conversionType,value=0,currency='USD')=> {
         console.warn('⚠️ CyborgCRM conversion tracking error:', error.message);
       }
     }
-    
+
     // Track with SiteBehaviour
-    document.dispatchEvent(new CustomEvent('sitebehaviour-conversion',{
+    document.dispatchEvent(new CustomEvent('sitebehaviour-conversion', {
       detail: conversionData
     }));
 
@@ -279,8 +280,8 @@ export const trackConversion=(conversionType,value=0,currency='USD')=> {
 };
 
 // Enhanced form submission tracking
-export const trackFormSubmission=(formName,formData={})=> {
-  const eventData={
+export const trackFormSubmission = (formName, formData = {}) => {
+  const eventData = {
     event_category: 'form_interaction',
     event_label: formName,
     form_name: formName,
@@ -289,17 +290,17 @@ export const trackFormSubmission=(formName,formData={})=> {
   };
 
   // Track form submission as event
-  trackEvent('form_submit',eventData);
+  trackEvent('form_submit', eventData);
 
   // Also track as conversion with value
-  trackConversion('form_submission',99.99,'USD');
+  trackConversion('form_submission', 99.99, 'USD');
 
-  console.log('📝 Form submission tracked:',formName);
+  console.log('📝 Form submission tracked:', formName);
 };
 
 // Enhanced button click tracking
-export const trackButtonClick=(buttonName,location='',additionalData={})=> {
-  const eventData={
+export const trackButtonClick = (buttonName, location = '', additionalData = {}) => {
+  const eventData = {
     event_category: 'user_interaction',
     event_label: buttonName,
     button_name: buttonName,
@@ -308,13 +309,13 @@ export const trackButtonClick=(buttonName,location='',additionalData={})=> {
     ...additionalData
   };
 
-  trackEvent('button_click',eventData);
-  console.log('🖱️ Button click tracked:',buttonName,'at',location);
+  trackEvent('button_click', eventData);
+  console.log('🖱️ Button click tracked:', buttonName, 'at', location);
 };
 
 // User engagement tracking
-export const trackUserEngagement=(action,element,additionalData={})=> {
-  const eventData={
+export const trackUserEngagement = (action, element, additionalData = {}) => {
+  const eventData = {
     event_category: 'user_engagement',
     event_label: element,
     interaction_type: action,
@@ -323,13 +324,13 @@ export const trackUserEngagement=(action,element,additionalData={})=> {
     ...additionalData
   };
 
-  trackEvent('user_engagement',eventData);
+  trackEvent('user_engagement', eventData);
 };
 
 // Enhanced page tracking for Single Page Applications
-export const trackSPANavigation=(fromPath,toPath,pageTitle)=> {
+export const trackSPANavigation = (fromPath, toPath, pageTitle) => {
   // Track navigation between pages
-  trackEvent('spa_navigation',{
+  trackEvent('spa_navigation', {
     event_category: 'navigation',
     from_page: fromPath,
     to_page: toPath,
@@ -337,12 +338,12 @@ export const trackSPANavigation=(fromPath,toPath,pageTitle)=> {
   });
 
   // Track the new page view
-  trackPageView(toPath,pageTitle);
+  trackPageView(toPath, pageTitle);
 };
 
 // Scroll depth tracking
-export const trackScrollDepth=(depth)=> {
-  trackEvent('scroll_depth',{
+export const trackScrollDepth = (depth) => {
+  trackEvent('scroll_depth', {
     event_category: 'user_engagement',
     scroll_depth: depth,
     page_path: window.location.pathname
@@ -350,8 +351,8 @@ export const trackScrollDepth=(depth)=> {
 };
 
 // Time on page tracking
-export const trackTimeOnPage=(timeInSeconds)=> {
-  trackEvent('time_on_page',{
+export const trackTimeOnPage = (timeInSeconds) => {
+  trackEvent('time_on_page', {
     event_category: 'user_engagement',
     time_seconds: timeInSeconds,
     page_path: window.location.pathname
@@ -359,12 +360,12 @@ export const trackTimeOnPage=(timeInSeconds)=> {
 };
 
 // Real-time tracking test function
-export const testGA4RealTimeTracking=()=> {
+export const testGA4RealTimeTracking = () => {
   console.log('🧪 Testing GA4 Real-Time Tracking');
   console.log('=================================');
 
-  if (typeof window.gtag==='function') {
-    const testEvents=[
+  if (typeof window.gtag === 'function') {
+    const testEvents = [
       {
         name: 'test_tracking_verification',
         params: {
@@ -389,11 +390,11 @@ export const testGA4RealTimeTracking=()=> {
       }
     ];
 
-    testEvents.forEach((event,index)=> {
-      setTimeout(()=> {
-        gtag('event',event.name,event.params);
+    testEvents.forEach((event, index) => {
+      setTimeout(() => {
+        gtag('event', event.name, event.params);
         console.log(`📊 Test event ${index + 1} sent: ${event.name}`);
-      },index * 1000);
+      }, index * 1000);
     });
 
     console.log('✅ All test events queued');
@@ -449,13 +450,13 @@ export const testCyborgCRMTracking = () => {
 };
 
 // Make test function globally available
-if (typeof window !=='undefined') {
-  window.testGA4RealTimeTracking=testGA4RealTimeTracking;
-  window.testCyborgCRMTracking=testCyborgCRMTracking;
+if (typeof window !== 'undefined') {
+  window.testGA4RealTimeTracking = testGA4RealTimeTracking;
+  window.testCyborgCRMTracking = testCyborgCRMTracking;
 
   // Auto-initialize after DOM loads
-  if (document.readyState==='loading') {
-    document.addEventListener('DOMContentLoaded',initializeAnalytics);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAnalytics);
   } else {
     initializeAnalytics();
   }

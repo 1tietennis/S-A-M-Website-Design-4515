@@ -18,6 +18,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AnalyticsDebugger from './components/AnalyticsDebugger';
 import SiteBehaviourController from './components/SiteBehaviourController';
 import NetlifyFormTest from './components/NetlifyFormTest';
+import PagePreviewer from './components/PagePreviewer';
 import { trackEnhancedEvent } from './utils/analyticsEnhanced';
 import { trackPageLoadComplete } from './utils/analyticsVerification';
 import TrackingTroubleshooter from './utils/trackingTroubleshooter';
@@ -134,6 +135,9 @@ function App() {
   const showFormTester = process.env.NODE_ENV === 'development' || 
     (typeof window !== 'undefined' && window.location.search.includes('form-test=true'));
 
+  // Show page previewer always
+  const showPagePreviewer = true;
+
   return (
     <AuthProvider>
       <Router>
@@ -199,6 +203,9 @@ function App() {
 
           {/* Netlify Form Tester - shows when form-test=true in URL or in development */}
           {showFormTester && <NetlifyFormTest />}
+
+          {/* Page Previewer - always shows */}
+          {showPagePreviewer && <PagePreviewer />}
         </div>
       </Router>
     </AuthProvider>

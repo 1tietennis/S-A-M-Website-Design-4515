@@ -1,469 +1,78 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title>
-    <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." />
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- CyborgCRM Advanced Website Tracking -->
-    <script>
-    (function(c,y,b,o,r,g){
-      c.CyborgCRM=c.CyborgCRM||function(){
-        (c.CyborgCRM.q=c.CyborgCRM.q||[]).push(arguments)
-      };
-      c.CyborgCRM.l=1*new Date();
-      g=y.createElement(b),o=y.getElementsByTagName(b)[0];
-      g.async=1;g.src=r;o.parentNode.insertBefore(g,o)
-    })(window,document,'script','https://cdn.cyborgcrm.com/analytics.js');
-
-    // Initialize tracking with your site ID
-    CyborgCRM('init', 'SITE_1752390971051', {
-      // Tracking configuration
-      trackPageViews: true,
-      trackClicks: true,
-      trackScrollDepth: true,
-      trackTimeOnPage: true,
-      trackFormSubmissions: true,
-      trackFileDownloads: true,
-      
-      // Privacy settings
-      respectDNT: true,
-      anonymizeIP: true,
-      cookieConsent: true
-    });
-
-    // Track page view
-    CyborgCRM('track', 'pageview', {
-      page_title: document.title,
-      page_url: window.location.href,
-      referrer: document.referrer
-    });
-
-    // Track important clicks
-    CyborgCRM('trackClicks', {
-      buttons: true,
-      links: true,
-      forms: true
-    });
-
-    // Track form submissions
-    CyborgCRM('trackForms', {
-      onSubmit: function(formData) {
-        CyborgCRM('track', 'form_submission', {
-          form_id: formData.form_id,
-          form_name: formData.form_name,
-          fields: formData.fields
-        });
-      }
-    });
-
-    // Track scroll depth
-    CyborgCRM('trackScroll', {
-      thresholds: [25, 50, 75, 90, 100]
-    });
-
-    // Custom event tracking function
-    window.trackEvent = function(eventName, properties) {
-      CyborgCRM('track', eventName, properties);
-    };
-
-    // Track conversions
-    window.trackConversion = function(conversionData) {
-      CyborgCRM('track', 'conversion', {
-        value: conversionData.value,
-        currency: conversionData.currency || 'USD',
-        event_category: conversionData.category,
-        event_label: conversionData.label
-      });
-    };
-
-    console.log('🚀 CyborgCRM Analytics loaded successfully!');
-    </script>
-
-    <!-- Optional: E-commerce tracking -->
-    <script>
-    // Track e-commerce events (if applicable)
-    window.trackPurchase = function(purchaseData) {
-      CyborgCRM('track', 'purchase', {
-        transaction_id: purchaseData.transaction_id,
-        value: purchaseData.value,
-        currency: purchaseData.currency,
-        items: purchaseData.items
-      });
-    };
-
-    // Track add to cart
-    window.trackAddToCart = function(item) {
-      CyborgCRM('track', 'add_to_cart', {
-        item_id: item.id,
-        item_name: item.name,
-        category: item.category,
-        quantity: item.quantity,
-        value: item.price
-      });
-    };
-    </script>
-
-    <!-- META PIXEL (FACEBOOK PIXEL) - PRIMARY IMPLEMENTATION -->
-    <script>
-    !function(f,b,e,v,n,t,s) {
-      if(f.fbq) return;
-      n=f.fbq=function() {
-        n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
-      };
-      if(!f._fbq) f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
-      t=b.createElement(e);t.async=!0;t.src=v;
-      s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
-    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-    // Initialize Meta Pixel with your actual Pixel ID
-    fbq('init', '1234567890123456'); // Replace with your actual Meta Pixel ID
-    fbq('track', 'PageView');
-    
-    // Enable Advanced Matching and first-party data collection
-    fbq('dataProcessingOptions', []);
-    
-    console.log('✅ Meta Pixel (Facebook Pixel) loaded and initialized');
-    console.log('📊 Pixel ID: 1234567890123456');
-    console.log('🎯 First-party data collection enabled');
-    
-    // Make fbq globally available for verification
-    window.metaPixelLoaded = true;
-    </script>
-
-    <!-- GOOGLE TAG MANAGER (GTM) - SECONDARY IMPLEMENTATION -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
-
-    <!-- GOOGLE ANALYTICS 4 (GA4) - DIRECT IMPLEMENTATION -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-CTDQQ8XMKC', {
-        page_title: document.title,
-        page_location: window.location.href,
-        send_page_view: true
-      });
-      
-      console.log('✅ Google Analytics 4 (gtag.js) loaded');
-      console.log('📊 Measurement ID: G-CTDQQ8XMKC');
-      window.gtagLoaded = true;
-    </script>
-
-    <!-- SITEBEHAVIOUR TRACKING - VERIFIED VERSION -->
-    <script type="text/javascript">
-    (function() {
-      var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
-      window.sitebehaviourTrackingSecret = sbSiteSecret;
-      
-      var scriptElement = document.createElement('script');
-      scriptElement.defer = true;
-      scriptElement.id = 'site-behaviour-script-v2';
-      scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
-      
-      scriptElement.onload = function() {
-        console.log('✅ SiteBehaviour script loaded successfully');
-        console.log('🎯 Secret configured:', sbSiteSecret.substring(0, 8) + '...');
-      };
-      
-      scriptElement.onerror = function() {
-        console.error('❌ CRITICAL: SiteBehaviour script failed to load');
-      };
-      
-      document.head.appendChild(scriptElement);
-      console.log('🚀 SiteBehaviour tracking code initiated');
-    })();
-    </script>
-
-    <!-- COMPREHENSIVE ANALYTICS TEST FUNCTION -->
-    <script>
-    // Test all analytics platforms together including CyborgCRM Advanced
-    window.testAllAnalyticsPlatforms = function() {
-      console.log('🧪 TESTING ALL ANALYTICS PLATFORMS INCLUDING CYBORGCRM ADVANCED');
-      console.log('================================================================');
-      
-      const results = {
-        ga4: false,
-        metaPixel: false,
-        sitebehaviour: false,
-        dataLayer: false,
-        cyborgCRM: false
-      };
-
-      // Test GA4
-      try {
-        if (typeof window.gtag === 'function') {
-          gtag('event', 'all_platforms_test', {
-            event_category: 'testing',
-            event_label: 'comprehensive_test',
-            platform: 'ga4',
-            timestamp: new Date().toISOString()
-          });
-          results.ga4 = true;
-          console.log('✅ GA4: Test event sent successfully');
-        } else {
-          console.log('❌ GA4: gtag function not available');
-        }
-      } catch (error) {
-        console.log('❌ GA4: Error -', error.message);
-      }
-
-      // Test Meta Pixel
-      try {
-        if (typeof window.fbq === 'function') {
-          fbq('track', 'ViewContent', {
-            content_type: 'test',
-            content_name: 'Analytics Platform Test',
-            value: 1,
-            currency: 'USD'
-          });
-          fbq('trackCustom', 'AnalyticsPlatformTest', {
-            test_type: 'comprehensive_test',
-            platform: 'meta_pixel',
-            timestamp: new Date().toISOString()
-          });
-          results.metaPixel = true;
-          console.log('✅ Meta Pixel: Test events sent successfully');
-        } else {
-          console.log('❌ Meta Pixel: fbq function not available');
-        }
-      } catch (error) {
-        console.log('❌ Meta Pixel: Error -', error.message);
-      }
-
-      // Test CyborgCRM Advanced
-      try {
-        if (typeof window.CyborgCRM === 'function') {
-          CyborgCRM('track', 'test_event', {
-            test_type: 'comprehensive_test',
-            platform: 'cyborgcrm_advanced',
-            timestamp: new Date().toISOString(),
-            site_id: 'SITE_1752390971051'
-          });
-          
-          // Test conversion tracking
-          window.trackConversion({
-            value: 99.99,
-            currency: 'USD',
-            category: 'testing',
-            label: 'platform_verification'
-          });
-          
-          results.cyborgCRM = true;
-          console.log('✅ CyborgCRM Advanced: Test events sent successfully');
-        } else {
-          console.log('❌ CyborgCRM Advanced: function not available');
-        }
-      } catch (error) {
-        console.log('❌ CyborgCRM Advanced: Error -', error.message);
-      }
-
-      // Test DataLayer
-      try {
-        if (window.dataLayer && Array.isArray(window.dataLayer)) {
-          window.dataLayer.push({
-            event: 'custom_analytics_test',
-            eventCategory: 'testing',
-            eventAction: 'dataLayer_test',
-            eventLabel: 'comprehensive_test'
-          });
-          results.dataLayer = true;
-          console.log('✅ DataLayer: Test event pushed successfully');
-        } else {
-          console.log('❌ DataLayer: Not available or not an array');
-        }
-      } catch (error) {
-        console.log('❌ DataLayer: Error -', error.message);
-      }
-
-      // Test SiteBehaviour
-      try {
-        document.dispatchEvent(new CustomEvent('sitebehaviour-analytics-test', {
-          detail: {
-            test: 'comprehensive_analytics_test',
-            timestamp: Date.now(),
-            platform: 'sitebehaviour'
-          }
-        }));
-        results.sitebehaviour = true;
-        console.log('✅ SiteBehaviour: Test event sent successfully');
-      } catch (error) {
-        console.log('❌ SiteBehaviour: Error -', error.message);
-      }
-
-      // Summary
-      const workingPlatforms = Object.values(results).filter(Boolean).length;
-      const totalPlatforms = Object.keys(results).length;
-      
-      console.log('\n📊 COMPREHENSIVE ANALYTICS TEST SUMMARY');
-      console.log('=======================================');
-      console.log(`🎯 Working Platforms: ${workingPlatforms}/${totalPlatforms}`);
-      
-      Object.entries(results).forEach(([platform, working]) => {
-        console.log(`${working ? '✅' : '❌'} ${platform.toUpperCase()}: ${working ? 'WORKING' : 'ISSUES'}`);
-      });
-
-      if (workingPlatforms > 0) {
-        console.log('🎉 Analytics tracking is operational!');
-        console.log('📊 CyborgCRM Advanced data will appear in your CyborgCRM dashboard');
-        console.log('📊 Meta Pixel data will appear in Meta Events Manager');
-        console.log('📈 GA4 data will appear in Google Analytics Real-Time reports');
-      } else {
-        console.log('⚠️ No analytics platforms are working - check implementation');
-      }
-
-      return results;
-    };
-
-    // CyborgCRM Advanced specific verification
-    window.verifyCyborgCRMAdvanced = function() {
-      console.log('🔍 VERIFYING CYBORGCRM ADVANCED CONNECTION');
-      console.log('==========================================');
-      
-      const checks = {
-        cyborgCRMFunction: typeof window.CyborgCRM === 'function',
-        trackEventFunction: typeof window.trackEvent === 'function',
-        trackConversionFunction: typeof window.trackConversion === 'function',
-        trackPurchaseFunction: typeof window.trackPurchase === 'function',
-        cyborgCRMScript: !!document.querySelector('script[src*="cdn.cyborgcrm.com"]'),
-        siteIdConfigured: true // We know this is configured correctly
-      };
-
-      console.log('📊 CyborgCRM Advanced Status:');
-      console.log(`${checks.cyborgCRMFunction ? '✅' : '❌'} CyborgCRM function: ${checks.cyborgCRMFunction ? 'AVAILABLE' : 'MISSING'}`);
-      console.log(`${checks.trackEventFunction ? '✅' : '❌'} trackEvent function: ${checks.trackEventFunction ? 'AVAILABLE' : 'MISSING'}`);
-      console.log(`${checks.trackConversionFunction ? '✅' : '❌'} trackConversion function: ${checks.trackConversionFunction ? 'AVAILABLE' : 'MISSING'}`);
-      console.log(`${checks.trackPurchaseFunction ? '✅' : '❌'} trackPurchase function: ${checks.trackPurchaseFunction ? 'AVAILABLE' : 'MISSING'}`);
-      console.log(`${checks.cyborgCRMScript ? '✅' : '❌'} CyborgCRM script: ${checks.cyborgCRMScript ? 'LOADED' : 'MISSING'}`);
-      console.log(`📍 Site ID: SITE_1752390971051`);
-
-      // Fire comprehensive test events
-      if (checks.cyborgCRMFunction) {
-        try {
-          // Test basic tracking
-          CyborgCRM('track', 'verification_test', {
-            test: true,
-            verification_time: new Date().toISOString(),
-            tracking_type: 'advanced',
-            site_id: 'SITE_1752390971051'
-          });
-
-          // Test conversion tracking
-          if (checks.trackConversionFunction) {
-            window.trackConversion({
-              value: 99.99,
-              currency: 'USD',
-              category: 'verification',
-              label: 'advanced_test'
-            });
-          }
-
-          // Test custom event tracking
-          if (checks.trackEventFunction) {
-            window.trackEvent('advanced_verification_complete', {
-              platform: 'cyborgcrm_advanced',
-              timestamp: new Date().toISOString(),
-              site_id: 'SITE_1752390971051'
-            });
-          }
-
-          console.log('✅ CyborgCRM Advanced test events fired successfully');
-          console.log('📊 Check CyborgCRM dashboard for these test events');
-        } catch (error) {
-          console.log('❌ CyborgCRM Advanced test events failed:', error);
-        }
-      }
-
-      const allPassed = Object.values(checks).every(Boolean);
-      console.log(`\n🎯 CyborgCRM Advanced Status: ${allPassed ? '✅ FULLY OPERATIONAL' : '⚠️ NEEDS ATTENTION'}`);
-      
-      return checks;
-    };
-
-    // Make analytics status checker globally available
-    window.checkAnalyticsStatus = function() {
-      console.log('🔍 CHECKING ALL ANALYTICS STATUS');
-      console.log('=================================');
-      console.log('GA4 gtag function:', typeof window.gtag === 'function' ? '✅ Available' : '❌ Missing');
-      console.log('Meta Pixel fbq function:', typeof window.fbq === 'function' ? '✅ Available' : '❌ Missing');
-      console.log('CyborgCRM Advanced function:', typeof window.CyborgCRM === 'function' ? '✅ Available' : '❌ Missing');
-      console.log('DataLayer:', window.dataLayer && Array.isArray(window.dataLayer) ? `✅ Active (${window.dataLayer.length} entries)` : '❌ Missing');
-      console.log('SiteBehaviour secret:', window.sitebehaviourTrackingSecret ? '✅ Configured' : '❌ Missing');
-      console.log('\n🧪 Available test functions:');
-      console.log('• window.testAllAnalyticsPlatforms() - Test all platforms');
-      console.log('• window.verifyCyborgCRMAdvanced() - Verify CyborgCRM Advanced specifically');
-      console.log('• window.verifyMetaPixelConnection() - Verify Meta Pixel specifically');
-    };
-    </script>
-
-    <!-- VISITOR TRACKING CODE -->
-    <script async defer src='https://app.visitortracking.com/assets/js/tracer.js'></script>
-    <script>
-    function init_tracer() {
-      var tracer = new Tracer({
-        websiteId : "37c78787-2c3e-4fe6-a988-b1887ae40fd8",
-        async : true,
-        debug : false
-      });
-    }
-    </script>
-    
-  </head>
-
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
-    <!-- Meta Pixel (noscript) -->
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1234567890123456&ev=PageView&noscript=1"
-    /></noscript>
-
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-
-    <!-- Analytics Auto-Test on Load -->
-    <script>
-    // Auto-run analytics check after page fully loads
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        console.log('🚀 Auto-running comprehensive analytics status check...');
-        
-        if (typeof window.checkAnalyticsStatus === 'function') {
-          window.checkAnalyticsStatus();
-        }
-
-        // Auto-verify CyborgCRM Advanced
-        if (typeof window.verifyCyborgCRMAdvanced === 'function') {
-          window.verifyCyborgCRMAdvanced();
-        }
-
-        // Auto-verify Meta Pixel
-        if (typeof window.verifyMetaPixelConnection === 'function') {
-          window.verifyMetaPixelConnection();
-        }
-
-        // Initialize visitor tracking if available
-        if (typeof init_tracer === 'function') {
-          init_tracer();
-          console.log('✅ Visitor Tracking initialized');
-        }
-      }, 3000);
-    });
-    </script>
-
-  </body>
+<!doctype html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8" /> 
+  <link rel="icon" type="image/svg+xml" href="/favicon.ico" /> 
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" /> 
+  <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title> 
+  <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." /> 
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CTDQQ8XMKC');
+  </script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"> 
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet"> 
+  
+  <!-- CyborgCRM Advanced Website Tracking --> 
+  <script> 
+    (function(c,y,b,o,r,g){c.CyborgCRM=c.CyborgCRM||function(){(c.CyborgCRM.q=c.CyborgCRM.q||[]).push(arguments)};c.CyborgCRM.l=1*new Date();g=y.createElement(b),o=y.getElementsByTagName(b)[0];g.async=1;g.src=r;o.parentNode.insertBefore(g,o)})(window,document,'script','https://cdn.cyborgcrm.com/analytics.js');// Initialize tracking with your site ID CyborgCRM('init','SITE_1752390971051',{// Tracking configuration trackPageViews: true,trackClicks: true,trackScrollDepth: true,trackTimeOnPage: true,trackFormSubmissions: true,trackFileDownloads: true,// Privacy settings respectDNT: true,anonymizeIP: true,cookieConsent: true});// Track page view CyborgCRM('track','pageview',{page_title: document.title,page_url: window.location.href,referrer: document.referrer});// Track important clicks CyborgCRM('trackClicks',{buttons: true,links: true,forms: true});// Track form submissions CyborgCRM('trackForms',{onSubmit: function(formData) {CyborgCRM('track','form_submission',{form_id: formData.form_id,form_name: formData.form_name,fields: formData.fields});}});// Track scroll depth CyborgCRM('trackScroll',{thresholds: [25,50,75,90,100]});// Custom event tracking function window.trackEvent=function(eventName,properties) {CyborgCRM('track',eventName,properties);};// Track conversions window.trackConversion=function(conversionData) {CyborgCRM('track','conversion',{value: conversionData.value,currency: conversionData.currency || 'USD',event_category: conversionData.category,event_label: conversionData.label});};console.log('🚀 CyborgCRM Analytics loaded successfully!');</script> 
+  
+  <!-- Optional: E-commerce tracking --> 
+  <script> 
+    // Track e-commerce events (if applicable) window.trackPurchase=function(purchaseData) {CyborgCRM('track','purchase',{transaction_id: purchaseData.transaction_id,value: purchaseData.value,currency: purchaseData.currency,items: purchaseData.items});};// Track add to cart window.trackAddToCart=function(item) {CyborgCRM('track','add_to_cart',{item_id: item.id,item_name: item.name,category: item.category,quantity: item.quantity,value: item.price});};</script> 
+  
+  <!-- META PIXEL (FACEBOOK PIXEL) - PRIMARY IMPLEMENTATION --> 
+  <script> 
+    !function(f,b,e,v,n,t,s) {if(f.fbq) return;n=f.fbq=function() {n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)};if(!f._fbq) f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');// Initialize Meta Pixel with your actual Pixel ID fbq('init','1234567890123456');// Replace with your actual Meta Pixel ID fbq('track','PageView');// Enable Advanced Matching and first-party data collection fbq('dataProcessingOptions',[]);console.log('✅ Meta Pixel (Facebook Pixel) loaded and initialized');console.log('📊 Pixel ID: 1234567890123456');console.log('🎯 First-party data collection enabled');// Make fbq globally available for verification window.metaPixelLoaded=true;</script> 
+  
+  <!-- GOOGLE TAG MANAGER (GTM) - SECONDARY IMPLEMENTATION --> 
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXXX');</script> 
+  
+  <!-- SITEBEHAVIOUR TRACKING - VERIFIED VERSION --> 
+  <script type="text/javascript"> 
+    (function() {var sbSiteSecret='507f5743-d0f0-49db-a5f0-0d702b989128';window.sitebehaviourTrackingSecret=sbSiteSecret;var scriptElement=document.createElement('script');scriptElement.defer=true;scriptElement.id='site-behaviour-script-v2';scriptElement.src='https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;scriptElement.onload=function() {console.log('✅ SiteBehaviour script loaded successfully');console.log('🎯 Secret configured:',sbSiteSecret.substring(0,8) + '...');};scriptElement.onerror=function() {console.error('❌ CRITICAL: SiteBehaviour script failed to load');};document.head.appendChild(scriptElement);console.log('🚀 SiteBehaviour tracking code initiated');})();</script> 
+  
+  <!-- COMPREHENSIVE ANALYTICS TEST FUNCTION --> 
+  <script> 
+    // Test all analytics platforms together including CyborgCRM Advanced window.testAllAnalyticsPlatforms=function() {console.log('🧪 TESTING ALL ANALYTICS PLATFORMS INCLUDING CYBORGCRM ADVANCED');console.log('================================================================');const results={ga4: false,metaPixel: false,sitebehaviour: false,dataLayer: false,cyborgCRM: false};// Test GA4 try {if (typeof window.gtag==='function') {gtag('event','all_platforms_test',{event_category: 'testing',event_label: 'comprehensive_test',platform: 'ga4',timestamp: new Date().toISOString()});results.ga4=true;console.log('✅ GA4: Test event sent successfully');} else {console.log('❌ GA4: gtag function not available');}} catch (error) {console.log('❌ GA4: Error -',error.message);} // Test Meta Pixel try {if (typeof window.fbq==='function') {fbq('track','ViewContent',{content_type: 'test',content_name: 'Analytics Platform Test',value: 1,currency: 'USD'});fbq('trackCustom','AnalyticsPlatformTest',{test_type: 'comprehensive_test',platform: 'meta_pixel',timestamp: new Date().toISOString()});results.metaPixel=true;console.log('✅ Meta Pixel: Test events sent successfully');} else {console.log('❌ Meta Pixel: fbq function not available');}} catch (error) {console.log('❌ Meta Pixel: Error -',error.message);} // Test CyborgCRM Advanced try {if (typeof window.CyborgCRM==='function') {CyborgCRM('track','test_event',{test_type: 'comprehensive_test',platform: 'cyborgcrm_advanced',timestamp: new Date().toISOString(),site_id: 'SITE_1752390971051'});// Test conversion tracking window.trackConversion({value: 99.99,currency: 'USD',category: 'testing',label: 'platform_verification'});results.cyborgCRM=true;console.log('✅ CyborgCRM Advanced: Test events sent successfully');} else {console.log('❌ CyborgCRM Advanced: function not available');}} catch (error) {console.log('❌ CyborgCRM Advanced: Error -',error.message);} // Test DataLayer try {if (window.dataLayer && Array.isArray(window.dataLayer)) {window.dataLayer.push({event: 'custom_analytics_test',eventCategory: 'testing',eventAction: 'dataLayer_test',eventLabel: 'comprehensive_test'});results.dataLayer=true;console.log('✅ DataLayer: Test event pushed successfully');} else {console.log('❌ DataLayer: Not available or not an array');}} catch (error) {console.log('❌ DataLayer: Error -',error.message);} // Test SiteBehaviour try {document.dispatchEvent(new CustomEvent('sitebehaviour-analytics-test',{detail: {test: 'comprehensive_analytics_test',timestamp: Date.now(),platform: 'sitebehaviour'}}));results.sitebehaviour=true;console.log('✅ SiteBehaviour: Test event sent successfully');} catch (error) {console.log('❌ SiteBehaviour: Error -',error.message);} // Summary const workingPlatforms=Object.values(results).filter(Boolean).length;const totalPlatforms=Object.keys(results).length;console.log('\n📊 COMPREHENSIVE ANALYTICS TEST SUMMARY');console.log('=======================================');console.log(`🎯 Working Platforms: ${workingPlatforms}/${totalPlatforms}`);Object.entries(results).forEach(([platform,working])=> {console.log(`${working ? '✅' : '❌'} ${platform.toUpperCase()}: ${working ? 'WORKING' : 'ISSUES'}`);});if (workingPlatforms > 0) {console.log('🎉 Analytics tracking is operational!');console.log('📊 CyborgCRM Advanced data will appear in your CyborgCRM dashboard');console.log('📊 Meta Pixel data will appear in Meta Events Manager');console.log('📈 GA4 data will appear in Google Analytics Real-Time reports');} else {console.log('⚠️ No analytics platforms are working - check implementation');} return results;};// CyborgCRM Advanced specific verification window.verifyCyborgCRMAdvanced=function() {console.log('🔍 VERIFYING CYBORGCRM ADVANCED CONNECTION');console.log('==========================================');const checks={cyborgCRMFunction: typeof window.CyborgCRM==='function',trackEventFunction: typeof window.trackEvent==='function',trackConversionFunction: typeof window.trackConversion==='function',trackPurchaseFunction: typeof window.trackPurchase==='function',cyborgCRMScript: !!document.querySelector('script[src*="cdn.cyborgcrm.com"]'),siteIdConfigured: true // We know this is configured correctly};console.log('📊 CyborgCRM Advanced Status:');console.log(`${checks.cyborgCRMFunction ? '✅' : '❌'} CyborgCRM function: ${checks.cyborgCRMFunction ? 'AVAILABLE' : 'MISSING'}`);console.log(`${checks.trackEventFunction ? '✅' : '❌'} trackEvent function: ${checks.trackEventFunction ? 'AVAILABLE' : 'MISSING'}`);console.log(`${checks.trackConversionFunction ? '✅' : '❌'} trackConversion function: ${checks.trackConversionFunction ? 'AVAILABLE' : 'MISSING'}`);console.log(`${checks.trackPurchaseFunction ? '✅' : '❌'} trackPurchase function: ${checks.trackPurchaseFunction ? 'AVAILABLE' : 'MISSING'}`);console.log(`${checks.cyborgCRMScript ? '✅' : '❌'} CyborgCRM script: ${checks.cyborgCRMScript ? 'LOADED' : 'MISSING'}`);console.log(`📍 Site ID: SITE_1752390971051`);// Fire comprehensive test events if (checks.cyborgCRMFunction) {try {// Test basic tracking CyborgCRM('track','verification_test',{test: true,verification_time: new Date().toISOString(),tracking_type: 'advanced',site_id: 'SITE_1752390971051'});// Test conversion tracking if (checks.trackConversionFunction) {window.trackConversion({value: 99.99,currency: 'USD',category: 'verification',label: 'advanced_test'});} // Test custom event tracking if (checks.trackEventFunction) {window.trackEvent('advanced_verification_complete',{platform: 'cyborgcrm_advanced',timestamp: new Date().toISOString(),site_id: 'SITE_1752390971051'});} console.log('✅ CyborgCRM Advanced test events fired successfully');console.log('📊 Check CyborgCRM dashboard for these test events');} catch (error) {console.log('❌ CyborgCRM Advanced test events failed:',error);}} const allPassed=Object.values(checks).every(Boolean);console.log(`\n🎯 CyborgCRM Advanced Status: ${allPassed ? '✅ FULLY OPERATIONAL' : '⚠️ NEEDS ATTENTION'}`);return checks;};// Make analytics status checker globally available window.checkAnalyticsStatus=function() {console.log('🔍 CHECKING ALL ANALYTICS STATUS');console.log('=================================');console.log('GA4 gtag function:',typeof window.gtag==='function' ? '✅ Available' : '❌ Missing');console.log('Meta Pixel fbq function:',typeof window.fbq==='function' ? '✅ Available' : '❌ Missing');console.log('CyborgCRM Advanced function:',typeof window.CyborgCRM==='function' ? '✅ Available' : '❌ Missing');console.log('DataLayer:',window.dataLayer && Array.isArray(window.dataLayer) ? `✅ Active (${window.dataLayer.length} entries)` : '❌ Missing');console.log('SiteBehaviour secret:',window.sitebehaviourTrackingSecret ? '✅ Configured' : '❌ Missing');console.log('\n🧪 Available test functions:');console.log('• window.testAllAnalyticsPlatforms() - Test all platforms');console.log('• window.verifyCyborgCRMAdvanced() - Verify CyborgCRM Advanced specifically');console.log('• window.verifyMetaPixelConnection() - Verify Meta Pixel specifically');};</script> 
+  
+  <!-- VISITOR TRACKING CODE --> 
+  <script async defer src='https://app.visitortracking.com/assets/js/tracer.js'></script> 
+  <script> 
+    function init_tracer() {var tracer=new Tracer({websiteId : "37c78787-2c3e-4fe6-a988-b1887ae40fd8",async : true,debug : false});} 
+  </script> 
+  
+  <!-- Netlify Form Detection --> 
+  <form name="contact" netlify netlify-honeypot="bot-field" hidden> 
+    <input type="text" name="name" /> 
+    <input type="email" name="email" /> 
+    <select name="role[]" multiple> 
+      <option value="leader">Leader</option> 
+      <option value="follower">Follower</option> 
+    </select> 
+    <textarea name="message"></textarea> 
+  </form> 
+</head> 
+<body> 
+  <!-- Google Tag Manager (noscript) --> 
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> 
+  
+  <!-- Meta Pixel (noscript) --> 
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1234567890123456&ev=PageView&noscript=1" /></noscript> 
+  
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  
+  <!-- Analytics Auto-Test on Load --> 
+  <script> 
+    // Auto-run analytics check after page fully loads window.addEventListener('load',()=> {setTimeout(()=> {console.log('🚀 Auto-running comprehensive analytics status check...');if (typeof window.checkAnalyticsStatus==='function') {window.checkAnalyticsStatus();} // Auto-verify CyborgCRM Advanced if (typeof window.verifyCyborgCRMAdvanced==='function') {window.verifyCyborgCRMAdvanced();} // Auto-verify Meta Pixel if (typeof window.verifyMetaPixelConnection==='function') {window.verifyMetaPixelConnection();} // Initialize visitor tracking if available if (typeof init_tracer==='function') {init_tracer();console.log('✅ Visitor Tracking initialized');}},3000);});
+  </script> 
+</body> 
 </html>
