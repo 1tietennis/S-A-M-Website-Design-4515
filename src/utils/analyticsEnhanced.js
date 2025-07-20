@@ -48,9 +48,28 @@ export const trackEnhancedFormSubmission = (formName, formData = {}) => {
   if (typeof window.CyborgCRM === 'function') {
     window.CyborgCRM('track', 'conversion', {
       event: 'form_submission',
-      value: formData.estimated_value || 99.99,
+      value: formData.estimated_value || 249.99, // Use actual value for marketing forms
       currency: 'USD',
       ...eventData
+    });
+  }
+
+  // Track with Meta Pixel
+  if (typeof window.fbq === 'function') {
+    window.fbq('track', 'Lead', {
+      content_name: formName,
+      content_category: 'form_submission',
+      value: formData.estimated_value || 249.99,
+      currency: 'USD'
+    });
+  }
+
+  // Track with Google Analytics
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'generate_lead', {
+      currency: 'USD',
+      value: formData.estimated_value || 249.99,
+      form_name: formName
     });
   }
 

@@ -33,6 +33,16 @@ function AnalyticsWrapper({ children }) {
     // Track route changes for SPA navigation with enhanced analytics
     if (previousPath !== location.pathname) {
       const pageTitle = document.title;
+      
+      // Track with Google Analytics 4
+      if (typeof window.gtag === 'function') {
+        window.gtag('config', 'G-CTDQQ8XMKC', {
+          page_title: pageTitle,
+          page_path: location.pathname,
+          page_location: window.location.href
+        });
+        console.log('📊 Page view tracked with GA4:', location.pathname);
+      }
 
       // Track with CyborgCRM Advanced
       if (typeof window.CyborgCRM === 'function') {
@@ -43,15 +53,15 @@ function AnalyticsWrapper({ children }) {
           previous_page: previousPath
         });
       }
-
-      // Track with GA4
-      if (typeof window.gtag === 'function') {
-        window.gtag('config', 'G-CTDQQ8XMKC', {
+      
+      // Track with Meta Pixel (Facebook Pixel)
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'PageView', {
           page_title: pageTitle,
-          page_location: window.location.href
+          page_path: location.pathname
         });
       }
-
+      
       setPreviousPath(location.pathname);
     }
   }, [location, previousPath]);
@@ -67,15 +77,16 @@ function App() {
     // Track initial app load across all platforms
     if (typeof window !== 'undefined') {
       // Google Analytics 4
-      if (typeof window.gtag !== 'undefined') {
+      if (typeof window.gtag === 'function') {
         window.gtag('event', 'app_loaded', {
           event_category: 'app_lifecycle',
           timestamp: new Date().toISOString()
         });
+        console.log('✅ Google Analytics 4 app_loaded event sent');
       }
 
-      // Meta Pixel
-      if (typeof window.fbq !== 'undefined') {
+      // Meta Pixel (Facebook Pixel)
+      if (typeof window.fbq === 'function') {
         window.fbq('trackCustom', 'AppLoaded', {
           app_name: 'Secret Agent Digital Marketing',
           load_time: Date.now(),
@@ -84,7 +95,7 @@ function App() {
       }
 
       // CyborgCRM Advanced
-      if (typeof window.CyborgCRM !== 'undefined') {
+      if (typeof window.CyborgCRM === 'function') {
         CyborgCRM('track', 'app_loaded', {
           app_name: 'Secret Agent Digital Marketing',
           load_time: Date.now(),
@@ -108,32 +119,58 @@ function App() {
     // Run comprehensive analytics verification
     setTimeout(() => {
       trackPageLoadComplete('App');
-
+      
       // Run initial tracking diagnostic
       console.log('🔧 Running initial tracking diagnostic...');
       TrackingTroubleshooter.testAllPlatforms();
-
+      
       // Test CyborgCRM Advanced specifically
       if (typeof window.verifyCyborgCRMAdvanced === 'function') {
         window.verifyCyborgCRMAdvanced();
       }
+      
+      // Test Google Analytics specifically
+      if (typeof window.gtag === 'function') {
+        console.log('✅ Google Analytics (gtag) is available in App component');
+        window.gtag('event', 'app_component_loaded', {
+          event_category: 'app_lifecycle',
+          event_label: 'react_app_init',
+          timestamp: new Date().toISOString()
+        });
+        console.log('✅ Test event sent to Google Analytics from App component');
+      } else {
+        console.error('❌ Google Analytics (gtag) is NOT available in App component');
+        
+        // Attempt to load Google Analytics dynamically if not available
+        const gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC';
+        
+        const inlineScript = document.createElement('script');
+        inlineScript.textContent = `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-CTDQQ8XMKC');
+          console.log('🔄 Google Analytics loaded dynamically in App component');
+        `;
+        
+        document.head.appendChild(gaScript);
+        document.head.appendChild(inlineScript);
+      }
     }, 2000);
 
-    console.log('🚀 Secret Agent Digital Marketing App Loaded with CyborgCRM Advanced + Enhanced Analytics');
+    console.log('🚀 Secret Agent Digital Marketing App Loaded with Google Analytics 4 + Enhanced Analytics');
   }, []);
 
   // Show debugger in development or with debug parameter
-  const showDebugger = process.env.NODE_ENV === 'development' || 
-    (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
+  const showDebugger = process.env.NODE_ENV === 'development' || (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
 
   // Show SiteBehaviour controller with sitebehaviour parameter
-  const showSiteBehaviour = (typeof window !== 'undefined' && 
-    window.location.search.includes('sitebehaviour=true')) || 
-    process.env.NODE_ENV === 'development';
+  const showSiteBehaviour = (typeof window !== 'undefined' && window.location.search.includes('sitebehaviour=true')) || process.env.NODE_ENV === 'development';
 
   // Show Netlify form tester in development or with form-test parameter
-  const showFormTester = process.env.NODE_ENV === 'development' || 
-    (typeof window !== 'undefined' && window.location.search.includes('form-test=true'));
+  const showFormTester = process.env.NODE_ENV === 'development' || (typeof window !== 'undefined' && window.location.search.includes('form-test=true'));
 
   // Show page previewer always
   const showPagePreviewer = true;

@@ -22,6 +22,24 @@ export const initializeAnalytics = () => {
       console.log('🎯 Enhanced tracking enabled');
     } else {
       console.error('❌ gtag function not available - check Google Analytics implementation');
+      
+      // Attempt to reload Google Analytics if not available
+      console.log('🔄 Attempting to reload Google Analytics...');
+      const gaScript = document.createElement('script');
+      gaScript.async = true;
+      gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC';
+      
+      const inlineScript = document.createElement('script');
+      inlineScript.textContent = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CTDQQ8XMKC');
+        console.log('🔄 Google Analytics reloaded dynamically');
+      `;
+      
+      document.head.appendChild(gaScript);
+      document.head.appendChild(inlineScript);
     }
 
     // Initialize CyborgCRM if available
@@ -102,6 +120,20 @@ export const trackPageView = (pagePath, pageTitle) => {
       }
     }
 
+    // Track with Meta Pixel (Facebook Pixel)
+    if (typeof window.fbq === 'function') {
+      try {
+        window.fbq('track', 'PageView', {
+          page_title: pageTitle,
+          page_path: pagePath,
+          page_location: window.location.href
+        });
+        console.log('📊 Meta Pixel page view tracked:', pagePath);
+      } catch (error) {
+        console.warn('⚠️ Meta Pixel tracking error:', error.message);
+      }
+    }
+
     // Track with SiteBehaviour
     document.dispatchEvent(new CustomEvent('sitebehaviour-pageview', {
       detail: {
@@ -165,6 +197,19 @@ export const trackEvent = (eventName, parameters = {}) => {
         console.log('📊 CyborgCRM event tracked:', eventName);
       } catch (error) {
         console.warn('⚠️ CyborgCRM tracking error:', error.message);
+      }
+    }
+
+    // Track with Meta Pixel (Facebook Pixel)
+    if (typeof window.fbq === 'function') {
+      try {
+        window.fbq('trackCustom', eventName, {
+          ...parameters,
+          timestamp: new Date().toISOString()
+        });
+        console.log('📊 Meta Pixel custom event tracked:', eventName);
+      } catch (error) {
+        console.warn('⚠️ Meta Pixel tracking error:', error.message);
       }
     }
 
@@ -252,6 +297,22 @@ export const trackConversion = (conversionType, value = 0, currency = 'USD') => 
       }
     }
 
+    // Track with Meta Pixel (Facebook Pixel)
+    if (typeof window.fbq === 'function') {
+      try {
+        window.fbq('track', 'Purchase', {
+          value: value,
+          currency: currency,
+          content_type: 'product',
+          content_name: conversionType,
+          content_ids: [conversionData.transaction_id]
+        });
+        console.log('💰 Meta Pixel conversion tracked:', conversionType);
+      } catch (error) {
+        console.warn('⚠️ Meta Pixel conversion tracking error:', error.message);
+      }
+    }
+
     // Track with SiteBehaviour
     document.dispatchEvent(new CustomEvent('sitebehaviour-conversion', {
       detail: conversionData
@@ -292,8 +353,9 @@ export const trackFormSubmission = (formName, formData = {}) => {
   // Track form submission as event
   trackEvent('form_submit', eventData);
 
-  // Also track as conversion with value
-  trackConversion('form_submission', 99.99, 'USD');
+  // Also track as conversion with actual form value
+  const formValue = formData.value || 99.99; // Default to $99.99 if no value provided
+  trackConversion('form_submission', formValue, 'USD');
 
   console.log('📝 Form submission tracked:', formName);
 };
@@ -384,7 +446,7 @@ export const testGA4RealTimeTracking = () => {
         name: 'test_conversion_simulation',
         params: {
           event_category: 'conversion',
-          value: 1,
+          value: 199.99,
           currency: 'USD'
         }
       }
@@ -428,7 +490,7 @@ export const testCyborgCRMTracking = () => {
       {
         name: 'test_conversion',
         params: {
-          value: 99.99,
+          value: 249.99,
           currency: 'USD',
           timestamp: new Date().toISOString()
         }
