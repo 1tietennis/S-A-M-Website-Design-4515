@@ -15,7 +15,6 @@ const Footer = () => {
         click_url: url
       });
     }
-    
     // Open link in new tab
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -32,7 +31,8 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
-              Elite digital marketing strategies for businesses ready to dominate their market. We deliver stealth-level tactics with transparent results.
+              Elite digital marketing strategies for businesses ready to dominate their market. 
+              We deliver stealth-level tactics with transparent results.
             </p>
             <div className="flex space-x-4">
               <button
@@ -71,6 +71,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li><Link to="/services" className="text-gray-400 hover:text-tactical-red transition-colors">Services</Link></li>
               <li><Link to="/video-marketing" className="text-gray-400 hover:text-tactical-red transition-colors">Video Marketing</Link></li>
+              <li><Link to="/drone-services" className="text-gray-400 hover:text-tactical-red transition-colors">Drone Services</Link></li>
               <li><Link to="/about" className="text-gray-400 hover:text-tactical-red transition-colors">About Us</Link></li>
               <li><Link to="/case-studies" className="text-gray-400 hover:text-tactical-red transition-colors">Case Studies</Link></li>
               <li><Link to="/contact" className="text-gray-400 hover:text-tactical-red transition-colors">Contact</Link></li>

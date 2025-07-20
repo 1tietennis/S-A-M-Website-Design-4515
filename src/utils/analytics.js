@@ -1,9 +1,9 @@
-// Google Analytics 4 Utility Functions
+// Google Analytics 4 Utility Functions - Only using G-CTDQQ8XMKC
 
 // Track page view
 export const trackPageView = (pagePath, pageTitle) => {
   if (typeof window !== 'undefined') {
-    // Track with Google Analytics 4
+    // Track with Google Analytics 4 (G-CTDQQ8XMKC only)
     if (typeof window.gtag === 'function') {
       // Send page view event
       gtag('config', 'G-CTDQQ8XMKC', {
@@ -23,7 +23,7 @@ export const trackPageView = (pagePath, pageTitle) => {
 // Track event
 export const trackEvent = (eventName, parameters = {}) => {
   if (typeof window !== 'undefined') {
-    // Track with Google Analytics 4
+    // Track with Google Analytics 4 (G-CTDQQ8XMKC only)
     if (typeof window.gtag === 'function') {
       const enhancedParams = {
         ...parameters,
@@ -95,7 +95,7 @@ export const testGATracking = () => {
       test_timestamp: new Date().toISOString()
     });
     
-    console.log('✅ Test event sent successfully');
+    console.log('✅ Test event sent successfully to G-CTDQQ8XMKC');
     console.log('📈 Check GA4 Real-Time reports to verify');
     return true;
   } else {

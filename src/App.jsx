@@ -9,6 +9,7 @@ import About from './pages/About';
 import CaseStudies from './pages/CaseStudies';
 import Contact from './pages/Contact';
 import VideoMarketing from './pages/VideoMarketing';
+import DroneServices from './pages/DroneServices';
 import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
@@ -27,7 +28,7 @@ function AnalyticsWrapper({ children }) {
     if (previousPath !== location.pathname) {
       const pageTitle = document.title;
       
-      // Track with Google Analytics 4
+      // Track with Google Analytics 4 (G-CTDQQ8XMKC only)
       if (typeof window.gtag === 'function') {
         window.gtag('config', 'G-CTDQQ8XMKC', {
           page_title: pageTitle,
@@ -46,13 +47,13 @@ function AnalyticsWrapper({ children }) {
 
 function App() {
   useEffect(() => {
-    // Track initial app load with Google Analytics 4
+    // Track initial app load with Google Analytics 4 (G-CTDQQ8XMKC only)
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', 'app_loaded', {
         event_category: 'app_lifecycle',
         timestamp: new Date().toISOString()
       });
-      console.log('✅ Google Analytics 4 app_loaded event sent');
+      console.log('✅ Google Analytics 4 app_loaded event sent to G-CTDQQ8XMKC');
     }
   }, []);
 
@@ -93,6 +94,11 @@ function App() {
               <Route path="/video-marketing" element={<>
                 <Header />
                 <main><VideoMarketing /></main>
+                <Footer />
+              </>} />
+              <Route path="/drone-services" element={<>
+                <Header />
+                <main><DroneServices /></main>
                 <Footer />
               </>} />
               <Route path="/about" element={<>

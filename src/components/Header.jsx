@@ -19,6 +19,7 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -27,8 +28,8 @@ const Header = () => {
   useEffect(() => {
     // Track with all analytics platforms
     trackPageView(location.pathname, document.title);
-    
-    // Track specifically with Google Analytics 4
+
+    // Track specifically with Google Analytics 4 (G-CTDQQ8XMKC only)
     if (typeof window.gtag === 'function') {
       window.gtag('config', 'G-CTDQQ8XMKC', {
         page_path: location.pathname,
@@ -42,6 +43,7 @@ const Header = () => {
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services' },
     { name: 'Video Marketing', path: '/video-marketing' },
+    { name: 'Drone Services', path: '/drone-services' },
     { name: 'About', path: '/about' },
     { name: 'Case Studies', path: '/case-studies' },
     { name: 'Contact', path: '/contact' },
@@ -56,7 +58,7 @@ const Header = () => {
   const handleNavClick = (itemName, path) => {
     trackButtonClick(`Navigation: ${itemName}`, 'Header');
     
-    // Track with Google Analytics 4
+    // Track with Google Analytics 4 (G-CTDQQ8XMKC only)
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'navigation_click', {
         event_category: 'engagement',
@@ -69,7 +71,7 @@ const Header = () => {
   const handleCtaClick = () => {
     trackButtonClick('Start Your Mission', 'Header CTA');
     
-    // Track with Google Analytics 4
+    // Track with Google Analytics 4 (G-CTDQQ8XMKC only)
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'cta_click', {
         event_category: 'engagement',
@@ -82,7 +84,9 @@ const Header = () => {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20' : 'bg-transparent'
+        isScrolled
+          ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20'
+          : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -90,7 +94,11 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2" onClick={() => handleNavClick('Logo', '/')}>
+          <Link
+            to="/"
+            className="flex items-center space-x-2"
+            onClick={() => handleNavClick('Logo', '/')}
+          >
             <SafeIcon icon={FiTarget} className="text-tactical-red text-2xl" />
             <span className="text-xl font-display font-bold gradient-text">
               Secret Agent Digital Marketing
@@ -103,13 +111,18 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={`relative py-2 transition-colors duration-300 ${
-                  location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
+                  location.pathname === item.path
+                    ? 'text-tactical-red'
+                    : 'text-white hover:text-tactical-red'
                 }`}
                 onClick={() => handleNavClick(item.name, item.path)}
               >
                 {item.name}
                 {location.pathname === item.path && (
-                  <motion.div className="absolute bottom-0 left-0 right-0 h-0.5 bg-tactical-red" layoutId="activeNav" />
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-tactical-red"
+                    layoutId="activeNav"
+                  />
                 )}
               </Link>
             ))}
@@ -120,7 +133,9 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={`relative py-2 transition-colors duration-300 ${
-                  location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
+                  location.pathname === item.path
+                    ? 'text-tactical-red'
+                    : 'text-white hover:text-tactical-red'
                 }`}
                 onClick={() => handleNavClick(item.name, item.path)}
               >
@@ -133,7 +148,10 @@ const Header = () => {
                   item.name
                 )}
                 {location.pathname === item.path && (
-                  <motion.div className="absolute bottom-0 left-0 right-0 h-0.5 bg-tactical-red" layoutId="activeNavAdmin" />
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-tactical-red"
+                    layoutId="activeNavAdmin"
+                  />
                 )}
               </Link>
             ))}
@@ -147,7 +165,10 @@ const Header = () => {
             Start Your Mission
           </Link>
 
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden text-white">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden text-white"
+          >
             <SafeIcon icon={isMenuOpen ? FiX : FiMenu} className="text-2xl" />
           </button>
         </div>
@@ -164,7 +185,9 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={`block py-2 transition-colors duration-300 ${
-                  location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
+                  location.pathname === item.path
+                    ? 'text-tactical-red'
+                    : 'text-white hover:text-tactical-red'
                 }`}
                 onClick={() => {
                   handleNavClick(item.name, item.path);
@@ -184,7 +207,9 @@ const Header = () => {
                     key={item.path}
                     to={item.path}
                     className={`block py-2 transition-colors duration-300 ${
-                      location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
+                      location.pathname === item.path
+                        ? 'text-tactical-red'
+                        : 'text-white hover:text-tactical-red'
                     }`}
                     onClick={() => {
                       handleNavClick(item.name, item.path);
