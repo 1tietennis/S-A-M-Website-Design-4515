@@ -7,187 +7,19 @@
   <title>Secret Agent Digital Marketing - Stealth Strategies. Real Results.</title> 
   <meta name="description" content="Elite digital marketing agency delivering ROI-driven campaigns for small businesses. Custom strategies, transparent reporting, and proven results." /> 
   
-  <!-- Google tag (gtag.js) - IMPORTANT: Properly placed at the top of head -->
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
+
     gtag('config', 'G-CTDQQ8XMKC');
   </script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com"> 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800;900&display=swap" rel="stylesheet"> 
-  
-  <!-- CyborgCRM Advanced Website Tracking --> 
-  <script> 
-    (function(c,y,b,o,r,g){c.CyborgCRM=c.CyborgCRM||function(){(c.CyborgCRM.q=c.CyborgCRM.q||[]).push(arguments)};c.CyborgCRM.l=1*new Date();g=y.createElement(b),o=y.getElementsByTagName(b)[0];g.async=1;g.src=r;o.parentNode.insertBefore(g,o)})(window,document,'script','https://cdn.cyborgcrm.com/analytics.js');
-    
-    // Initialize tracking with actual site ID
-    CyborgCRM('init', 'SITE_1752390971051', {
-      // Tracking configuration
-      trackPageViews: true,
-      trackClicks: true,
-      trackScrollDepth: true,
-      trackTimeOnPage: true,
-      trackFormSubmissions: true,
-      trackFileDownloads: true,
-      // Privacy settings
-      respectDNT: true,
-      anonymizeIP: true,
-      cookieConsent: true
-    });
-    
-    // Track page view
-    CyborgCRM('track', 'pageview', {
-      page_title: document.title,
-      page_url: window.location.href,
-      referrer: document.referrer
-    });
-    
-    // Track important clicks
-    CyborgCRM('trackClicks', {
-      buttons: true,
-      links: true,
-      forms: true
-    });
-    
-    // Track form submissions
-    CyborgCRM('trackForms', {
-      onSubmit: function(formData) {
-        CyborgCRM('track', 'form_submission', {
-          form_id: formData.form_id,
-          form_name: formData.form_name,
-          fields: formData.fields
-        });
-      }
-    });
-    
-    // Track scroll depth
-    CyborgCRM('trackScroll', {
-      thresholds: [25, 50, 75, 90, 100]
-    });
-    
-    // Custom event tracking function
-    window.trackEvent = function(eventName, properties) {
-      CyborgCRM('track', eventName, properties);
-    };
-    
-    // Track conversions
-    window.trackConversion = function(conversionData) {
-      CyborgCRM('track', 'conversion', {
-        value: conversionData.value,
-        currency: conversionData.currency || 'USD',
-        event_category: conversionData.category,
-        event_label: conversionData.label
-      });
-    };
-    
-    console.log('🚀 CyborgCRM Analytics loaded successfully!');
-  </script> 
-  
-  <!-- Optional: E-commerce tracking --> 
-  <script> 
-    // Track e-commerce events
-    window.trackPurchase = function(purchaseData) {
-      CyborgCRM('track', 'purchase', {
-        transaction_id: purchaseData.transaction_id,
-        value: purchaseData.value,
-        currency: purchaseData.currency,
-        items: purchaseData.items
-      });
-    };
-    
-    // Track add to cart
-    window.trackAddToCart = function(item) {
-      CyborgCRM('track', 'add_to_cart', {
-        item_id: item.id,
-        item_name: item.name,
-        category: item.category,
-        quantity: item.quantity,
-        value: item.price
-      });
-    };
-  </script> 
-  
-  <!-- META PIXEL (FACEBOOK PIXEL) - PRIMARY IMPLEMENTATION --> 
-  <script> 
-    !function(f,b,e,v,n,t,s) {
-      if(f.fbq) return;
-      n=f.fbq=function() {
-        n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
-      };
-      if(!f._fbq) f._fbq=n;
-      n.push=n;
-      n.loaded=!0;
-      n.version='2.0';
-      n.queue=[];
-      t=b.createElement(e);
-      t.async=!0;
-      t.src=v;
-      s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)
-    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    
-    // Initialize Meta Pixel with actual Pixel ID - Replace when you have the real one
-    fbq('init', '915261806661146');
-    fbq('track', 'PageView');
-    fbq('dataProcessingOptions', []);
-    
-    console.log('✅ Meta Pixel (Facebook Pixel) loaded and initialized');
-    window.metaPixelLoaded = true;
-  </script> 
-  
-  <!-- GOOGLE TAG MANAGER (GTM) - IMPLEMENTATION --> 
-  <script>
-    (function(w,d,s,l,i){
-      w[l]=w[l]||[];
-      w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
-      var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true;
-      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-      f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5WGCXFV');
-  </script> 
-  
-  <!-- SITEBEHAVIOUR TRACKING - VERIFIED VERSION --> 
-  <script type="text/javascript"> 
-    (function() {
-      var sbSiteSecret = '507f5743-d0f0-49db-a5f0-0d702b989128';
-      window.sitebehaviourTrackingSecret = sbSiteSecret;
-      
-      var scriptElement = document.createElement('script');
-      scriptElement.defer = true;
-      scriptElement.id = 'site-behaviour-script-v2';
-      scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
-      
-      scriptElement.onload = function() {
-        console.log('✅ SiteBehaviour script loaded successfully');
-        console.log('🎯 Secret configured:', sbSiteSecret.substring(0,8) + '...');
-      };
-      
-      scriptElement.onerror = function() {
-        console.error('❌ CRITICAL: SiteBehaviour script failed to load');
-      };
-      
-      document.head.appendChild(scriptElement);
-      console.log('🚀 SiteBehaviour tracking code initiated');
-    })();
-  </script> 
-  
-  <!-- VISITOR TRACKING CODE --> 
-  <script async defer src='https://app.visitortracking.com/assets/js/tracer.js'></script> 
-  <script> 
-    function init_tracer() {
-      var tracer = new Tracer({
-        websiteId: "37c78787-2c3e-4fe6-a988-b1887ae40fd8",
-        async: true,
-        debug: false
-      });
-    } 
-  </script> 
   
   <!-- Netlify Form Detection --> 
   <form name="contact" netlify netlify-honeypot="bot-field" hidden> 
@@ -201,68 +33,7 @@
   </form> 
 </head> 
 <body> 
-  <!-- Google Tag Manager (noscript) --> 
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5WGCXFV" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> 
-  
-  <!-- Meta Pixel (noscript) --> 
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=915261806661146&ev=PageView&noscript=1" /></noscript> 
-  
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
-  
-  <!-- Analytics Auto-Test on Load --> 
-  <script> 
-    // Auto-run analytics check after page fully loads
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        console.log('🚀 Auto-running comprehensive analytics status check...');
-        
-        if (typeof window.checkAnalyticsStatus === 'function') {
-          window.checkAnalyticsStatus();
-        }
-        
-        // Auto-verify CyborgCRM Advanced
-        if (typeof window.verifyCyborgCRMAdvanced === 'function') {
-          window.verifyCyborgCRMAdvanced();
-        }
-        
-        // Initialize visitor tracking if available
-        if (typeof init_tracer === 'function') {
-          init_tracer();
-          console.log('✅ Visitor Tracking initialized');
-        }
-        
-        // Test Google Analytics specifically
-        if (typeof window.gtag === 'function') {
-          console.log('✅ Google Analytics (gtag) is properly loaded');
-          gtag('event', 'verification_test', {
-            event_category: 'testing',
-            event_label: 'ga4_verification',
-            test_type: 'initial_load'
-          });
-          console.log('✅ Test event sent to Google Analytics');
-        } else {
-          console.error('❌ Google Analytics (gtag) is NOT available - check implementation');
-          
-          // Attempt to reload Google Analytics
-          const gaScript = document.createElement('script');
-          gaScript.async = true;
-          gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-CTDQQ8XMKC';
-          
-          const inlineScript = document.createElement('script');
-          inlineScript.textContent = `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-CTDQQ8XMKC');
-            console.log('🔄 Google Analytics reloaded dynamically');
-          `;
-          
-          document.head.appendChild(gaScript);
-          document.head.appendChild(inlineScript);
-        }
-      }, 3000);
-    });
-  </script> 
 </body> 
 </html>

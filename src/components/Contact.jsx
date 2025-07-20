@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import { trackEnhancedEvent, trackEnhancedFormSubmission } from '../utils/analyticsEnhanced';
-import { sendToCyborgCRM, calculateLeadScore } from '../utils/cyborgCRM';
-import { sendNotification, createToast, requestNotificationPermission } from '../utils/notifications';
+import { trackFormSubmission } from '../utils/analytics';
 
 const { FiSend, FiClock, FiDollarSign, FiTarget, FiAlertCircle, FiCheckCircle } = FiIcons;
 
@@ -21,17 +19,15 @@ const Contact = () => {
     message: ''
   });
 
-  // Request notification permissions on component mount
+  // Track page view with Google Analytics
   useEffect(() => {
-    requestNotificationPermission();
-    
-    // Track page view with Google Analytics
     if (typeof window.gtag === 'function') {
       window.gtag('config', 'G-CTDQQ8XMKC', {
         page_path: '/contact',
         page_title: 'Contact Us - Secret Agent Digital Marketing',
         page_location: window.location.href
       });
+      console.log('📊 Contact page view tracked');
     }
   }, []);
 
@@ -40,22 +36,16 @@ const Contact = () => {
     setIsSubmitting(true);
     setFormError(null);
 
-    // Track form submission attempt
-    trackEnhancedEvent('form_submit_attempt', {
-      form: 'contact',
-      page: '/contact',
-      fields_completed: Object.values(formData).filter(val => 
-        Array.isArray(val) ? val.length > 0 : val.trim() !== ''
-      ).length
-    });
+    // Track form submission attempt with Google Analytics
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'form_submit_attempt', {
+        event_category: 'form',
+        event_label: 'contact_form',
+        form_name: 'contact'
+      });
+    }
 
     try {
-      // Calculate lead score for analytics
-      const leadScore = calculateLeadScore(formData);
-      
-      // Send to CyborgCRM for tracking
-      sendToCyborgCRM(formData);
-
       // Prepare form data for Netlify
       const netlifyFormData = new FormData();
       netlifyFormData.append('form-name', 'contact');
@@ -82,45 +72,27 @@ const Contact = () => {
         throw new Error('Network response was not ok');
       }
 
-      // Track successful submission
-      trackEnhancedFormSubmission('contact_form', {
-        lead_score: leadScore,
-        estimated_value: 2500.00
-      });
-
-      // Send notification
-      sendNotification(formData, 'success');
-
-      // Show success toast
-      createToast({
-        message: "Your message has been sent successfully!",
-        type: "success"
-      });
-
-      // Meta Pixel tracking
-      if (typeof window.fbq !== 'undefined') {
-        window.fbq('track', 'Lead', {
-          content_name: 'Contact Form',
-          content_category: 'contact',
-          value: 249.99,
-          currency: 'USD'
-        });
-      }
-
-      // Google Analytics tracking
-      if (typeof window.gtag !== 'undefined') {
-        window.gtag('event', 'form_submit', {
-          event_category: 'engagement',
+      // Track successful submission with Google Analytics
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'form_submit_success', {
+          event_category: 'form',
           event_label: 'contact_form',
-          value: 249.99,
-          currency: 'USD'
+          form_name: 'contact',
+          value: 1
         });
         
+        // Also track as lead generation
         window.gtag('event', 'generate_lead', {
           currency: 'USD',
           value: 249.99
         });
       }
+      
+      // Track with our utility function
+      trackFormSubmission('contact_form', {
+        form_type: 'contact',
+        fields_completed: Object.keys(formData).length
+      });
 
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -133,15 +105,16 @@ const Contact = () => {
       console.error('Error submitting form:', error);
       setFormError('There was an error submitting your form. Please try again.');
       setIsSubmitting(false);
-
-      // Send error notification
-      sendNotification(formData, 'error');
-
-      // Show error toast
-      createToast({
-        message: "There was an error sending your message. Please try again.",
-        type: "error"
-      });
+      
+      // Track form error with Google Analytics
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'form_submit_error', {
+          event_category: 'error',
+          event_label: 'contact_form',
+          form_name: 'contact',
+          error_message: error.message
+        });
+      }
     }
   };
 
