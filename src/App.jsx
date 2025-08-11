@@ -14,7 +14,6 @@ import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
 import ContactManager from './pages/ContactManager';
-import MissionBriefing from './pages/MissionBriefing';
 import ThankYou from './components/ThankYou';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
@@ -28,7 +27,7 @@ function AnalyticsWrapper({ children }) {
     // Track route changes for SPA navigation with enhanced analytics
     if (previousPath !== location.pathname) {
       const pageTitle = document.title;
-
+      
       // Track with Google Analytics 4 (G-CTDQQ8XMKC only)
       if (typeof window.gtag === 'function') {
         window.gtag('config', 'G-CTDQQ8XMKC', {
@@ -38,7 +37,7 @@ function AnalyticsWrapper({ children }) {
         });
         console.log('📊 Page view tracked with GA4:', location.pathname);
       }
-
+      
       setPreviousPath(location.pathname);
     }
   }, [location, previousPath]);
@@ -70,7 +69,7 @@ function App() {
               <Route path="/thank-you" element={<ThankYou />} />
 
               {/* Protected Routes */}
-              <Route path="/dashboard/*" element={
+              <Route path="/dashboard" element={
                 <ProtectedRoute requireOnboarding={true}>
                   <Dashboard />
                 </ProtectedRoute>
@@ -78,11 +77,6 @@ function App() {
               <Route path="/contact-manager" element={
                 <ProtectedRoute requireOnboarding={true}>
                   <ContactManager />
-                </ProtectedRoute>
-              } />
-              <Route path="/mission-briefing" element={
-                <ProtectedRoute requireOnboarding={true}>
-                  <MissionBriefing />
                 </ProtectedRoute>
               } />
 
