@@ -14,8 +14,12 @@ import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
 import ContactManager from './pages/ContactManager';
+import MissionBriefing from './pages/MissionBriefing';
+import TacticalControl from './pages/TacticalControl';
+import Upgrade from './pages/Upgrade';
 import ThankYou from './components/ThankYou';
 import ProtectedRoute from './components/ProtectedRoute';
+import DashboardMenu from './components/DashboardMenu';
 import './App.css';
 
 // Component to handle route changes and analytics
@@ -27,7 +31,7 @@ function AnalyticsWrapper({ children }) {
     // Track route changes for SPA navigation with enhanced analytics
     if (previousPath !== location.pathname) {
       const pageTitle = document.title;
-      
+
       // Track with Google Analytics 4 (G-CTDQQ8XMKC only)
       if (typeof window.gtag === 'function') {
         window.gtag('config', 'G-CTDQQ8XMKC', {
@@ -79,6 +83,21 @@ function App() {
                   <ContactManager />
                 </ProtectedRoute>
               } />
+              <Route path="/mission-briefing" element={
+                <ProtectedRoute requireOnboarding={true}>
+                  <MissionBriefing />
+                </ProtectedRoute>
+              } />
+              <Route path="/tactical-control" element={
+                <ProtectedRoute requireOnboarding={true}>
+                  <TacticalControl />
+                </ProtectedRoute>
+              } />
+              <Route path="/upgrade" element={
+                <ProtectedRoute requireOnboarding={true}>
+                  <Upgrade />
+                </ProtectedRoute>
+              } />
 
               {/* Main Site Routes */}
               <Route path="/" element={<>
@@ -117,6 +136,7 @@ function App() {
                 <Footer />
               </>} />
             </Routes>
+            <DashboardMenu />
           </AnalyticsWrapper>
         </div>
       </Router>

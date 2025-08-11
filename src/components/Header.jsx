@@ -6,7 +6,7 @@ import SafeIcon from '../common/SafeIcon';
 import { trackPageView, trackButtonClick } from '../utils/analytics';
 import { useAuth } from '../context/AuthContext';
 
-const { FiMenu, FiX, FiTarget, FiUsers } = FiIcons;
+const { FiMenu, FiX, FiTarget, FiUsers, FiGrid } = FiIcons;
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,7 +19,6 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -28,7 +27,7 @@ const Header = () => {
   useEffect(() => {
     // Track with all analytics platforms
     trackPageView(location.pathname, document.title);
-
+    
     // Track specifically with Google Analytics 4 (G-CTDQQ8XMKC only)
     if (typeof window.gtag === 'function') {
       window.gtag('config', 'G-CTDQQ8XMKC', {
@@ -51,8 +50,8 @@ const Header = () => {
 
   // Admin navigation items
   const adminItems = [
-    { name: 'Dashboard', path: '/dashboard' },
-    { name: 'Contact Manager', path: '/contact-manager' },
+    { name: 'Dashboard', path: '/dashboard', icon: FiGrid },
+    { name: 'Contact Manager', path: '/contact-manager', icon: FiUsers },
   ];
 
   const handleNavClick = (itemName, path) => {
@@ -81,12 +80,15 @@ const Header = () => {
     }
   };
 
+  const handleDashboardClick = () => {
+    trackButtonClick('Dashboard Menu', 'Header');
+    navigate('/dashboard');
+  };
+
   return (
-    <motion.header
+    <motion.header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20'
-          : 'bg-transparent'
+        isScrolled ? 'bg-jet-black/95 backdrop-blur-md border-b border-tactical-red/20' : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -111,9 +113,7 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={`relative py-2 transition-colors duration-300 ${
-                  location.pathname === item.path
-                    ? 'text-tactical-red'
-                    : 'text-white hover:text-tactical-red'
+                  location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
                 }`}
                 onClick={() => handleNavClick(item.name, item.path)}
               >
@@ -133,19 +133,20 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={`relative py-2 transition-colors duration-300 ${
-                  location.pathname === item.path
-                    ? 'text-tactical-red'
-                    : 'text-white hover:text-tactical-red'
+                  location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
                 }`}
                 onClick={() => handleNavClick(item.name, item.path)}
               >
                 {item.name === 'Contact Manager' ? (
                   <div className="flex items-center">
-                    <SafeIcon icon={FiUsers} className="mr-1" />
+                    <SafeIcon icon={item.icon} className="mr-1" />
                     <span>Contacts</span>
                   </div>
                 ) : (
-                  item.name
+                  <div className="flex items-center">
+                    <SafeIcon icon={item.icon} className="mr-1" />
+                    <span>{item.name}</span>
+                  </div>
                 )}
                 {location.pathname === item.path && (
                   <motion.div
@@ -157,13 +158,28 @@ const Header = () => {
             ))}
           </nav>
 
-          <Link
-            to="/contact"
-            className="hidden md:block px-6 py-2 btn-primary rounded-lg font-semibold"
-            onClick={handleCtaClick}
-          >
-            Start Your Mission
-          </Link>
+          <div className="hidden md:flex items-center space-x-4">
+            {/* Dashboard Menu Button - Always visible with glowing effect */}
+            <button
+              onClick={handleDashboardClick}
+              className="px-4 py-2 bg-[#e00007]/20 hover:bg-[#e00007]/30 text-white rounded-lg transition-colors duration-200 flex items-center space-x-2 dashboard-glow-button"
+              style={{
+                boxShadow: '0 0 10px rgba(224, 0, 7, 0.5), 0 0 20px rgba(224, 0, 7, 0.3)',
+                animation: 'pulse-dashboard 2s infinite'
+              }}
+            >
+              <SafeIcon icon={FiGrid} />
+              <span>Dashboard</span>
+            </button>
+            
+            <Link
+              to="/contact"
+              className="hidden md:block px-6 py-2 btn-primary rounded-lg font-semibold"
+              onClick={handleCtaClick}
+            >
+              Start Your Mission
+            </Link>
+          </div>
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -185,9 +201,7 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={`block py-2 transition-colors duration-300 ${
-                  location.pathname === item.path
-                    ? 'text-tactical-red'
-                    : 'text-white hover:text-tactical-red'
+                  location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
                 }`}
                 onClick={() => {
                   handleNavClick(item.name, item.path);
@@ -207,27 +221,39 @@ const Header = () => {
                     key={item.path}
                     to={item.path}
                     className={`block py-2 transition-colors duration-300 ${
-                      location.pathname === item.path
-                        ? 'text-tactical-red'
-                        : 'text-white hover:text-tactical-red'
+                      location.pathname === item.path ? 'text-tactical-red' : 'text-white hover:text-tactical-red'
                     }`}
                     onClick={() => {
                       handleNavClick(item.name, item.path);
                       setIsMenuOpen(false);
                     }}
                   >
-                    {item.name === 'Contact Manager' ? (
-                      <div className="flex items-center">
-                        <SafeIcon icon={FiUsers} className="mr-1" />
-                        <span>Contacts</span>
-                      </div>
-                    ) : (
-                      item.name
-                    )}
+                    <div className="flex items-center">
+                      <SafeIcon icon={item.icon} className="mr-2" />
+                      <span>{item.name}</span>
+                    </div>
                   </Link>
                 ))}
               </>
             )}
+
+            {/* Dashboard button in mobile menu */}
+            <div className="mt-2 mb-4">
+              <button
+                onClick={() => {
+                  handleDashboardClick();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full py-2 px-4 bg-[#e00007]/20 hover:bg-[#e00007]/30 text-white rounded-lg transition-colors duration-200 flex items-center dashboard-glow-button-mobile"
+                style={{
+                  boxShadow: '0 0 10px rgba(224, 0, 7, 0.5), 0 0 15px rgba(224, 0, 7, 0.3)',
+                  animation: 'pulse-dashboard 2s infinite'
+                }}
+              >
+                <SafeIcon icon={FiGrid} className="mr-2" />
+                <span>Dashboard</span>
+              </button>
+            </div>
 
             <Link
               to="/contact"

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import supabase from '../lib/supabase';
 
 const AuthContext = createContext();
 
@@ -17,63 +18,154 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check for existing authentication on app load
-    const checkAuthStatus = () => {
-      const userId = localStorage.getItem('userId');
-      const token = localStorage.getItem('token');
-      const userProfile = localStorage.getItem('userProfile');
-
-      if (userId && token) {
-        setIsAuthenticated(true);
-        if (userProfile) {
-          try {
-            setUser(JSON.parse(userProfile));
-          } catch (error) {
-            console.error('Error parsing user profile:', error);
-            // Clear invalid data
-            localStorage.removeItem('userProfile');
+    const checkAuthStatus = async () => {
+      try {
+        // Check if user is authenticated with Supabase
+        const { data: { user: supabaseUser }, error } = await supabase.auth.getUser();
+        
+        if (error) {
+          console.error('Error checking auth status:', error);
+          setIsAuthenticated(false);
+          setUser(null);
+        } else if (supabaseUser) {
+          setIsAuthenticated(true);
+          setUser(supabaseUser);
+          
+          // Get user profile if available
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', supabaseUser.id)
+            .single();
+            
+          if (profile) {
+            setUser({
+              ...supabaseUser,
+              ...profile
+            });
           }
         }
+      } catch (error) {
+        console.error('Error in auth check:', error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     checkAuthStatus();
+    
+    // Subscribe to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (session && session.user) {
+          setIsAuthenticated(true);
+          setUser(session.user);
+          
+          // Get user profile if available
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+            
+          if (profile) {
+            setUser({
+              ...session.user,
+              ...profile
+            });
+          }
+        } else {
+          setIsAuthenticated(false);
+          setUser(null);
+        }
+        setIsLoading(false);
+      }
+    );
+
+    return () => {
+      subscription?.unsubscribe();
+    };
   }, []);
 
-  const login = (userData) => {
-    const { userId, token, userProfile, newUser } = userData;
-    
-    // Store authentication data
-    localStorage.setItem('userId', userId);
-    localStorage.setItem('token', token);
-    
-    if (userProfile) {
-      localStorage.setItem('userProfile', JSON.stringify(userProfile));
-      setUser(userProfile);
+  const login = async (email, password) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      
+      if (error) throw error;
+      
+      setIsAuthenticated(true);
+      setUser(data.user);
+      
+      return { user: data.user, session: data.session };
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
     }
-
-    setIsAuthenticated(true);
-    
-    return { newUser };
   };
 
-  const logout = () => {
-    // Clear all authentication data
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
-    localStorage.removeItem('userProfile');
-    localStorage.removeItem('onboardingCompleted');
-    
-    setIsAuthenticated(false);
-    setUser(null);
+  const signup = async (email, password) => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password
+      });
+      
+      if (error) throw error;
+      
+      return { user: data.user, session: data.session };
+    } catch (error) {
+      console.error('Signup error:', error);
+      throw error;
+    }
   };
 
-  const completeOnboarding = () => {
-    localStorage.setItem('onboardingCompleted', 'true');
+  const logout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      setIsAuthenticated(false);
+      setUser(null);
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  const completeOnboarding = async (userData) => {
+    if (!user) return;
+    
+    try {
+      // Update user profile with onboarding data
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          ...userData,
+          onboarding_completed: true,
+          updated_at: new Date()
+        });
+        
+      if (error) throw error;
+      
+      // Update local user state
+      setUser({
+        ...user,
+        ...userData,
+        onboarding_completed: true
+      });
+      
+      return true;
+    } catch (error) {
+      console.error('Error completing onboarding:', error);
+      return false;
+    }
   };
 
   const isOnboardingCompleted = () => {
-    return localStorage.getItem('onboardingCompleted') === 'true';
+    return user?.onboarding_completed || false;
   };
 
   const value = {
@@ -81,6 +173,7 @@ export const AuthProvider = ({ children }) => {
     user,
     isLoading,
     login,
+    signup,
     logout,
     completeOnboarding,
     isOnboardingCompleted
