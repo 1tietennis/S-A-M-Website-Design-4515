@@ -46,11 +46,11 @@ const Header = () => {
     { name: 'About', path: '/about' },
     { name: 'Case Studies', path: '/case-studies' },
     { name: 'Contact', path: '/contact' },
+    { name: 'Dashboard', path: '/dashboard' }, // Added Dashboard tab to main navigation
   ];
 
   // Admin navigation items
   const adminItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: FiGrid },
     { name: 'Contact Manager', path: '/contact-manager', icon: FiUsers },
   ];
 
